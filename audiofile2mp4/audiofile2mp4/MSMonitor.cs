@@ -13,7 +13,5 @@ namespace Charlotte
 		public int ProcessingCount = 0;
 		public int ErrorCount = 0;
 		public int SuccessfulCount = 0;
-
-		public int SelectedCount = 0;
 	}
 }

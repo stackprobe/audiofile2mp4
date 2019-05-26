@@ -168,7 +168,7 @@ namespace Charlotte
 		private long MTCount;
 
 		private int SouthMessageDisplayTimerCount = 0;
-		private MSMonitor MSMonitor = null;
+		private MSMonitor MSMonitor = new MSMonitor();
 		private int PatrolRowIndex = 0;
 
 		private void MSMonitorStart()
@@ -205,27 +205,19 @@ namespace Charlotte
 
 				if (Ground.I.SouthWestMessage != "")
 				{
-					this.SouthWest.Text = Ground.I.SouthWestMessage;
+					if (this.SouthWest.Text != Ground.I.SouthWestMessage)
+						this.SouthWest.Text = Ground.I.SouthWestMessage;
+
 					Ground.I.SouthWestMessage = "";
 				}
 
-				if (this.MSMonitor != null)
 				{
+					MSMonitor mon = this.MSMonitor;
+
 					for (int c = 0; c < 30; c++) // XXX ループ回数
 					{
-						MSMonitor mon = this.MSMonitor;
-
 						if (this.MainSheet.RowCount <= mon.RowIndex)
-						{
-							Ground.I.SouthWestMessage =
-								this.MainSheet.RowCount + " 行 中 " + mon.SelectedCount + " 行 選択中 / 待機中 = " + mon.ReadyCount
-								+ " / 処理中 = " + mon.ProcessingCount
-								+ " / 失敗 = " + mon.ErrorCount
-								+ " / 成功 = " + mon.SuccessfulCount;
-
-							this.MSMonitor = null;
 							break;
-						}
 
 						{
 							AudioInfo info = this.MS_GetRow(mon.RowIndex);
@@ -240,12 +232,18 @@ namespace Charlotte
 								mon.SuccessfulCount++;
 							else
 								throw null; // never
-
-							if (MainSheet.Rows[mon.RowIndex].Selected)
-								mon.SelectedCount++;
 						}
 
 						mon.RowIndex++;
+					}
+
+					if (this.MTCount % 5 == 0) // 頻度を下げる。
+					{
+						Ground.I.SouthWestMessage =
+							this.MainSheet.RowCount + " 行 中 " + this.MainSheet.SelectedRows.Count + " 行 選択中 / 待機中 = " + mon.ReadyCount
+							+ " / 処理中 = " + mon.ProcessingCount
+							+ " / 失敗 = " + mon.ErrorCount
+							+ " / 成功 = " + mon.SuccessfulCount;
 					}
 				}
 
@@ -427,6 +425,8 @@ namespace Charlotte
 
 		private void ffmpegの場所ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			this.BeforeDialog();
+
 			using (InputDirDlg f = new InputDirDlg())
 			{
 				f.DirKindTitle = "ffmpegのフォルダ";
@@ -439,10 +439,14 @@ namespace Charlotte
 					Ground.I.FFmpegDir = f.Dir;
 				}
 			}
+
+			this.AfterDialog();
 		}
 
 		private void OutputDirMenuItem_Click(object sender, EventArgs e)
 		{
+			this.BeforeDialog();
+
 			using (InputDirDlg f = new InputDirDlg())
 			{
 				f.DirKindTitle = "出力先フォルダ";
@@ -455,10 +459,14 @@ namespace Charlotte
 					Ground.I.OutputDir = f.Dir;
 				}
 			}
+
+			this.AfterDialog();
 		}
 
 		private void Default映像用の画像MenuItem_Click(object sender, EventArgs e)
 		{
+			this.BeforeDialog();
+
 			using (InputDirDlg f = new InputDirDlg())
 			{
 				f.DirKindTitle = "デフォルトの「映像用の画像」";
@@ -472,16 +480,21 @@ namespace Charlotte
 					Ground.I.DefaultImageFile = f.Dir;
 				}
 			}
+
+			this.AfterDialog();
 		}
 
 		private void その他ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			this.BeforeDialog();
+
 			using (SettingDlg f = new SettingDlg())
 			{
 				f.ShowDialog();
 			}
 
 			this.MS_Refresh();
+			this.AfterDialog();
 		}
 
 		private void MainSheet_DragEnter(object sender, DragEventArgs e)
@@ -489,8 +502,12 @@ namespace Charlotte
 			e.Effect = DragDropEffects.Copy;
 		}
 
+		private List<AudioInfo> AddedInfos = null;
+
 		private void MainSheet_DragDrop(object sender, DragEventArgs e)
 		{
+			this.BeforeDialog();
+
 			try
 			{
 				if (Ground.I.OutputDir == "")
@@ -499,10 +516,19 @@ namespace Charlotte
 				if (e.Data.GetDataPresent(DataFormats.FileDrop) == false)
 					throw new Exception("ファイル又はフォルダをドロップして下さい。");
 
+				this.AddedInfos = new List<AudioInfo>();
+
 				foreach (string path in (string[])e.Data.GetData(DataFormats.FileDrop))
 				{
 					this.AddPath(path);
 				}
+				this.MainSheet.RowCount += this.AddedInfos.Count;
+
+				for (int index = 0; index < this.AddedInfos.Count; index++)
+				{
+					this.MS_SetRow(this.MainSheet.RowCount - this.AddedInfos.Count + index, this.AddedInfos[index]);
+				}
+				this.AddedInfos = null;
 			}
 			catch (Exception ex)
 			{
@@ -512,6 +538,7 @@ namespace Charlotte
 			}
 
 			this.MSMonitorStart();
+			this.AfterDialog();
 		}
 
 		private void AddPath(string path)
@@ -533,7 +560,7 @@ namespace Charlotte
 
 		private void AddFile(string file, string rootDir = null)
 		{
-			if (Ground.I.Config.AudioInfoMax <= this.MainSheet.RowCount)
+			if (Ground.I.Config.AudioInfoMax <= this.MainSheet.RowCount + this.AddedInfos.Count)
 				throw new Exception("ファイルが多すぎます。");
 
 			AudioInfo info;
@@ -588,8 +615,12 @@ namespace Charlotte
 					AudioFile = file,
 				};
 			}
+#if true
+			this.AddedInfos.Add(info);
+#else // old -- 遅い。
 			this.MainSheet.RowCount++;
 			this.MS_SetRow(this.MainSheet.RowCount - 1, info);
+#endif
 		}
 
 		private void MainSheet_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -746,6 +777,8 @@ namespace Charlotte
 
 		private void RemoveRows(Predicate<DataGridViewRow> match)
 		{
+			this.MainSheet.Visible = false;
+
 			for (int rowidx = this.MainSheet.RowCount - 1; 0 <= rowidx; rowidx--)
 			{
 				if (match(this.MainSheet.Rows[rowidx]))
@@ -762,17 +795,22 @@ namespace Charlotte
 					}
 				}
 			}
+
+			this.MainSheet.Visible = true;
 		}
 
 		private void 映像用の画像を設定するToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			this.BeforeDialog();
+
 			try
 			{
 				string file = SaveLoadDialogs.LoadFile(
 					"映像用の画像を選択して下さい。",
-					Consts.IMAGE_FILTER_STRING,
+					"",
 					Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-					Consts.IMAGE_INITIAL_FILE
+					Consts.IMAGE_INITIAL_FILE,
+					dlg => dlg.Filter = Consts.IMAGE_FILTER
 					);
 
 				if (file != null)
@@ -798,6 +836,8 @@ namespace Charlotte
 
 				MessageBox.Show(ex.Message, "映像用の画像の設定に失敗しました", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
+
+			this.AfterDialog();
 		}
 	}
 }

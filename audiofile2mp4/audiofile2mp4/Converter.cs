@@ -8,7 +8,6 @@ namespace Charlotte
 {
 	public class Converter
 	{
-		private Thread Th = null;
 		private ConverterTask Task = null;
 
 		public void Start(ConverterTask task)
@@ -16,25 +15,21 @@ namespace Charlotte
 			if (task == null)
 				throw null;
 
-			if (this.Th != null)
+			if (this.Task != null)
 				throw null;
 
 			this.Task = task;
-			this.Th = new Thread(task.MainTh);
-			this.Th.Start();
+			this.Task.Start();
 		}
 
 		public bool IsReady()
 		{
-			if (this.Th != null && this.Th.IsAlive == false)
-				this.Th = null;
-
-			return this.Th == null;
+			return this.Task == null;
 		}
 
 		public bool IsCompleted()
 		{
-			return this.IsReady() && this.Task != null;
+			return this.Task != null && this.Task.IsCompleted();
 		}
 
 		public ConverterTask GetTask()

@@ -15,25 +15,22 @@ namespace Charlotte
 
 		// <--- prm
 
-		public void MainTh()
+		private Thread Th = null; // 仮
+		private Exception Ex = null;
+
+		public void Start()
 		{
 			try
 			{
-				this.Main2();
-
-				this.Info.Status = AudioInfo.Status_e.SUCCESSFUL;
-				this.Info.ErrorMessage = "";
+				this.StartMain();
 			}
 			catch (Exception e)
 			{
-				ProcMain.WriteLog(e);
-
-				this.Info.Status = AudioInfo.Status_e.ERROR;
-				this.Info.ErrorMessage = e.Message;
+				this.Ex = e;
 			}
 		}
 
-		private void Main2()
+		private void StartMain()
 		{
 			if (this.Info.AudioFile == "")
 				throw new Exception("音楽ファイルが指定されていません。");
@@ -60,11 +57,56 @@ namespace Charlotte
 
 
 
-			Thread.Sleep(5000); // ダミー処理
+			// TODO
 
 
 
-			File.WriteAllText(this.Info.MovieFile, "1234", Encoding.UTF8); // ダミーデータ
+			this.Th = new Thread(() =>
+			{
+				Thread.Sleep(5000); // ダミー処理
+
+				File.WriteAllText(this.Info.MovieFile, "1234", Encoding.UTF8); // ダミーデータ
+			});
+		}
+
+		public bool IsCompleted()
+		{
+			if (this.Th != null && this.Th.IsAlive == false)
+				this.Th = null;
+
+			if (this.Th == null)
+				this.End();
+
+			return this.Th == null;
+		}
+
+		private bool Ended = false;
+
+		private void End()
+		{
+			if (this.Ended == false)
+			{
+				this.EndMain();
+				this.Ended = true;
+			}
+		}
+
+		private void EndMain()
+		{
+			Exception e = this.Ex;
+
+			if (e == null)
+			{
+				this.Info.Status = AudioInfo.Status_e.SUCCESSFUL;
+				this.Info.ErrorMessage = "";
+			}
+			else
+			{
+				ProcMain.WriteLog(e);
+
+				this.Info.Status = AudioInfo.Status_e.ERROR;
+				this.Info.ErrorMessage = e.Message;
+			}
 		}
 	}
 }

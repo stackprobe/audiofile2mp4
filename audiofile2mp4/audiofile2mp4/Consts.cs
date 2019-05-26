@@ -15,8 +15,8 @@ namespace Charlotte
 		public const int FPS_DEF = 3;
 		public const int FPS_MAX = 30;
 
-		public const string IMAGE_FILTER_STRING = "bmp.gif.jpg.jpeg.png";
-		public const string IMAGE_INITIAL_FILE = "Image.bmp";
+		public const string IMAGE_INITIAL_FILE = "*.bmp;*.gif;*.jpg;*.jpeg;*.png";
+		public const string IMAGE_FILTER = "画像ファイル(*.bmp;*.gif;*.jpg;*.jpeg;*.png)|*.bmp;*.gif;*.jpg;*.jpeg;*.png|すべてのファイル(*.*)|*.*";
 
 		public const string MOVIE_EXT = ".mp4";
 	}

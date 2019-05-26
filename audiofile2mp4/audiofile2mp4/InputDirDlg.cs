@@ -16,8 +16,8 @@ namespace Charlotte
 		public string DirKindTitle;
 		public string Dir;
 		public bool Dirじゃなくて読み込みファイル = false;
-		public string File_FilterString = Consts.IMAGE_FILTER_STRING;
-		public string File_DefaultLocalFile = Consts.IMAGE_INITIAL_FILE;
+		public string File_InitialFile = Consts.IMAGE_INITIAL_FILE;
+		public string File_Filter = Consts.IMAGE_FILTER;
 
 		// <--- prm
 
@@ -63,9 +63,10 @@ namespace Charlotte
 
 				file = SaveLoadDialogs.LoadFile(
 					this.DirKindTitle + "を選択して下さい。",
-					this.File_FilterString,
+					"",
 					file == "" ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop) : Path.GetDirectoryName(file),
-					file == "" ? this.File_DefaultLocalFile : Path.GetFileName(file)
+					file == "" ? this.File_InitialFile : Path.GetFileName(file),
+					dlg => dlg.Filter = this.File_Filter
 					);
 
 				if (file != null)
