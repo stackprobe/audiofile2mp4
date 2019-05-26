@@ -17,7 +17,7 @@ namespace Charlotte
 	{
 		#region ALT_F4 抑止
 
-		private bool XPressed = false;
+		private bool RequestCloseWindow = false;
 
 		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		protected override void WndProc(ref Message m)
@@ -27,7 +27,7 @@ namespace Charlotte
 
 			if (m.Msg == WM_SYSCOMMAND && (m.WParam.ToInt64() & 0xFFF0L) == SC_CLOSE)
 			{
-				this.XPressed = true;
+				this.RequestCloseWindow = true;
 				return;
 			}
 			base.WndProc(ref m);
@@ -187,9 +187,9 @@ namespace Charlotte
 			{
 				// ---- 3001
 
-				if (this.XPressed)
+				if (this.RequestCloseWindow)
 				{
-					this.XPressed = false;
+					this.RequestCloseWindow = false;
 					this.CloseWindow();
 					return;
 				}
@@ -214,7 +214,7 @@ namespace Charlotte
 				{
 					MSMonitor mon = this.MSMonitor;
 
-					for (int c = 0; c < 30; c++) // XXX ループ回数
+					for (int c = 0; c < 300; c++) // XXX ループ回数
 					{
 						if (this.MainSheet.RowCount <= mon.RowIndex)
 							break;
@@ -240,7 +240,8 @@ namespace Charlotte
 					if (this.MTCount % 5 == 0) // 頻度を下げる。
 					{
 						Ground.I.SouthWestMessage =
-							this.MainSheet.RowCount + " 行 中 " + this.MainSheet.SelectedRows.Count + " 行 選択中 / 待機中 = " + mon.ReadyCount
+							(Ground.I.ConverterEnabled ? "[処理中]" : "[待機中]")
+							+ " / " + this.MainSheet.RowCount + " 行 中 " + this.MainSheet.SelectedRows.Count + " 行 選択中 / 待機中 = " + mon.ReadyCount
 							+ " / 処理中 = " + mon.ProcessingCount
 							+ " / 失敗 = " + mon.ErrorCount
 							+ " / 成功 = " + mon.SuccessfulCount;
@@ -333,11 +334,11 @@ namespace Charlotte
 
 			this.MS_AddColumn("ステータス", 100); // 0
 			this.MS_AddColumn("エラー情報", 100); // 1
-			this.MS_AddColumn("音楽ファイル (入力)", 300); // 2 絶対パス
+			this.MS_AddColumn("音楽ファイル (入力)", 600); // 2 絶対パス
 			this.MS_AddColumn("音楽ファイル (入力)", 300); // 3 ローカルパス
-			this.MS_AddColumn("映像用の画像 (入力)", 300); // 4 絶対パス
+			this.MS_AddColumn("映像用の画像 (入力)", 600); // 4 絶対パス
 			this.MS_AddColumn("映像用の画像 (入力)", 300); // 5 ローカルパス
-			this.MS_AddColumn("動画ファイル (出力)", 300); // 6 絶対パス
+			this.MS_AddColumn("動画ファイル (出力)", 600); // 6 絶対パス
 			this.MS_AddColumn("動画ファイル (出力)", 300); // 7 ローカルパス
 			this.MS_AddColumn("FPS", 100, true); // 8
 

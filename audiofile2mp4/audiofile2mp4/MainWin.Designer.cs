@@ -53,17 +53,17 @@
 			this.MainSheetMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.選択解除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.全て選択するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-			this.リフレッシュToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-			this.削除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.全てクリアToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-			this.映像用の画像を設定するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.選択ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SelectReadyRowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SelectErrorRowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SelectSuccessfulRowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+			this.削除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.全てクリアToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+			this.リフレッシュToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+			this.映像用の画像を設定するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.MainSheet)).BeginInit();
@@ -271,49 +271,6 @@
 			this.全て選択するToolStripMenuItem.Text = "全て選択する";
 			this.全て選択するToolStripMenuItem.Click += new System.EventHandler(this.全て選択するToolStripMenuItem_Click);
 			// 
-			// toolStripMenuItem2
-			// 
-			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(193, 6);
-			// 
-			// リフレッシュToolStripMenuItem
-			// 
-			this.リフレッシュToolStripMenuItem.Name = "リフレッシュToolStripMenuItem";
-			this.リフレッシュToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-			this.リフレッシュToolStripMenuItem.Text = "リフレッシュ";
-			this.リフレッシュToolStripMenuItem.Click += new System.EventHandler(this.リフレッシュToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem3
-			// 
-			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(193, 6);
-			// 
-			// 削除ToolStripMenuItem
-			// 
-			this.削除ToolStripMenuItem.Name = "削除ToolStripMenuItem";
-			this.削除ToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-			this.削除ToolStripMenuItem.Text = "クリア";
-			this.削除ToolStripMenuItem.Click += new System.EventHandler(this.削除ToolStripMenuItem_Click);
-			// 
-			// 全てクリアToolStripMenuItem
-			// 
-			this.全てクリアToolStripMenuItem.Name = "全てクリアToolStripMenuItem";
-			this.全てクリアToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-			this.全てクリアToolStripMenuItem.Text = "全てクリア";
-			this.全てクリアToolStripMenuItem.Click += new System.EventHandler(this.全てクリアToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem5
-			// 
-			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(193, 6);
-			// 
-			// 映像用の画像を設定するToolStripMenuItem
-			// 
-			this.映像用の画像を設定するToolStripMenuItem.Name = "映像用の画像を設定するToolStripMenuItem";
-			this.映像用の画像を設定するToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-			this.映像用の画像を設定するToolStripMenuItem.Text = "映像用の画像を設定する";
-			this.映像用の画像を設定するToolStripMenuItem.Click += new System.EventHandler(this.映像用の画像を設定するToolStripMenuItem_Click);
-			// 
 			// 選択ToolStripMenuItem
 			// 
 			this.選択ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -344,6 +301,49 @@
 			this.SelectSuccessfulRowMenuItem.Size = new System.Drawing.Size(169, 22);
 			this.SelectSuccessfulRowMenuItem.Text = "成功したファイル";
 			this.SelectSuccessfulRowMenuItem.Click += new System.EventHandler(this.SelectSuccessfulRowMenuItem_Click);
+			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(193, 6);
+			// 
+			// 削除ToolStripMenuItem
+			// 
+			this.削除ToolStripMenuItem.Name = "削除ToolStripMenuItem";
+			this.削除ToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.削除ToolStripMenuItem.Text = "選択行を削除";
+			this.削除ToolStripMenuItem.Click += new System.EventHandler(this.削除ToolStripMenuItem_Click);
+			// 
+			// 全てクリアToolStripMenuItem
+			// 
+			this.全てクリアToolStripMenuItem.Name = "全てクリアToolStripMenuItem";
+			this.全てクリアToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.全てクリアToolStripMenuItem.Text = "全ての行を削除";
+			this.全てクリアToolStripMenuItem.Click += new System.EventHandler(this.全てクリアToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem3
+			// 
+			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(193, 6);
+			// 
+			// リフレッシュToolStripMenuItem
+			// 
+			this.リフレッシュToolStripMenuItem.Name = "リフレッシュToolStripMenuItem";
+			this.リフレッシュToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.リフレッシュToolStripMenuItem.Text = "リフレッシュ";
+			this.リフレッシュToolStripMenuItem.Click += new System.EventHandler(this.リフレッシュToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem5
+			// 
+			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(193, 6);
+			// 
+			// 映像用の画像を設定するToolStripMenuItem
+			// 
+			this.映像用の画像を設定するToolStripMenuItem.Name = "映像用の画像を設定するToolStripMenuItem";
+			this.映像用の画像を設定するToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.映像用の画像を設定するToolStripMenuItem.Text = "映像用の画像を設定する";
+			this.映像用の画像を設定するToolStripMenuItem.Click += new System.EventHandler(this.映像用の画像を設定するToolStripMenuItem_Click);
 			// 
 			// MainWin
 			// 
