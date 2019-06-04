@@ -61,11 +61,18 @@
     <Compile Include="Converter.cs" />
     <Compile Include="ConverterTask.cs" />
     <Compile Include="Ground.cs" />
+    <Compile Include="ImageExtensions.cs" />
     <Compile Include="InputDirDlg.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="InputDirDlg.Designer.cs">
       <DependentUpon>InputDirDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InputFPSDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputFPSDlg.Designer.cs">
+      <DependentUpon>InputFPSDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWin.cs">
       <SubType>Form</SubType>
@@ -85,6 +92,9 @@
     </Compile>
     <EmbeddedResource Include="InputDirDlg.resx">
       <DependentUpon>InputDirDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputFPSDlg.resx">
+      <DependentUpon>InputFPSDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWin.resx">
       <DependentUpon>MainWin.cs</DependentUpon>

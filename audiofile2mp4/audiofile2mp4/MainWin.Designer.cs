@@ -64,6 +64,7 @@
 			this.リフレッシュToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
 			this.映像用の画像を設定するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.秒間フレーム数を設定するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.MainSheet)).BeginInit();
@@ -253,9 +254,10 @@
             this.toolStripMenuItem3,
             this.リフレッシュToolStripMenuItem,
             this.toolStripMenuItem5,
-            this.映像用の画像を設定するToolStripMenuItem});
+            this.映像用の画像を設定するToolStripMenuItem,
+            this.秒間フレーム数を設定するToolStripMenuItem});
 			this.MainSheetMenu.Name = "MainSheetMenu";
-			this.MainSheetMenu.Size = new System.Drawing.Size(197, 198);
+			this.MainSheetMenu.Size = new System.Drawing.Size(197, 220);
 			// 
 			// 選択解除ToolStripMenuItem
 			// 
@@ -345,6 +347,13 @@
 			this.映像用の画像を設定するToolStripMenuItem.Text = "映像用の画像を設定する";
 			this.映像用の画像を設定するToolStripMenuItem.Click += new System.EventHandler(this.映像用の画像を設定するToolStripMenuItem_Click);
 			// 
+			// 秒間フレーム数を設定するToolStripMenuItem
+			// 
+			this.秒間フレーム数を設定するToolStripMenuItem.Name = "秒間フレーム数を設定するToolStripMenuItem";
+			this.秒間フレーム数を設定するToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.秒間フレーム数を設定するToolStripMenuItem.Text = "秒間フレーム数を設定する";
+			this.秒間フレーム数を設定するToolStripMenuItem.Click += new System.EventHandler(this.秒間フレーム数を設定するToolStripMenuItem_Click);
+			// 
 			// MainWin
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -411,6 +420,7 @@
 		private System.Windows.Forms.ToolStripMenuItem SelectReadyRowMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem SelectErrorRowMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem SelectSuccessfulRowMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 秒間フレーム数を設定するToolStripMenuItem;
 	}
 }
 

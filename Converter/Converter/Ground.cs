@@ -20,13 +20,18 @@ namespace Charlotte
 			}
 		}
 
-		public string ffprobeFile = @"C:\app\ffmpeg-4.1.3-win64-shared\bin\ffprobe.exe";
-		public string ffmpegFile = @"C:\app\ffmpeg-4.1.3-win64-shared\bin\ffmpeg.exe";
+		public string WorkDir = @"C:\temp\Converter_test_dir";
+		public string ffmpegBinDir = @"C:\app\ffmpeg-4.1.3-win64-shared\bin";
+		public string ImgToolsFile = @"C:\app\Kit\ImgTools\ImgTools.exe";
+		public string BmpToCsvFile = @"C:\app\Kit\BmpToCsv\BmpToCsv.exe";
 		public string AudioFile =
 			///////////////////////////////////////////////////////////// ///////////////// ////////////////// // $_git:secret
 		public string ImageFile =
 			////////////////////////////////////////////////////////////////////////// // $_git:secret
 		public string MovieFile = @"C:\temp\Converter_test_out.mp4";
 		public int FramePerSecond = 3;
+		public int JpegQuality = 90;
+		public string ErrorMessageFile = @"C:\temp\Converter_test_ErrorMessage.txt";
+		public string LogFile = @"C:\temp\Converter_test.log";
 	}
 }

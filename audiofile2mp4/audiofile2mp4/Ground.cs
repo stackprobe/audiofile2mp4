@@ -119,6 +119,7 @@ namespace Charlotte
 
 		public Config Config = new Config();
 		public AudioExtensions AudioExtensions = new AudioExtensions();
+		public ImageExtensions ImageExtensions = new ImageExtensions();
 		public Converter Converter = new Converter();
 
 		public string SouthMessage = ""; // "" == メッセージの通知なし

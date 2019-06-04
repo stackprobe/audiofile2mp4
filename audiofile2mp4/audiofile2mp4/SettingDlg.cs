@@ -35,17 +35,21 @@ namespace Charlotte
 			this.CB_MS_ImageFile_FullPath.Checked = Ground.I.MS_ImageFile_FullPath;
 			this.CB_MS_MovieFile_FullPath.Checked = Ground.I.MS_MovieFile_FullPath;
 
-			this.DefaultFPS.Text = "" + Ground.I.DefaultFPS;
+			this.DefaultFPS.Value = Ground.I.DefaultFPS;
 			this.AllowOverwrite.Checked = Ground.I.AllowOverwrite;
 			this.同じ音楽ファイルを追加させない.Checked = Ground.I.同じ音楽ファイルを追加させない;
 		}
 
 		private void SaveSetting()
 		{
-			if ("" + IntTools.ToInt(this.DefaultFPS.Text, Consts.FPS_MIN, Consts.FPS_MAX, -1) != this.DefaultFPS.Text)
 			{
-				this.ErrorProv.SetError(this.DefaultFPS, Consts.FPS_MIN + " から " + Consts.FPS_MAX + " まで");
-				throw null;
+				int value = (int)this.DefaultFPS.Value;
+
+				if (value < Consts.FPS_MIN || Consts.FPS_MAX < value)
+				{
+					this.ErrorProv.SetError(this.DefaultFPS, Consts.FPS_MIN + " から " + Consts.FPS_MAX + " まで");
+					throw null;
+				}
 			}
 
 			// <--- check
@@ -54,7 +58,7 @@ namespace Charlotte
 			Ground.I.MS_ImageFile_FullPath = this.CB_MS_ImageFile_FullPath.Checked;
 			Ground.I.MS_MovieFile_FullPath = this.CB_MS_MovieFile_FullPath.Checked;
 
-			Ground.I.DefaultFPS = int.Parse(this.DefaultFPS.Text);
+			Ground.I.DefaultFPS = (int)this.DefaultFPS.Value;
 			Ground.I.AllowOverwrite = this.AllowOverwrite.Checked;
 			Ground.I.同じ音楽ファイルを追加させない = this.同じ音楽ファイルを追加させない.Checked;
 		}

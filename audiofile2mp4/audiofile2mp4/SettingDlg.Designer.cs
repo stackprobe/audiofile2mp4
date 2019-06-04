@@ -37,12 +37,13 @@
 			this.CB_MS_ImageFile_FullPath = new System.Windows.Forms.CheckBox();
 			this.CB_MS_AudioFile_FullPath = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.DefaultFPS = new System.Windows.Forms.TextBox();
 			this.ErrorProv = new System.Windows.Forms.ErrorProvider(this.components);
 			this.AllowOverwrite = new System.Windows.Forms.CheckBox();
 			this.同じ音楽ファイルを追加させない = new System.Windows.Forms.CheckBox();
+			this.DefaultFPS = new System.Windows.Forms.NumericUpDown();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ErrorProv)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.DefaultFPS)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// BtnOk
@@ -120,16 +121,6 @@
 			this.label1.TabIndex = 1;
 			this.label1.Text = "デフォルトFPS：";
 			// 
-			// DefaultFPS
-			// 
-			this.DefaultFPS.Location = new System.Drawing.Point(130, 157);
-			this.DefaultFPS.MaxLength = 3;
-			this.DefaultFPS.Name = "DefaultFPS";
-			this.DefaultFPS.Size = new System.Drawing.Size(50, 27);
-			this.DefaultFPS.TabIndex = 2;
-			this.DefaultFPS.Text = "999";
-			this.DefaultFPS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			// 
 			// ErrorProv
 			// 
 			this.ErrorProv.ContainerControl = this;
@@ -154,14 +145,37 @@
 			this.同じ音楽ファイルを追加させない.Text = "音楽ファイルを重複して追加出来ないようにする";
 			this.同じ音楽ファイルを追加させない.UseVisualStyleBackColor = true;
 			// 
+			// DefaultFPS
+			// 
+			this.DefaultFPS.Location = new System.Drawing.Point(130, 158);
+			this.DefaultFPS.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+			this.DefaultFPS.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.DefaultFPS.Name = "DefaultFPS";
+			this.DefaultFPS.Size = new System.Drawing.Size(100, 27);
+			this.DefaultFPS.TabIndex = 2;
+			this.DefaultFPS.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.DefaultFPS.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			// 
 			// SettingDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(369, 341);
+			this.Controls.Add(this.DefaultFPS);
 			this.Controls.Add(this.同じ音楽ファイルを追加させない);
 			this.Controls.Add(this.AllowOverwrite);
-			this.Controls.Add(this.DefaultFPS);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.BtnOk);
@@ -181,6 +195,7 @@
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ErrorProv)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.DefaultFPS)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -195,9 +210,9 @@
 		private System.Windows.Forms.CheckBox CB_MS_ImageFile_FullPath;
 		private System.Windows.Forms.CheckBox CB_MS_AudioFile_FullPath;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox DefaultFPS;
 		private System.Windows.Forms.ErrorProvider ErrorProv;
 		private System.Windows.Forms.CheckBox AllowOverwrite;
 		private System.Windows.Forms.CheckBox 同じ音楽ファイルを追加させない;
+		private System.Windows.Forms.NumericUpDown DefaultFPS;
 	}
 }

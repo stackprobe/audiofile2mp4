@@ -38,6 +38,8 @@ namespace Charlotte
 		public MainWin()
 		{
 			InitializeComponent();
+
+			this.MinimumSize = this.Size;
 		}
 
 		private void MainWin_Load(object sender, EventArgs e)
@@ -504,6 +506,7 @@ namespace Charlotte
 		}
 
 		private List<AudioInfo> AddedInfos = null;
+		private string AddedImageFile = null;
 
 		private void MainSheet_DragDrop(object sender, DragEventArgs e)
 		{
@@ -517,7 +520,8 @@ namespace Charlotte
 				if (e.Data.GetDataPresent(DataFormats.FileDrop) == false)
 					throw new Exception("ファイル又はフォルダをドロップして下さい。");
 
-				this.AddedInfos = new List<AudioInfo>();
+				this.AddedInfos = new List<AudioInfo>(); // init
+				this.AddedImageFile = null; // init
 
 				foreach (string path in (string[])e.Data.GetData(DataFormats.FileDrop))
 				{
@@ -525,11 +529,19 @@ namespace Charlotte
 				}
 				this.MainSheet.RowCount += this.AddedInfos.Count;
 
-				for (int index = 0; index < this.AddedInfos.Count; index++)
+				if (this.AddedInfos.Count == 0 && this.AddedImageFile != null)
 				{
-					this.MS_SetRow(this.MainSheet.RowCount - this.AddedInfos.Count + index, this.AddedInfos[index]);
+					this.MS_SetImageFile(this.AddedImageFile);
 				}
-				this.AddedInfos = null;
+				else
+				{
+					for (int index = 0; index < this.AddedInfos.Count; index++)
+					{
+						this.MS_SetRow(this.MainSheet.RowCount - this.AddedInfos.Count + index, this.AddedInfos[index]);
+					}
+				}
+				this.AddedInfos = null; // clear
+				this.AddedImageFile = null; // clear
 			}
 			catch (Exception ex)
 			{
@@ -563,6 +575,9 @@ namespace Charlotte
 		{
 			if (Ground.I.Config.AudioInfoMax <= this.MainSheet.RowCount + this.AddedInfos.Count)
 				throw new Exception("ファイルが多すぎます。");
+
+			if (Ground.I.ImageExtensions.IsImageFile(file))
+				this.AddedImageFile = file;
 
 			AudioInfo info;
 
@@ -622,6 +637,16 @@ namespace Charlotte
 			this.MainSheet.RowCount++;
 			this.MS_SetRow(this.MainSheet.RowCount - 1, info);
 #endif
+		}
+
+		private void AddImageFile(string file)
+		{
+			file = FileTools.MakeFullPath(file);
+
+			using (Bitmap.FromFile(file)) // 画像ファイルかどうか検査
+			{ }
+
+
 		}
 
 		private void MainSheet_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -816,19 +841,7 @@ namespace Charlotte
 
 				if (file != null)
 				{
-					file = FileTools.MakeFullPath(file);
-
-					for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
-					{
-						if (this.MainSheet.Rows[rowidx].Selected)
-						{
-							AudioInfo info = this.MS_GetRow(rowidx);
-
-							info.ImageFile = file;
-
-							this.MS_SetRow(rowidx, info);
-						}
-					}
+					this.MS_SetImageFile(file);
 				}
 			}
 			catch (Exception ex)
@@ -839,6 +852,63 @@ namespace Charlotte
 			}
 
 			this.AfterDialog();
+		}
+
+		private void MS_SetImageFile(string file)
+		{
+			file = FileTools.MakeFullPath(file);
+
+			for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
+			{
+				if (this.MainSheet.Rows[rowidx].Selected)
+				{
+					AudioInfo info = this.MS_GetRow(rowidx);
+
+					if (info.Status == AudioInfo.Status_e.PROCESSING)
+						throw new Exception("処理中の行は変更出来ません。");
+
+					info.ImageFile = file;
+
+					this.MS_SetRow(rowidx, info);
+				}
+			}
+		}
+
+		private void 秒間フレーム数を設定するToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.BeforeDialog();
+
+			using (InputFPSDlg f = new InputFPSDlg())
+			{
+				f.ShowDialog();
+
+				if (f.OkPressed)
+				{
+					this.MS_SetFPS(f.Ret_FPS);
+				}
+			}
+
+			this.AfterDialog();
+		}
+
+		private void MS_SetFPS(int value)
+		{
+			value = IntTools.Range(value, Consts.FPS_MIN, Consts.FPS_MAX); // fixme
+
+			for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
+			{
+				if (this.MainSheet.Rows[rowidx].Selected)
+				{
+					AudioInfo info = this.MS_GetRow(rowidx);
+
+					if (info.Status == AudioInfo.Status_e.PROCESSING)
+						throw new Exception("処理中の行は変更出来ません。");
+
+					info.FPS = value;
+
+					this.MS_SetRow(rowidx, info);
+				}
+			}
 		}
 	}
 }
