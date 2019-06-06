@@ -122,6 +122,8 @@ namespace Charlotte
 		public ImageExtensions ImageExtensions = new ImageExtensions();
 		public Converter Converter = new Converter();
 
+		public bool NorthStickRight = false;
+		public string NorthMessage = ""; // "" == メッセージの通知なし
 		public string SouthMessage = ""; // "" == メッセージの通知なし
 		public string SouthWestMessage = ""; // "" == メッセージの通知なし
 		public bool ConverterEnabled = false;

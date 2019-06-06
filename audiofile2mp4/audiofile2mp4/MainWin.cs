@@ -18,6 +18,7 @@ namespace Charlotte
 		#region ALT_F4 抑止
 
 		private bool RequestCloseWindow = false;
+		private bool XPressed = false;
 
 		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		protected override void WndProc(ref Message m)
@@ -28,6 +29,7 @@ namespace Charlotte
 			if (m.Msg == WM_SYSCOMMAND && (m.WParam.ToInt64() & 0xFFF0L) == SC_CLOSE)
 			{
 				this.RequestCloseWindow = true;
+				this.XPressed = true;
 				return;
 			}
 			base.WndProc(ref m);
@@ -85,6 +87,7 @@ namespace Charlotte
 		{
 			this.MS_Init();
 
+			this.North.Text = "";
 			this.South.Text = "";
 			this.SouthWest.Text = "";
 
@@ -135,12 +138,16 @@ namespace Charlotte
 
 			if (Ground.I.ConverterEnabled)
 			{
-				Ground.I.SouthMessage = "アプリケーションを終了するにはコンバータを停止して下さい。";
+				Ground.I.NorthStickRight = this.XPressed;
+				Ground.I.NorthMessage = "アプリケーションを終了するにはコンバータを停止して下さい。";
+				//Ground.I.SouthMessage = "アプリケーションを終了するにはコンバータを停止して下さい。"; // old
 				return;
 			}
 			if (Ground.I.Converter.IsReady() == false)
 			{
-				Ground.I.SouthMessage = "アプリケーションを終了するにはコンバータが停止するまでお待ちください。";
+				Ground.I.NorthStickRight = this.XPressed;
+				Ground.I.NorthMessage = "アプリケーションを終了するにはコンバータが停止するまでお待ちください。";
+				//Ground.I.SouthMessage = "アプリケーションを終了するにはコンバータが停止するまでお待ちください。"; // old
 				return;
 			}
 
@@ -169,6 +176,7 @@ namespace Charlotte
 		private bool MTBusy;
 		private long MTCount;
 
+		private int NorthMessageDisplayTimerCount = 0;
 		private int SouthMessageDisplayTimerCount = 0;
 		private MSMonitor MSMonitor = new MSMonitor();
 		private int PatrolRowIndex = 0;
@@ -193,7 +201,41 @@ namespace Charlotte
 				{
 					this.RequestCloseWindow = false;
 					this.CloseWindow();
+					this.XPressed = false;
 					return;
+				}
+
+				{
+					string message = null; // null == 操作無し
+
+					if (Ground.I.NorthMessage != "")
+					{
+						message = Ground.I.NorthMessage;
+						Ground.I.NorthMessage = "";
+						this.NorthMessageDisplayTimerCount = 0;
+					}
+					if (this.North.Text != "" && Ground.I.Config.MessageDisplayTimerCountMax < ++this.NorthMessageDisplayTimerCount)
+						message = "";
+
+					if (message != null)
+					{
+						this.North.Text = message;
+
+						if (message == "")
+						{
+							this.MainSheet.Top = this.North.Top;
+						}
+						else
+						{
+							this.MainSheet.Top = this.North.Top + this.North.Height + 2;
+
+							if (Ground.I.NorthStickRight)
+								this.North.Left = this.MainSheet.Left + this.MainSheet.Width - this.North.Width;
+							else
+								this.North.Left = this.MainSheet.Left;
+						}
+						this.MainSheet.Height = this.SouthBar.Top - this.MainSheet.Top - 3;
+					}
 				}
 
 				if (Ground.I.SouthMessage != "")
@@ -202,7 +244,7 @@ namespace Charlotte
 					Ground.I.SouthMessage = "";
 					this.SouthMessageDisplayTimerCount = 0;
 				}
-				if (this.South.Text != "" && Ground.I.Config.SouthMessageDisplayTimerCountMax < ++this.SouthMessageDisplayTimerCount)
+				if (this.South.Text != "" && Ground.I.Config.MessageDisplayTimerCountMax < ++this.SouthMessageDisplayTimerCount)
 					this.South.Text = "";
 
 				if (Ground.I.SouthWestMessage != "")
@@ -639,16 +681,6 @@ namespace Charlotte
 #endif
 		}
 
-		private void AddImageFile(string file)
-		{
-			file = FileTools.MakeFullPath(file);
-
-			using (Bitmap.FromFile(file)) // 画像ファイルかどうか検査
-			{ }
-
-
-		}
-
 		private void MainSheet_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			if (e.RowIndex == -1)
@@ -854,26 +886,6 @@ namespace Charlotte
 			this.AfterDialog();
 		}
 
-		private void MS_SetImageFile(string file)
-		{
-			file = FileTools.MakeFullPath(file);
-
-			for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
-			{
-				if (this.MainSheet.Rows[rowidx].Selected)
-				{
-					AudioInfo info = this.MS_GetRow(rowidx);
-
-					if (info.Status == AudioInfo.Status_e.PROCESSING)
-						throw new Exception("処理中の行は変更出来ません。");
-
-					info.ImageFile = file;
-
-					this.MS_SetRow(rowidx, info);
-				}
-			}
-		}
-
 		private void 秒間フレーム数を設定するToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			this.BeforeDialog();
@@ -891,24 +903,50 @@ namespace Charlotte
 			this.AfterDialog();
 		}
 
+		private void MS_SetImageFile(string file)
+		{
+			file = FileTools.MakeFullPath(file);
+
+			this.MS_CallSelectedRows(row =>
+			{
+				int rowidx = row.Index;
+				AudioInfo info = this.MS_GetRow(rowidx);
+
+				if (info.Status == AudioInfo.Status_e.PROCESSING)
+					throw new Exception("処理中の行は変更出来ません。");
+
+				info.ImageFile = file;
+
+				this.MS_SetRow(rowidx, info);
+			});
+		}
+
 		private void MS_SetFPS(int value)
 		{
-			value = IntTools.Range(value, Consts.FPS_MIN, Consts.FPS_MAX); // fixme
+			value = IntTools.Range(value, Consts.FPS_MIN, Consts.FPS_MAX); // 2bs
+
+			this.MS_CallSelectedRows(row =>
+			{
+				int rowidx = row.Index;
+				AudioInfo info = this.MS_GetRow(rowidx);
+
+				if (info.Status == AudioInfo.Status_e.PROCESSING)
+					throw new Exception("処理中の行は変更出来ません。");
+
+				info.FPS = value;
+
+				this.MS_SetRow(rowidx, info);
+			});
+		}
+
+		private void MS_CallSelectedRows(Action<DataGridViewRow> routine)
+		{
+			if (this.MainSheet.SelectedRows.Count == 0)
+				throw new Exception("行を選択して下さい。");
 
 			for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
-			{
 				if (this.MainSheet.Rows[rowidx].Selected)
-				{
-					AudioInfo info = this.MS_GetRow(rowidx);
-
-					if (info.Status == AudioInfo.Status_e.PROCESSING)
-						throw new Exception("処理中の行は変更出来ません。");
-
-					info.FPS = value;
-
-					this.MS_SetRow(rowidx, info);
-				}
-			}
+					routine(this.MainSheet.Rows[rowidx]);
 		}
 	}
 }

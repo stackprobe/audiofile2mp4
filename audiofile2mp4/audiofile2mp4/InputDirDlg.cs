@@ -106,7 +106,21 @@ namespace Charlotte
 				else
 				{
 					if (Directory.Exists(dir) == false)
-						throw new Exception("指定されたフォルダは存在しません。");
+					{
+						if (MessageBox.Show(
+							"指定されたフォルダは存在しません。\n作成して宜しいですか？",
+							"確認",
+							MessageBoxButtons.OKCancel,
+							MessageBoxIcon.Question
+							)
+							!= DialogResult.OK
+							)
+							return;
+
+						FileTools.CreateDir(dir);
+
+						//throw new Exception("指定されたフォルダは存在しません。"); // old
+					}
 				}
 
 				this.Dir = dir;
@@ -118,6 +132,15 @@ namespace Charlotte
 				ProcMain.WriteLog(ex);
 
 				MessageBox.Show(ex.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+		}
+
+		private void SelectedDir_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == (char)13) // enter
+			{
+				this.BtnOk.Focus();
+				e.Handled = true;
 			}
 		}
 	}

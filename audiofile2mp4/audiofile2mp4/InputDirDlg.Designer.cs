@@ -45,6 +45,7 @@
 			this.SelectedDir.Name = "SelectedDir";
 			this.SelectedDir.Size = new System.Drawing.Size(404, 27);
 			this.SelectedDir.TabIndex = 1;
+			this.SelectedDir.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SelectedDir_KeyPress);
 			// 
 			// BtnSelectDir
 			// 

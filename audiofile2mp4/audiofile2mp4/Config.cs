@@ -29,7 +29,7 @@ namespace Charlotte
 			// ---- Items ----
 
 			this.AudioInfoMax = int.Parse(lines[c++]);
-			this.SouthMessageDisplayTimerCountMax = int.Parse(lines[c++]);
+			this.MessageDisplayTimerCountMax = int.Parse(lines[c++]);
 			this.JpegQuality = int.Parse(lines[c++]);
 
 			// ----
@@ -41,7 +41,7 @@ namespace Charlotte
 		// ---- Items ----
 
 		public int AudioInfoMax = 30000;
-		public int SouthMessageDisplayTimerCountMax = 50;
+		public int MessageDisplayTimerCountMax = 50;
 		public int JpegQuality = 90;
 
 		// ----

@@ -31,7 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWin));
 			this.MainTimer = new System.Windows.Forms.Timer(this.components);
-			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.NorthBar = new System.Windows.Forms.MenuStrip();
 			this.アプリToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.終了ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +46,7 @@
 			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
 			this.エラーを解除するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.エラーを解除して再開するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.SouthBar = new System.Windows.Forms.StatusStrip();
 			this.South = new System.Windows.Forms.ToolStripStatusLabel();
 			this.SouthWest = new System.Windows.Forms.ToolStripStatusLabel();
 			this.MainSheet = new System.Windows.Forms.DataGridView();
@@ -65,8 +65,9 @@
 			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
 			this.映像用の画像を設定するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.秒間フレーム数を設定するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuStrip1.SuspendLayout();
-			this.statusStrip1.SuspendLayout();
+			this.North = new System.Windows.Forms.Label();
+			this.NorthBar.SuspendLayout();
+			this.SouthBar.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.MainSheet)).BeginInit();
 			this.MainSheetMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -76,17 +77,17 @@
 			this.MainTimer.Enabled = true;
 			this.MainTimer.Tick += new System.EventHandler(this.MainTimer_Tick);
 			// 
-			// menuStrip1
+			// NorthBar
 			// 
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.NorthBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.アプリToolStripMenuItem,
             this.設定ToolStripMenuItem,
             this.実行ToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(774, 24);
-			this.menuStrip1.TabIndex = 0;
-			this.menuStrip1.Text = "menuStrip1";
+			this.NorthBar.Location = new System.Drawing.Point(0, 0);
+			this.NorthBar.Name = "NorthBar";
+			this.NorthBar.Size = new System.Drawing.Size(774, 24);
+			this.NorthBar.TabIndex = 0;
+			this.NorthBar.Text = "menuStrip1";
 			// 
 			// アプリToolStripMenuItem
 			// 
@@ -99,7 +100,7 @@
 			// 終了ToolStripMenuItem
 			// 
 			this.終了ToolStripMenuItem.Name = "終了ToolStripMenuItem";
-			this.終了ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+			this.終了ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.終了ToolStripMenuItem.Text = "終了";
 			this.終了ToolStripMenuItem.Click += new System.EventHandler(this.終了ToolStripMenuItem_Click);
 			// 
@@ -193,16 +194,16 @@
 			this.エラーを解除して再開するToolStripMenuItem.Text = "エラーを解除して再開する";
 			this.エラーを解除して再開するToolStripMenuItem.Click += new System.EventHandler(this.エラーを解除して再開するToolStripMenuItem_Click);
 			// 
-			// statusStrip1
+			// SouthBar
 			// 
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.SouthBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.South,
             this.SouthWest});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 529);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(774, 22);
-			this.statusStrip1.TabIndex = 1;
-			this.statusStrip1.Text = "statusStrip1";
+			this.SouthBar.Location = new System.Drawing.Point(0, 529);
+			this.SouthBar.Name = "SouthBar";
+			this.SouthBar.Size = new System.Drawing.Size(774, 22);
+			this.SouthBar.TabIndex = 2;
+			this.SouthBar.Text = "statusStrip1";
 			// 
 			// South
 			// 
@@ -257,7 +258,7 @@
             this.映像用の画像を設定するToolStripMenuItem,
             this.秒間フレーム数を設定するToolStripMenuItem});
 			this.MainSheetMenu.Name = "MainSheetMenu";
-			this.MainSheetMenu.Size = new System.Drawing.Size(197, 220);
+			this.MainSheetMenu.Size = new System.Drawing.Size(197, 198);
 			// 
 			// 選択解除ToolStripMenuItem
 			// 
@@ -354,17 +355,30 @@
 			this.秒間フレーム数を設定するToolStripMenuItem.Text = "秒間フレーム数を設定する";
 			this.秒間フレーム数を設定するToolStripMenuItem.Click += new System.EventHandler(this.秒間フレーム数を設定するToolStripMenuItem_Click);
 			// 
+			// North
+			// 
+			this.North.AutoSize = true;
+			this.North.BackColor = System.Drawing.Color.Yellow;
+			this.North.Font = new System.Drawing.Font("メイリオ", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.North.ForeColor = System.Drawing.Color.Red;
+			this.North.Location = new System.Drawing.Point(12, 27);
+			this.North.Name = "North";
+			this.North.Size = new System.Drawing.Size(115, 20);
+			this.North.TabIndex = 1;
+			this.North.Text = "準備しています...";
+			// 
 			// MainWin
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(774, 551);
+			this.Controls.Add(this.North);
 			this.Controls.Add(this.MainSheet);
-			this.Controls.Add(this.menuStrip1);
-			this.Controls.Add(this.statusStrip1);
+			this.Controls.Add(this.NorthBar);
+			this.Controls.Add(this.SouthBar);
 			this.Font = new System.Drawing.Font("メイリオ", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.MainMenuStrip = this.menuStrip1;
+			this.MainMenuStrip = this.NorthBar;
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.Name = "MainWin";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -373,10 +387,10 @@
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWin_FormClosed);
 			this.Load += new System.EventHandler(this.MainWin_Load);
 			this.Shown += new System.EventHandler(this.MainWin_Shown);
-			this.menuStrip1.ResumeLayout(false);
-			this.menuStrip1.PerformLayout();
-			this.statusStrip1.ResumeLayout(false);
-			this.statusStrip1.PerformLayout();
+			this.NorthBar.ResumeLayout(false);
+			this.NorthBar.PerformLayout();
+			this.SouthBar.ResumeLayout(false);
+			this.SouthBar.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.MainSheet)).EndInit();
 			this.MainSheetMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -387,8 +401,8 @@
 		#endregion
 
 		private System.Windows.Forms.Timer MainTimer;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.MenuStrip NorthBar;
+        private System.Windows.Forms.StatusStrip SouthBar;
         private System.Windows.Forms.DataGridView MainSheet;
 		private System.Windows.Forms.ToolStripMenuItem アプリToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 終了ToolStripMenuItem;
@@ -421,6 +435,7 @@
 		private System.Windows.Forms.ToolStripMenuItem SelectErrorRowMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem SelectSuccessfulRowMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 秒間フレーム数を設定するToolStripMenuItem;
+		private System.Windows.Forms.Label North;
 	}
 }
 
