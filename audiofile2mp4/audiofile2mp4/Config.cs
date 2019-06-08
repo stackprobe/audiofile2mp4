@@ -31,6 +31,7 @@ namespace Charlotte
 			this.AudioInfoMax = int.Parse(lines[c++]);
 			this.MessageDisplayTimerCountMax = int.Parse(lines[c++]);
 			this.JpegQuality = int.Parse(lines[c++]);
+			this.LogFileSizeMax = int.Parse(lines[c++]);
 
 			// ----
 
@@ -43,6 +44,7 @@ namespace Charlotte
 		public int AudioInfoMax = 30000;
 		public int MessageDisplayTimerCountMax = 50;
 		public int JpegQuality = 90;
+		public int LogFileSizeMax = 1000000;
 
 		// ----
 	}

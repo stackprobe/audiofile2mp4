@@ -21,7 +21,7 @@ namespace Charlotte
 		}
 
 		public string WorkDir = @"C:\temp\Converter_test_dir";
-		public string ffmpegBinDir = @"C:\app\ffmpeg-4.1.3-win64-shared\bin";
+		public string ffmpegDir = @"C:\app\ffmpeg-4.1.3-win64-shared";
 		public string ImgToolsFile = @"C:\app\Kit\ImgTools\ImgTools.exe";
 		public string BmpToCsvFile = @"C:\app\Kit\BmpToCsv\BmpToCsv.exe";
 		public string AudioFile =

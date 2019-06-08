@@ -15,6 +15,7 @@ namespace Charlotte
 	{
 		public string DirKindTitle;
 		public string Dir;
+		public bool Dir無かったら作成する = false;
 		public bool Dirじゃなくて読み込みファイル = false;
 		public string File_InitialFile = Consts.IMAGE_INITIAL_FILE;
 		public string File_Filter = Consts.IMAGE_FILTER;
@@ -96,14 +97,7 @@ namespace Charlotte
 
 				dir = FileTools.MakeFullPath(dir);
 
-				if (this.Dirじゃなくて読み込みファイル)
-				{
-					string file = dir;
-
-					if (File.Exists(file) == false)
-						throw new Exception("指定されたファイルは存在しません。");
-				}
-				else
+				if (this.Dir無かったら作成する)
 				{
 					if (Directory.Exists(dir) == false)
 					{
@@ -118,9 +112,19 @@ namespace Charlotte
 							return;
 
 						FileTools.CreateDir(dir);
-
-						//throw new Exception("指定されたフォルダは存在しません。"); // old
 					}
+				}
+				else if (this.Dirじゃなくて読み込みファイル)
+				{
+					string file = dir;
+
+					if (File.Exists(file) == false)
+						throw new Exception("指定されたファイルは存在しません。");
+				}
+				else
+				{
+					if (Directory.Exists(dir) == false)
+						throw new Exception("指定されたフォルダは存在しません。");
 				}
 
 				this.Dir = dir;

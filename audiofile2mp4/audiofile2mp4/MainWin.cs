@@ -47,9 +47,11 @@ namespace Charlotte
 		private void MainWin_Load(object sender, EventArgs e)
 		{
 			{
-				string logFile = Path.Combine(ProcMain.SelfDir, Path.GetFileNameWithoutExtension(ProcMain.SelfFile) + ".log");
+				string logFile = Path.Combine(ProcMain.SelfDir, Path.GetFileNameWithoutExtension(ProcMain.SelfFile)) + ".log";
+				string logFile0 = logFile + "0";
 
 				File.Delete(logFile);
+				File.Delete(logFile0);
 
 				ProcMain.WriteLog = message =>
 				{
@@ -57,6 +59,11 @@ namespace Charlotte
 					{
 						using (new MSection("{67bbcf7a-ebe2-42a9-aeb2-54ee4bb40c67}")) // 念の為ロック
 						{
+							if (File.Exists(logFile) && Ground.I.Config.LogFileSizeMax < new FileInfo(logFile).Length)
+							{
+								File.Delete(logFile0);
+								File.Move(logFile, logFile0);
+							}
 							using (StreamWriter writer = new StreamWriter(logFile, true, Encoding.UTF8))
 							{
 								writer.WriteLine("[" + DateTime.Now + "] " + message);
@@ -67,6 +74,8 @@ namespace Charlotte
 					{ }
 				};
 			}
+
+			ExtraTools.AntiWindowsDefenderSmartScreen();
 
 			Ground.I.LoadFromFile();
 
@@ -120,6 +129,9 @@ namespace Charlotte
 			// ----
 
 			Ground.I.SaveToFile();
+
+			Ground.I.WD.Dispose();
+			Ground.I.WD = null;
 		}
 
 		private void BeforeDialog()
@@ -178,7 +190,8 @@ namespace Charlotte
 
 		private int NorthMessageDisplayTimerCount = 0;
 		private int SouthMessageDisplayTimerCount = 0;
-		private MSMonitor MSMonitor = new MSMonitor();
+		private MSMonitor MSMonitor = null;
+		private string MSMonitorOutput = "準備しています...";
 		private int PatrolRowIndex = 0;
 
 		private void MSMonitorStart()
@@ -238,30 +251,18 @@ namespace Charlotte
 					}
 				}
 
-				if (Ground.I.SouthMessage != "")
-				{
-					this.South.Text = Ground.I.SouthMessage;
-					Ground.I.SouthMessage = "";
-					this.SouthMessageDisplayTimerCount = 0;
-				}
-				if (this.South.Text != "" && Ground.I.Config.MessageDisplayTimerCountMax < ++this.SouthMessageDisplayTimerCount)
-					this.South.Text = "";
-
-				if (Ground.I.SouthWestMessage != "")
-				{
-					if (this.SouthWest.Text != Ground.I.SouthWestMessage)
-						this.SouthWest.Text = Ground.I.SouthWestMessage;
-
-					Ground.I.SouthWestMessage = "";
-				}
-
+				if (this.MSMonitor != null && this.MSMonitor.IsFreeze())
 				{
 					MSMonitor mon = this.MSMonitor;
 
 					for (int c = 0; c < 300; c++) // XXX ループ回数
 					{
 						if (this.MainSheet.RowCount <= mon.RowIndex)
+						{
+							this.MSMonitorOutput = mon.GetOutput();
+							this.MSMonitor = null;
 							break;
+						}
 
 						{
 							AudioInfo info = this.MS_GetRow(mon.RowIndex);
@@ -280,16 +281,19 @@ namespace Charlotte
 
 						mon.RowIndex++;
 					}
+				}
 
-					if (this.MTCount % 5 == 0) // 頻度を下げる。
-					{
-						Ground.I.SouthWestMessage =
-							(Ground.I.ConverterEnabled ? "[処理中]" : "[待機中]")
-							+ " / " + this.MainSheet.RowCount + " 行 中 " + this.MainSheet.SelectedRows.Count + " 行 選択中 / 待機中 = " + mon.ReadyCount
-							+ " / 処理中 = " + mon.ProcessingCount
-							+ " / 失敗 = " + mon.ErrorCount
-							+ " / 成功 = " + mon.SuccessfulCount;
-					}
+				if (this.MTCount % 5 == 0) // 頻度を下げる。
+				{
+					Ground.I.SouthWestMessage = string.Format(
+						"{0} / {1} 行 中 {2} 行 選択中 / {3}",
+						Ground.I.ConverterEnabled ? this.PatrolRowIndex + " [処理中]" : "[待機中]",
+						this.MainSheet.RowCount,
+						this.MainSheet.SelectedRows.Count,
+						this.MSMonitorOutput
+						);
+
+					Ground.I.SouthWestColorActive = Ground.I.ConverterEnabled;
 				}
 
 				if (Ground.I.Converter.IsCompleted())
@@ -302,8 +306,10 @@ namespace Charlotte
 						throw null;
 
 					this.MS_SetRow(rowidx, info);
-					this.PatrolRowIndex = task.MS_RowIndex + 1;
+					this.PatrolRowIndex = rowidx + 1;
 					Ground.I.Converter.Reset();
+
+					this.MSMonitorStart();
 				}
 
 				if (1 <= this.MainSheet.RowCount)
@@ -324,14 +330,45 @@ namespace Charlotte
 							Ground.I.Converter.Start(new ConverterTask()
 							{
 								Info = info,
-								MS_RowIndex = this.PatrolRowIndex,
 							});
+
+							this.MSMonitorStart();
 						}
 					}
 
 					// ----
 
 					this.PatrolRowIndex++;
+				}
+
+				if (Ground.I.SouthMessage != "")
+				{
+					this.South.Text = Ground.I.SouthMessage;
+					Ground.I.SouthMessage = "";
+					this.SouthMessageDisplayTimerCount = 0;
+				}
+				if (this.South.Text != "" && Ground.I.Config.MessageDisplayTimerCountMax < ++this.SouthMessageDisplayTimerCount)
+					this.South.Text = "";
+
+				if (Ground.I.SouthWestMessage != "")
+				{
+					if (this.SouthWest.Text != Ground.I.SouthWestMessage)
+						this.SouthWest.Text = Ground.I.SouthWestMessage;
+
+					Ground.I.SouthWestMessage = "";
+				}
+
+				{
+					bool f = Ground.I.SouthWestColorActive && (this.MTCount / 15) % 2 == 0;
+
+					Color foreColor = f ? Color.White : Consts.LabelDefForeColor;
+					Color backColor = f ? Color.Blue : Consts.LabelDefBackColor;
+
+					if (this.SouthWest.ForeColor != foreColor)
+						this.SouthWest.ForeColor = foreColor;
+
+					if (this.SouthWest.BackColor != backColor)
+						this.SouthWest.BackColor = backColor;
 				}
 			}
 			catch (Exception ex)
@@ -496,6 +533,7 @@ namespace Charlotte
 			{
 				f.DirKindTitle = "出力先フォルダ";
 				f.Dir = Ground.I.OutputDir;
+				f.Dir無かったら作成する = true;
 
 				f.ShowDialog();
 

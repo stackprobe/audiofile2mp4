@@ -5,17 +5,20 @@ using System.Text;
 using System.Threading;
 using System.IO;
 using Charlotte.Tools;
+using System.Diagnostics;
 
 namespace Charlotte
 {
 	public class ConverterTask
 	{
 		public AudioInfo Info;
-		public int MS_RowIndex;
 
 		// <--- prm
 
-		private Thread Th = null; // 仮
+		private Process Proc = null;
+		private string WorkDir = null;
+		private string ErrorMessageFile = null;
+		private string LogFile = null;
 		private Exception Ex = null;
 
 		public void Start()
@@ -44,40 +47,66 @@ namespace Charlotte
 			if (File.Exists(this.Info.AudioFile) == false)
 				throw new Exception("音楽ファイルが見つかりません。");
 
-			if (File.Exists(this.Info.AudioFile) == false)
+			if (File.Exists(this.Info.ImageFile) == false)
 				throw new Exception("映像用の画像が見つかりません。");
 
 			if (File.Exists(this.Info.MovieFile) && Ground.I.AllowOverwrite)
 				throw new Exception("動画ファイル(出力先)は既に存在します。(上書きは許可されていません)");
+
+			if (Ground.I.FFmpegDir == "")
+				throw new Exception("ffmpegフォルダが設定されていません。");
+
+			if (Directory.Exists(Ground.I.FFmpegDir) == false)
+				throw new Exception("ffmpegフォルダが見つかりません。");
 
 			FileTools.CreateDir(Path.GetDirectoryName(this.Info.MovieFile));
 
 			File.WriteAllBytes(this.Info.MovieFile, BinTools.EMPTY); // 書き込みテスト
 			FileTools.Delete(this.Info.MovieFile);
 
+			this.WorkDir = Ground.I.WD.MakePath();
+			this.ErrorMessageFile = Ground.I.WD.MakePath();
+			this.LogFile = Ground.I.WD.MakePath();
 
-
-			// TODO
-
-
-
-			this.Th = new Thread(() =>
-			{
-				Thread.Sleep(5000); // ダミー処理
-
-				File.WriteAllText(this.Info.MovieFile, "1234", Encoding.UTF8); // ダミーデータ
-			});
+			this.Proc = ProcessTools.Start(
+				CommonUtils.GetConverterFile(),
+				string.Join(" ", new string[]
+				{
+					"/WD",
+					CommonUtils.Dq(this.WorkDir),
+					"/FFMD",
+					CommonUtils.Dq(Ground.I.FFmpegDir),
+					"/ITF",
+					CommonUtils.Dq(CommonUtils.GetImgToolsFile()),
+					"/BCF",
+					CommonUtils.Dq(CommonUtils.GetBmpToCsvFile()),
+					"/AF",
+					CommonUtils.Dq(this.Info.AudioFile),
+					"/IF",
+					CommonUtils.Dq(this.Info.ImageFile),
+					"/MF",
+					CommonUtils.Dq(this.Info.MovieFile),
+					"/FPS",
+					"" + this.Info.FPS,
+					"/JQ",
+					"" + Ground.I.Config.JpegQuality,
+					"/EMF",
+					CommonUtils.Dq(this.ErrorMessageFile),
+					"/LF",
+					CommonUtils.Dq(this.LogFile),
+				})
+				);
 		}
 
 		public bool IsCompleted()
 		{
-			if (this.Th != null && this.Th.IsAlive == false)
-				this.Th = null;
+			if (this.Proc != null && this.Proc.HasExited)
+				this.Proc = null;
 
-			if (this.Th == null)
+			if (this.Proc == null)
 				this.End();
 
-			return this.Th == null;
+			return this.Proc == null;
 		}
 
 		private bool Ended = false;
@@ -94,6 +123,30 @@ namespace Charlotte
 		private void EndMain()
 		{
 			Exception e = this.Ex;
+
+			if (e == null)
+			{
+				try
+				{
+					ProcMain.WriteLog("コンバータのログ ----> " + File.ReadAllText(this.LogFile, Encoding.UTF8) + " <---- ここまで");
+
+					if (File.Exists(this.ErrorMessageFile))
+						throw new Exception(File.ReadAllText(this.ErrorMessageFile, Encoding.UTF8).Trim());
+				}
+				catch (Exception ex)
+				{
+					e = ex;
+				}
+			}
+
+			try { FileTools.Delete(this.WorkDir); }
+			catch { }
+
+			try { FileTools.Delete(this.ErrorMessageFile); }
+			catch { }
+
+			try { FileTools.Delete(this.LogFile); }
+			catch { }
 
 			if (e == null)
 			{

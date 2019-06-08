@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Consts.cs" />
     <Compile Include="Converter.cs" />
+    <Compile Include="ffmpegUtils.cs" />
     <Compile Include="Ground.cs" />
     <Compile Include="MediaInfo.cs" />
     <Compile Include="Program.cs" />

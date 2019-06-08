@@ -27,7 +27,7 @@ namespace Charlotte
 
 		private Ground()
 		{
-			this.SaveFile = Path.Combine(ProcMain.SelfDir, Path.GetFileNameWithoutExtension(ProcMain.SelfFile) + ".dat");
+			this.SaveFile = Path.Combine(ProcMain.SelfDir, Path.GetFileNameWithoutExtension(ProcMain.SelfFile)) + ".dat";
 		}
 
 		public void LoadFromFile()
@@ -121,11 +121,13 @@ namespace Charlotte
 		public AudioExtensions AudioExtensions = new AudioExtensions();
 		public ImageExtensions ImageExtensions = new ImageExtensions();
 		public Converter Converter = new Converter();
+		public WorkingDir WD = new WorkingDir();
 
 		public bool NorthStickRight = false;
 		public string NorthMessage = ""; // "" == メッセージの通知なし
 		public string SouthMessage = ""; // "" == メッセージの通知なし
 		public string SouthWestMessage = ""; // "" == メッセージの通知なし
+		public bool SouthWestColorActive = false;
 		public bool ConverterEnabled = false;
 	}
 }

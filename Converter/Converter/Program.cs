@@ -25,16 +25,16 @@ namespace Charlotte
 
 		private void Main2(ArgsReader ar)
 		{
-			do
+			while (true)
 			{
 				if (ar.ArgIs("/WD"))
 				{
 					Ground.I.WorkDir = ar.NextArg();
 					continue;
 				}
-				if (ar.ArgIs("/BD"))
+				if (ar.ArgIs("/FFMD"))
 				{
-					Ground.I.ffmpegBinDir = ar.NextArg();
+					Ground.I.ffmpegDir = ar.NextArg();
 					continue;
 				}
 				if (ar.ArgIs("/ITF"))
@@ -82,9 +82,8 @@ namespace Charlotte
 					Ground.I.LogFile = ar.NextArg();
 					continue;
 				}
+				break;
 			}
-			while (false);
-
 			if (ar.HasArgs())
 				throw new Exception("不明なコマンド引数");
 
@@ -120,7 +119,7 @@ namespace Charlotte
 			{
 				ProcMain.WriteLog(e);
 
-				File.WriteAllText(Ground.I.ErrorMessageFile, e.Message);
+				File.WriteAllText(Ground.I.ErrorMessageFile, e.Message, Encoding.UTF8);
 			}
 		}
 	}

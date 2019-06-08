@@ -26,7 +26,7 @@ namespace Charlotte
 			if (IsFairExt(imageExt) == false)
 				throw new Exception("画像ファイルの拡張子に問題があります。");
 
-			foreach (string file in Directory.GetFiles(Ground.I.ffmpegBinDir))
+			foreach (string file in Directory.GetFiles(ffmpegUtils.GetBinDir(Ground.I.ffmpegDir)))
 				File.Copy(file, Path.Combine(Ground.I.WorkDir, "bin", Path.GetFileName(file)));
 
 			File.Copy(Ground.I.ImgToolsFile, Path.Combine(Ground.I.WorkDir, "ImgTools.exe"));
