@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonUtils.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="ffmpegUtils.cs" />

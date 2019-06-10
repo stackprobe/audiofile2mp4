@@ -359,7 +359,7 @@ namespace Charlotte
 				}
 
 				{
-					bool f = Ground.I.SouthWestColorActive && (this.MTCount / 15) % 2 == 0;
+					bool f = Ground.I.SouthWestColorActive && (this.MTCount / 10) % 2 == 0;
 
 					Color foreColor = f ? Color.White : Consts.LabelDefForeColor;
 					Color backColor = f ? Color.Blue : Consts.LabelDefBackColor;

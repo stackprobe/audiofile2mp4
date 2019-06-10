@@ -44,6 +44,7 @@ namespace Charlotte
 
 				this.FFmpegDir = lines[c++];
 				this.OutputDir = lines[c++];
+				this.DefaultImageFile = lines[c++];
 				this.MainWin_Maximized = lines[c++] == Consts.S_TRUE;
 				this.MainWin_L = int.Parse(lines[c++]);
 				this.MainWin_T = int.Parse(lines[c++]);
@@ -78,6 +79,7 @@ namespace Charlotte
 
 				lines.Add(this.FFmpegDir);
 				lines.Add(this.OutputDir);
+				lines.Add(this.DefaultImageFile);
 				lines.Add(this.MainWin_Maximized ? Consts.S_TRUE : Consts.S_FALSE);
 				lines.Add("" + this.MainWin_L);
 				lines.Add("" + this.MainWin_T);

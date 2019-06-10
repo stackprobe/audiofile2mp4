@@ -29,37 +29,37 @@ namespace Charlotte
 			{
 				if (ar.ArgIs("/WD"))
 				{
-					Ground.I.WorkDir = ar.NextArg();
+					Ground.I.WorkDir = CommonUtils.Decode(ar.NextArg());
 					continue;
 				}
 				if (ar.ArgIs("/FFMD"))
 				{
-					Ground.I.ffmpegDir = ar.NextArg();
+					Ground.I.ffmpegDir = CommonUtils.Decode(ar.NextArg());
 					continue;
 				}
 				if (ar.ArgIs("/ITF"))
 				{
-					Ground.I.ImgToolsFile = ar.NextArg();
+					Ground.I.ImgToolsFile = CommonUtils.Decode(ar.NextArg());
 					continue;
 				}
 				if (ar.ArgIs("/BCF"))
 				{
-					Ground.I.BmpToCsvFile = ar.NextArg();
+					Ground.I.BmpToCsvFile = CommonUtils.Decode(ar.NextArg());
 					continue;
 				}
 				if (ar.ArgIs("/AF"))
 				{
-					Ground.I.AudioFile = ar.NextArg();
+					Ground.I.AudioFile = CommonUtils.Decode(ar.NextArg());
 					continue;
 				}
 				if (ar.ArgIs("/IF"))
 				{
-					Ground.I.ImageFile = ar.NextArg();
+					Ground.I.ImageFile = CommonUtils.Decode(ar.NextArg());
 					continue;
 				}
 				if (ar.ArgIs("/MF"))
 				{
-					Ground.I.MovieFile = ar.NextArg();
+					Ground.I.MovieFile = CommonUtils.Decode(ar.NextArg());
 					continue;
 				}
 				if (ar.ArgIs("/FPS"))
@@ -74,12 +74,12 @@ namespace Charlotte
 				}
 				if (ar.ArgIs("/EMF"))
 				{
-					Ground.I.ErrorMessageFile = ar.NextArg();
+					Ground.I.ErrorMessageFile = CommonUtils.Decode(ar.NextArg());
 					continue;
 				}
 				if (ar.ArgIs("/LF"))
 				{
-					Ground.I.LogFile = ar.NextArg();
+					Ground.I.LogFile = CommonUtils.Decode(ar.NextArg());
 					continue;
 				}
 				break;

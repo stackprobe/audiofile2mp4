@@ -1,2 +1,6 @@
+aac
+aif
 mp3
+mp4
 wav
+wma

@@ -50,7 +50,7 @@ namespace Charlotte
 			if (File.Exists(this.Info.ImageFile) == false)
 				throw new Exception("映像用の画像が見つかりません。");
 
-			if (File.Exists(this.Info.MovieFile) && Ground.I.AllowOverwrite)
+			if (File.Exists(this.Info.MovieFile) && Ground.I.AllowOverwrite == false)
 				throw new Exception("動画ファイル(出力先)は既に存在します。(上書きは許可されていません)");
 
 			if (Ground.I.FFmpegDir == "")
@@ -59,41 +59,43 @@ namespace Charlotte
 			if (Directory.Exists(Ground.I.FFmpegDir) == false)
 				throw new Exception("ffmpegフォルダが見つかりません。");
 
+			this.WorkDir = Ground.I.WD.MakePath();
+			this.ErrorMessageFile = Ground.I.WD.MakePath();
+			this.LogFile = Ground.I.WD.MakePath();
+
+			//FileTools.CreateDir(this.WorkDir); // 作成不要
+
 			FileTools.CreateDir(Path.GetDirectoryName(this.Info.MovieFile));
 
 			File.WriteAllBytes(this.Info.MovieFile, BinTools.EMPTY); // 書き込みテスト
 			FileTools.Delete(this.Info.MovieFile);
-
-			this.WorkDir = Ground.I.WD.MakePath();
-			this.ErrorMessageFile = Ground.I.WD.MakePath();
-			this.LogFile = Ground.I.WD.MakePath();
 
 			this.Proc = ProcessTools.Start(
 				CommonUtils.GetConverterFile(),
 				string.Join(" ", new string[]
 				{
 					"/WD",
-					CommonUtils.Dq(this.WorkDir),
+					CommonUtils.Encode(this.WorkDir),
 					"/FFMD",
-					CommonUtils.Dq(Ground.I.FFmpegDir),
+					CommonUtils.Encode(Ground.I.FFmpegDir),
 					"/ITF",
-					CommonUtils.Dq(CommonUtils.GetImgToolsFile()),
+					CommonUtils.Encode(CommonUtils.GetImgToolsFile()),
 					"/BCF",
-					CommonUtils.Dq(CommonUtils.GetBmpToCsvFile()),
+					CommonUtils.Encode(CommonUtils.GetBmpToCsvFile()),
 					"/AF",
-					CommonUtils.Dq(this.Info.AudioFile),
+					CommonUtils.Encode(this.Info.AudioFile),
 					"/IF",
-					CommonUtils.Dq(this.Info.ImageFile),
+					CommonUtils.Encode(this.Info.ImageFile),
 					"/MF",
-					CommonUtils.Dq(this.Info.MovieFile),
+					CommonUtils.Encode(this.Info.MovieFile),
 					"/FPS",
 					"" + this.Info.FPS,
 					"/JQ",
 					"" + Ground.I.Config.JpegQuality,
 					"/EMF",
-					CommonUtils.Dq(this.ErrorMessageFile),
+					CommonUtils.Encode(this.ErrorMessageFile),
 					"/LF",
-					CommonUtils.Dq(this.LogFile),
+					CommonUtils.Encode(this.LogFile),
 				})
 				);
 		}

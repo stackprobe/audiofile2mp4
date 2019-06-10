@@ -51,9 +51,9 @@ namespace Charlotte
 			return file;
 		}
 
-		public static string Dq(string str)
+		public static string Encode(string str)
 		{
-			return string.Format("\"{0}\"", JString.AsLine(str));
+			return new Base64Unit().Encode(Encoding.UTF8.GetBytes(str));
 		}
 	}
 }

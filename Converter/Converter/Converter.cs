@@ -26,6 +26,9 @@ namespace Charlotte
 			if (IsFairExt(imageExt) == false)
 				throw new Exception("画像ファイルの拡張子に問題があります。");
 
+			audioExt = audioExt.ToLower();
+			imageExt = imageExt.ToLower();
+
 			foreach (string file in Directory.GetFiles(ffmpegUtils.GetBinDir(Ground.I.ffmpegDir)))
 				File.Copy(file, Path.Combine(Ground.I.WorkDir, "bin", Path.GetFileName(file)));
 
@@ -44,6 +47,11 @@ namespace Charlotte
 				MediaInfo mi = new MediaInfo();
 				mi.SetOutputFile("stderr.tmp");
 
+				ProcMain.WriteLog("TotalTimeCentisecond: " + mi.TotalTimeCentisecond);
+				ProcMain.WriteLog("AudioStreamCount: " + mi.AudioStreamCount);
+				ProcMain.WriteLog("VideoStreamCount: " + mi.VideoStreamCount);
+				ProcMain.WriteLog("AudioStreamIndex: " + mi.AudioStreamIndex);
+
 				if (mi.TotalTimeCentisecond == -1L)
 					throw new Exception("再生時間を取得できませんでした。");
 
@@ -56,7 +64,12 @@ namespace Charlotte
 					throw new Exception("音楽ストリームがありません。");
 
 				if (mi.VideoStreamCount != 0)
-					throw new Exception("動画ファイルです。");
+				{
+					//throw new Exception("動画ファイルです。"); // mjepgかもしれない！
+					ProcMain.WriteLog("動画ファイルかもしれませんが続行します。");
+				}
+				if (mi.AudioStreamCount == -1)
+					throw new Exception("音楽ストリームを取得できませんでした。");
 
 				ConvImageJpeg("image" + imageExt, "image2.jpg", "image_mid_");
 
@@ -72,7 +85,7 @@ namespace Charlotte
 				if (File.Exists("video.mp4") == false)
 					throw new Exception("映像ファイルの生成に失敗しました。");
 
-				Run("bin\\ffmpeg.exe -i video.mp4 -i audio" + audioExt + " movie.mp4");
+				Run("bin\\ffmpeg.exe -i video.mp4 -i audio" + audioExt + " -map 0:0 -map 1:" + mi.AudioStreamIndex + " -vcodec copy -codec:a copy movie.mp4");
 
 				if (File.Exists("movie.mp4") == false)
 					throw new Exception("動画ファイルの生成に失敗しました。");
@@ -92,7 +105,7 @@ namespace Charlotte
 
 		private static bool IsFairExt(string ext)
 		{
-			return ext != "" && ext[0] == '.' && StringTools.LiteValidate(ext.Substring(1), StringTools.DECIMAL + StringTools.ALPHA + StringTools.alpha + "_");
+			return ext != "" && ext[0] == '.' && StringTools.LiteValidate(ext.Substring(1), StringTools.DECIMAL + StringTools.ALPHA + StringTools.alpha);
 		}
 
 		private static void ConvImageJpeg(string rFile, string wFile, string midPathBase)
@@ -155,12 +168,12 @@ namespace Charlotte
 			Run("ImgTools.exe /rf " + midPathBase + "1.bmp /wf " + midPathBase + "2.png /e " + ww + " " + hh);
 
 			if (File.Exists(midPathBase + "2.png") == false)
-				throw new Exception("画像処理エラー1");
+				throw new Exception("画像処理エラー(ImgTools)");
 
 			Run("BmpToCsv.exe /J " + Ground.I.JpegQuality + " " + midPathBase + "2.png " + midPathBase + "3.jpg");
 
 			if (File.Exists(midPathBase + "3.jpg") == false)
-				throw new Exception("画像処理エラー2");
+				throw new Exception("画像処理エラー(BmpToCsv)");
 
 			File.Move(midPathBase + "3.jpg", wFile);
 		}

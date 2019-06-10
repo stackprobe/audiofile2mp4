@@ -12,6 +12,7 @@ namespace Charlotte
 		public long TotalTimeCentisecond = -1L;
 		public int AudioStreamCount = 0;
 		public int VideoStreamCount = 0;
+		public int AudioStreamIndex = -1;
 
 		public void SetOutputFile(string file)
 		{
@@ -45,6 +46,15 @@ namespace Charlotte
 					if (line.Contains("Audio:"))
 					{
 						this.AudioStreamCount++;
+
+						{
+							string[] tokens = StringTools.Tokenize(line, StringTools.DECIMAL, true, true);
+
+							if (tokens.Length < 2)
+								throw new Exception("音楽ストリーム取得エラー");
+
+							this.AudioStreamIndex = int.Parse(tokens[1]);
+						}
 					}
 					else if (line.Contains("Video:"))
 					{
