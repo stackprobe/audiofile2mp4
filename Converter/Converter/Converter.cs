@@ -90,6 +90,22 @@ namespace Charlotte
 				if (File.Exists("movie.mp4") == false)
 					throw new Exception("動画ファイルの生成に失敗しました。");
 
+				{
+					long audioFileSize = new FileInfo("audio" + audioExt).Length;
+					long imageFileSize = new FileInfo("image" + imageExt).Length;
+					long image2FileSize = new FileInfo("image2.jpg").Length;
+					long movieFileSize = new FileInfo("movie.mp4").Length;
+
+					ProcMain.WriteLog("audio file size   : " + audioFileSize);
+					ProcMain.WriteLog("image file A size : " + imageFileSize);
+					ProcMain.WriteLog("image file B size : " + image2FileSize);
+					ProcMain.WriteLog("movie file size   : " + movieFileSize);
+
+					ProcMain.WriteLog("file size rate    : " + (movieFileSize * 1.0 / audioFileSize));
+					ProcMain.WriteLog("file size rate +A : " + (movieFileSize * 1.0 / (audioFileSize + imageFileSize)));
+					ProcMain.WriteLog("file size rate +B : " + (movieFileSize * 1.0 / (audioFileSize + image2FileSize)));
+				}
+
 				File.Move("movie.mp4", Ground.I.MovieFile);
 			}
 			finally

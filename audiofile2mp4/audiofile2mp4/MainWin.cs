@@ -188,8 +188,9 @@ namespace Charlotte
 		private bool MTBusy;
 		private long MTCount;
 
-		private int NorthMessageDisplayTimerCount = 0;
-		private int SouthMessageDisplayTimerCount = 0;
+		private string NextNorthMessage = null; // null == 操作無し
+		private int NorthMessageDisplayTimerCountDown = 0;
+		private int SouthMessageDisplayTimerCountDown = 0;
 		private MSMonitor MSMonitor = null;
 		private string MSMonitorOutput = "準備しています...";
 		private int PatrolRowIndex = 0;
@@ -218,38 +219,39 @@ namespace Charlotte
 					return;
 				}
 
+				// North >
+
+				if (Ground.I.NorthMessage != "")
 				{
-					string message = null; // null == 操作無し
-
-					if (Ground.I.NorthMessage != "")
-					{
-						message = Ground.I.NorthMessage;
-						Ground.I.NorthMessage = "";
-						this.NorthMessageDisplayTimerCount = 0;
-					}
-					if (this.North.Text != "" && Ground.I.Config.MessageDisplayTimerCountMax < ++this.NorthMessageDisplayTimerCount)
-						message = "";
-
-					if (message != null)
-					{
-						this.North.Text = message;
-
-						if (message == "")
-						{
-							this.MainSheet.Top = this.North.Top;
-						}
-						else
-						{
-							this.MainSheet.Top = this.North.Top + this.North.Height + 2;
-
-							if (Ground.I.NorthStickRight)
-								this.North.Left = this.MainSheet.Left + this.MainSheet.Width - this.North.Width;
-							else
-								this.North.Left = this.MainSheet.Left;
-						}
-						this.MainSheet.Height = this.SouthBar.Top - this.MainSheet.Top - 3;
-					}
+					this.NextNorthMessage = Ground.I.NorthMessage;
+					Ground.I.NorthMessage = "";
+					this.NorthMessageDisplayTimerCountDown = Ground.I.Config.MessageDisplayTimerCountMax;
 				}
+				if (1 <= this.NorthMessageDisplayTimerCountDown && --this.NorthMessageDisplayTimerCountDown == 0)
+					this.NextNorthMessage = "";
+
+				if (this.NextNorthMessage != null && this.WindowState != FormWindowState.Minimized) // 最小化時にコントロールを移動・リサイズすると変になるので、
+				{
+					this.North.Text = this.NextNorthMessage;
+					this.NextNorthMessage = null;
+
+					if (this.North.Text == "")
+					{
+						this.MainSheet.Top = this.North.Top;
+					}
+					else
+					{
+						this.MainSheet.Top = this.North.Top + this.North.Height + 2;
+
+						if (Ground.I.NorthStickRight)
+							this.North.Left = this.MainSheet.Left + this.MainSheet.Width - this.North.Width;
+						else
+							this.North.Left = this.MainSheet.Left;
+					}
+					this.MainSheet.Height = this.SouthBar.Top - this.MainSheet.Top - 3;
+				}
+
+				// < North
 
 				if (this.MSMonitor != null && this.MSMonitor.IsFreeze())
 				{
@@ -345,9 +347,9 @@ namespace Charlotte
 				{
 					this.South.Text = Ground.I.SouthMessage;
 					Ground.I.SouthMessage = "";
-					this.SouthMessageDisplayTimerCount = 0;
+					this.SouthMessageDisplayTimerCountDown = Ground.I.Config.MessageDisplayTimerCountMax;
 				}
-				if (this.South.Text != "" && Ground.I.Config.MessageDisplayTimerCountMax < ++this.SouthMessageDisplayTimerCount)
+				if (1 <= this.SouthMessageDisplayTimerCountDown && --this.SouthMessageDisplayTimerCountDown == 0)
 					this.South.Text = "";
 
 				if (Ground.I.SouthWestMessage != "")
