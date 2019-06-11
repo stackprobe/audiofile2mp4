@@ -657,9 +657,14 @@ namespace Charlotte
 				}
 				else
 				{
+					this.MainSheet.ClearSelection();
+
 					for (int index = 0; index < this.AddedInfos.Count; index++)
 					{
-						this.MS_SetRow(this.MainSheet.RowCount - this.AddedInfos.Count + index, this.AddedInfos[index]);
+						int rowidx = this.MainSheet.RowCount - this.AddedInfos.Count + index;
+
+						this.MS_SetRow(rowidx, this.AddedInfos[index]);
+						this.MainSheet.Rows[rowidx].Selected = true;
 					}
 				}
 				this.AddedInfos = null; // clear
