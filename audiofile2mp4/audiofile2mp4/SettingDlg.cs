@@ -38,6 +38,7 @@ namespace Charlotte
 			this.DefaultFPS.Value = Ground.I.DefaultFPS;
 			this.AllowOverwrite.Checked = Ground.I.AllowOverwrite;
 			this.同じ音楽ファイルを追加させない.Checked = Ground.I.同じ音楽ファイルを追加させない;
+			this.XPressAndStopConverter.Checked = Ground.I.XPressAndStopConverter;
 		}
 
 		private void SaveSetting()
@@ -61,6 +62,7 @@ namespace Charlotte
 			Ground.I.DefaultFPS = (int)this.DefaultFPS.Value;
 			Ground.I.AllowOverwrite = this.AllowOverwrite.Checked;
 			Ground.I.同じ音楽ファイルを追加させない = this.同じ音楽ファイルを追加させない.Checked;
+			Ground.I.XPressAndStopConverter = this.XPressAndStopConverter.Checked;
 		}
 
 		private void BtnCancel_Click(object sender, EventArgs e)

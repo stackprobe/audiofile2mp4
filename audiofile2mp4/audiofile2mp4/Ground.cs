@@ -56,6 +56,7 @@ namespace Charlotte
 				this.DefaultFPS = int.Parse(lines[c++]);
 				this.AllowOverwrite = lines[c++] == Consts.S_TRUE;
 				this.同じ音楽ファイルを追加させない = lines[c++] == Consts.S_TRUE;
+				this.XPressAndStopConverter = lines[c++] == Consts.S_TRUE;
 
 				// ----
 
@@ -91,6 +92,7 @@ namespace Charlotte
 				lines.Add("" + this.DefaultFPS);
 				lines.Add(this.AllowOverwrite ? Consts.S_TRUE : Consts.S_FALSE);
 				lines.Add(this.同じ音楽ファイルを追加させない ? Consts.S_TRUE : Consts.S_FALSE);
+				lines.Add(this.XPressAndStopConverter ? Consts.S_TRUE : Consts.S_FALSE);
 
 				// ----
 
@@ -116,6 +118,7 @@ namespace Charlotte
 		public int DefaultFPS = Consts.FPS_DEF;
 		public bool AllowOverwrite = false;
 		public bool 同じ音楽ファイルを追加させない = true;
+		public bool XPressAndStopConverter = false;
 
 		// ----
 
@@ -129,7 +132,6 @@ namespace Charlotte
 		public string NorthMessage = ""; // "" == メッセージの通知なし
 		public string SouthMessage = ""; // "" == メッセージの通知なし
 		public string SouthWestMessage = ""; // "" == メッセージの通知なし
-		public bool SouthWestColorActive = false;
-		public bool ConverterEnabled = false;
+		public bool ConverterActive = false;
 	}
 }

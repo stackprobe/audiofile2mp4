@@ -28,5 +28,20 @@ namespace Charlotte
 				" / 失敗 = " + this.ErrorCount +
 				" / 成功 = " + this.SuccessfulCount;
 		}
+
+		public enum Status_e
+		{
+			完了,
+			完了エラーあり,
+			処理中,
+			処理中エラーあり,
+		}
+
+		public Status_e GetStatus()
+		{
+			return (Status_e)
+				(this.ReadyCount + this.ProcessingCount == 0 ? 0 : 2) +
+				(this.ErrorCount == 0 ? 0 : 1);
+		}
 	}
 }

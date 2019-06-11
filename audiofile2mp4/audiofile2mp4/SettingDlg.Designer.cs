@@ -41,6 +41,7 @@
 			this.AllowOverwrite = new System.Windows.Forms.CheckBox();
 			this.同じ音楽ファイルを追加させない = new System.Windows.Forms.CheckBox();
 			this.DefaultFPS = new System.Windows.Forms.NumericUpDown();
+			this.XPressAndStopConverter = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ErrorProv)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.DefaultFPS)).BeginInit();
@@ -49,10 +50,10 @@
 			// BtnOk
 			// 
 			this.BtnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.BtnOk.Location = new System.Drawing.Point(151, 279);
+			this.BtnOk.Location = new System.Drawing.Point(151, 314);
 			this.BtnOk.Name = "BtnOk";
 			this.BtnOk.Size = new System.Drawing.Size(100, 50);
-			this.BtnOk.TabIndex = 5;
+			this.BtnOk.TabIndex = 6;
 			this.BtnOk.Text = "OK";
 			this.BtnOk.UseVisualStyleBackColor = true;
 			this.BtnOk.Click += new System.EventHandler(this.BtnOk_Click);
@@ -60,10 +61,10 @@
 			// BtnCancel
 			// 
 			this.BtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.BtnCancel.Location = new System.Drawing.Point(257, 279);
+			this.BtnCancel.Location = new System.Drawing.Point(257, 314);
 			this.BtnCancel.Name = "BtnCancel";
 			this.BtnCancel.Size = new System.Drawing.Size(100, 50);
-			this.BtnCancel.TabIndex = 6;
+			this.BtnCancel.TabIndex = 7;
 			this.BtnCancel.Text = "キャンセル";
 			this.BtnCancel.UseVisualStyleBackColor = true;
 			this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
@@ -168,11 +169,22 @@
             0,
             0});
 			// 
+			// XPressAndStopConverter
+			// 
+			this.XPressAndStopConverter.AutoSize = true;
+			this.XPressAndStopConverter.Location = new System.Drawing.Point(18, 260);
+			this.XPressAndStopConverter.Name = "XPressAndStopConverter";
+			this.XPressAndStopConverter.Size = new System.Drawing.Size(258, 24);
+			this.XPressAndStopConverter.TabIndex = 5;
+			this.XPressAndStopConverter.Text = "[×]ボタン押下でコンバータを停止する";
+			this.XPressAndStopConverter.UseVisualStyleBackColor = true;
+			// 
 			// SettingDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(369, 341);
+			this.ClientSize = new System.Drawing.Size(369, 376);
+			this.Controls.Add(this.XPressAndStopConverter);
 			this.Controls.Add(this.DefaultFPS);
 			this.Controls.Add(this.同じ音楽ファイルを追加させない);
 			this.Controls.Add(this.AllowOverwrite);
@@ -214,5 +226,6 @@
 		private System.Windows.Forms.CheckBox AllowOverwrite;
 		private System.Windows.Forms.CheckBox 同じ音楽ファイルを追加させない;
 		private System.Windows.Forms.NumericUpDown DefaultFPS;
+		private System.Windows.Forms.CheckBox XPressAndStopConverter;
 	}
 }

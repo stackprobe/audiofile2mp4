@@ -109,12 +109,12 @@ namespace Charlotte
 
 		private void RefreshUI()
 		{
-			this.Converter開始MenuItem.Checked = Ground.I.ConverterEnabled;
-			this.Converter停止MenuItem.Checked = Ground.I.ConverterEnabled == false;
+			this.Converter開始MenuItem.Checked = Ground.I.ConverterActive;
+			this.Converter停止MenuItem.Checked = Ground.I.ConverterActive == false;
 
 			this.MS_Refresh();
 
-			this.MSMonitorStart();
+			this.StartMSMonitor();
 		}
 
 		private void MainWin_FormClosing(object sender, FormClosingEventArgs e)
@@ -148,18 +148,26 @@ namespace Charlotte
 		{
 			// ---- 9001
 
-			if (Ground.I.ConverterEnabled)
+			if (Ground.I.ConverterActive)
 			{
-				Ground.I.NorthStickRight = this.XPressed;
-				Ground.I.NorthMessage = "アプリケーションを終了するにはコンバータを停止して下さい。";
-				//Ground.I.SouthMessage = "アプリケーションを終了するにはコンバータを停止して下さい。"; // old
+				if (Ground.I.XPressAndStopConverter)
+				{
+					Ground.I.ConverterActive = false;
+
+					Ground.I.NorthStickRight = this.XPressed;
+					Ground.I.NorthMessage = "コンバータを停止しました。";
+				}
+				else
+				{
+					Ground.I.NorthStickRight = this.XPressed;
+					Ground.I.NorthMessage = "アプリケーションを終了するにはコンバータを停止して下さい。";
+				}
 				return;
 			}
 			if (Ground.I.Converter.IsReady() == false)
 			{
 				Ground.I.NorthStickRight = this.XPressed;
 				Ground.I.NorthMessage = "アプリケーションを終了するにはコンバータが停止するまでお待ちください。";
-				//Ground.I.SouthMessage = "アプリケーションを終了するにはコンバータが停止するまでお待ちください。"; // old
 				return;
 			}
 
@@ -193,9 +201,10 @@ namespace Charlotte
 		private int SouthMessageDisplayTimerCountDown = 0;
 		private MSMonitor MSMonitor = null;
 		private string MSMonitorOutput = "準備しています...";
+		private MSMonitor.Status_e MSMonitorStatus = MSMonitor.Status_e.処理中;
 		private int PatrolRowIndex = 0;
 
-		private void MSMonitorStart()
+		private void StartMSMonitor()
 		{
 			this.MSMonitor = new MSMonitor();
 		}
@@ -262,6 +271,7 @@ namespace Charlotte
 						if (this.MainSheet.RowCount <= mon.RowIndex)
 						{
 							this.MSMonitorOutput = mon.GetOutput();
+							this.MSMonitorStatus = mon.GetStatus();
 							this.MSMonitor = null;
 							break;
 						}
@@ -289,13 +299,11 @@ namespace Charlotte
 				{
 					Ground.I.SouthWestMessage = string.Format(
 						"{0} / {1} 行 中 {2} 行 選択中 / {3}",
-						Ground.I.ConverterEnabled ? this.PatrolRowIndex + " [処理中]" : "[待機中]",
+						Ground.I.ConverterActive ? this.PatrolRowIndex + " [コンバータ実行中]" : "[コンバータ停止]",
 						this.MainSheet.RowCount,
 						this.MainSheet.SelectedRows.Count,
 						this.MSMonitorOutput
 						);
-
-					Ground.I.SouthWestColorActive = Ground.I.ConverterEnabled;
 				}
 
 				if (Ground.I.Converter.IsCompleted())
@@ -311,7 +319,7 @@ namespace Charlotte
 					this.PatrolRowIndex = rowidx + 1;
 					Ground.I.Converter.Reset();
 
-					this.MSMonitorStart();
+					this.StartMSMonitor();
 				}
 
 				if (1 <= this.MainSheet.RowCount)
@@ -321,7 +329,7 @@ namespace Charlotte
 
 					// ---- Patrol ----
 
-					if (Ground.I.ConverterEnabled && Ground.I.Converter.IsReady())
+					if (Ground.I.ConverterActive && Ground.I.Converter.IsReady())
 					{
 						AudioInfo info = this.MS_GetRow(this.PatrolRowIndex);
 
@@ -334,7 +342,7 @@ namespace Charlotte
 								Info = info,
 							});
 
-							this.MSMonitorStart();
+							this.StartMSMonitor();
 						}
 					}
 
@@ -361,11 +369,43 @@ namespace Charlotte
 				}
 
 				{
-					bool f = Ground.I.SouthWestColorActive && (this.MTCount / 10) % 2 == 0;
+					Color foreColor = Consts.LabelDefForeColor;
+					Color backColor = Consts.LabelDefBackColor;
 
-					Color foreColor = f ? Color.White : Consts.LabelDefForeColor;
-					Color backColor = f ? Color.Blue : Consts.LabelDefBackColor;
+					if (Ground.I.ConverterActive)
+					{
+						bool blink = (this.MTCount / 10) % 2 == 0;
 
+						switch (this.MSMonitorStatus)
+						{
+							case MSMonitor.Status_e.完了:
+								backColor = Color.Cyan;
+								break;
+
+							case MSMonitor.Status_e.完了エラーあり:
+								backColor = Color.Orange;
+								break;
+
+							case MSMonitor.Status_e.処理中:
+								if (blink)
+								{
+									foreColor = Color.White;
+									backColor = Color.Blue;
+								}
+								break;
+
+							case MSMonitor.Status_e.処理中エラーあり:
+								if (blink)
+								{
+									foreColor = Color.White;
+									backColor = Color.OrangeRed;
+								}
+								break;
+
+							default:
+								throw null; // never
+						}
+					}
 					if (this.SouthWest.ForeColor != foreColor)
 						this.SouthWest.ForeColor = foreColor;
 
@@ -632,7 +672,7 @@ namespace Charlotte
 				MessageBox.Show(ex.Message, "ファイル又はフォルダの追加に失敗しました", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 
-			this.MSMonitorStart();
+			this.StartMSMonitor();
 			this.AfterDialog();
 		}
 
@@ -782,7 +822,8 @@ namespace Charlotte
 
 		private void 開始ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Ground.I.ConverterEnabled = true;
+			this.MainSheet.ClearSelection();
+			Ground.I.ConverterActive = true;
 			Ground.I.SouthMessage = "コンバーターを起動しました。";
 			this.PatrolRowIndex = 0;
 			this.RefreshUI();
@@ -790,14 +831,16 @@ namespace Charlotte
 
 		private void 停止ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Ground.I.ConverterEnabled = false;
+			this.MainSheet.ClearSelection();
+			Ground.I.ConverterActive = false;
 			Ground.I.SouthMessage = "コンバーターの停止をリクエストしました。停止するまで時間が掛かる場合があります。";
 			this.RefreshUI();
 		}
 
 		private void エラーを解除するToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Ground.I.ConverterEnabled = false;
+			this.MainSheet.ClearSelection();
+			Ground.I.ConverterActive = false;
 			Ground.I.SouthMessage = "エラーを解除しました。";
 			this.ClearErrorAllRow();
 			this.RefreshUI();
@@ -805,7 +848,8 @@ namespace Charlotte
 
 		private void エラーを解除して再開するToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Ground.I.ConverterEnabled = true;
+			this.MainSheet.ClearSelection();
+			Ground.I.ConverterActive = true;
 			Ground.I.SouthMessage = "エラーを解除して、コンバーターを起動しました。";
 			this.PatrolRowIndex = 0;
 			this.ClearErrorAllRow();
@@ -860,7 +904,7 @@ namespace Charlotte
 
 		private void リフレッシュToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.MSMonitorStart();
+			this.StartMSMonitor();
 		}
 
 		private void 削除ToolStripMenuItem_Click(object sender, EventArgs e)
