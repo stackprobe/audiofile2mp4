@@ -28,7 +28,7 @@ namespace Charlotte
 		public string AudioFile = ""; // "" == 未設定
 		public string ImageFile = ""; // "" == 未設定
 		public string MovieFile = ""; // "" == 未設定
-		public int FPS = Consts.FPS_DEF;
+		public int FPS = Ground.I.DefaultFPS;
 
 		// <---- ここまで行に保存される。
 

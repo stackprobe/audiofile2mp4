@@ -129,6 +129,18 @@ namespace Charlotte
 			int w;
 			int h;
 
+			try // 画像読み込みテスト
+			{
+				using (Bitmap.FromFile(rFile))
+				{ }
+			}
+			catch (Exception e)
+			{
+				ProcMain.WriteLog(e);
+
+				throw new Exception("画像ファイル読み込みエラー");
+			}
+
 			using (Image bmp = Bitmap.FromFile(rFile))
 			{
 				w = bmp.Width;
