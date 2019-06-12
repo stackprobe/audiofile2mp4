@@ -90,6 +90,23 @@ namespace Charlotte
 				if (File.Exists("movie.mp4") == false)
 					throw new Exception("動画ファイルの生成に失敗しました。");
 
+				// コーデックが処理出来なかった場合、出力ファイルが空になる模様
+				// .wav など
+				if (new FileInfo("movie.mp4").Length == 0L)
+				{
+					ProcMain.WriteLog("音楽ファイルのコーデックを処理出来ませんでした。オプションを変えて再試行します。");
+					File.Delete("movie.mp4");
+
+					// -codec:a copy を除去
+					Run("bin\\ffmpeg.exe -i video.mp4 -i audio" + audioExt + " -map 0:0 -map 1:" + mi.AudioStreamIndex + " -vcodec copy movie.mp4");
+
+					if (File.Exists("movie.mp4") == false)
+						throw new Exception("動画ファイルの生成に失敗しました。(2.1)");
+
+					if (new FileInfo("movie.mp4").Length == 0L)
+						throw new Exception("動画ファイルの生成に失敗しました。(2.2)");
+				}
+
 				{
 					long audioFileSize = new FileInfo("audio" + audioExt).Length;
 					long imageFileSize = new FileInfo("image" + imageExt).Length;

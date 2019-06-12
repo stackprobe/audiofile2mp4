@@ -12,8 +12,14 @@ namespace Charlotte
 {
 	public partial class InputFPSDlg : Form
 	{
+		public int Prm_FPS = Consts.FPS_DEF;
+
+		// <---- Prm
+
 		public bool OkPressed = false;
 		public int Ret_FPS;
+
+		// <---- Ret
 
 		public InputFPSDlg()
 		{
@@ -29,7 +35,7 @@ namespace Charlotte
 
 		private void InputFPSDlg_Shown(object sender, EventArgs e)
 		{
-			this.FPS.Value = Ground.I.DefaultFPS;
+			this.FPS.Value = this.Prm_FPS;
 		}
 
 		private void BtnCancel_Click(object sender, EventArgs e)

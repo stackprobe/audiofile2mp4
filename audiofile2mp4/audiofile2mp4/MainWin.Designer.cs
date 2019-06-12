@@ -66,6 +66,7 @@
 			this.映像用の画像を設定するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.秒間フレーム数を設定するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.North = new System.Windows.Forms.Label();
+			this.ステータスを解除して再開するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.NorthBar.SuspendLayout();
 			this.SouthBar.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.MainSheet)).BeginInit();
@@ -100,7 +101,7 @@
 			// 終了ToolStripMenuItem
 			// 
 			this.終了ToolStripMenuItem.Name = "終了ToolStripMenuItem";
-			this.終了ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.終了ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
 			this.終了ToolStripMenuItem.Text = "終了";
 			this.終了ToolStripMenuItem.Click += new System.EventHandler(this.終了ToolStripMenuItem_Click);
 			// 
@@ -156,7 +157,8 @@
             this.Converter停止MenuItem,
             this.toolStripMenuItem4,
             this.エラーを解除するToolStripMenuItem,
-            this.エラーを解除して再開するToolStripMenuItem});
+            this.エラーを解除して再開するToolStripMenuItem,
+            this.ステータスを解除して再開するToolStripMenuItem});
 			this.実行ToolStripMenuItem.Name = "実行ToolStripMenuItem";
 			this.実行ToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
 			this.実行ToolStripMenuItem.Text = "コンバータ";
@@ -164,33 +166,33 @@
 			// Converter開始MenuItem
 			// 
 			this.Converter開始MenuItem.Name = "Converter開始MenuItem";
-			this.Converter開始MenuItem.Size = new System.Drawing.Size(192, 22);
+			this.Converter開始MenuItem.Size = new System.Drawing.Size(211, 22);
 			this.Converter開始MenuItem.Text = "開始";
 			this.Converter開始MenuItem.Click += new System.EventHandler(this.開始ToolStripMenuItem_Click);
 			// 
 			// Converter停止MenuItem
 			// 
 			this.Converter停止MenuItem.Name = "Converter停止MenuItem";
-			this.Converter停止MenuItem.Size = new System.Drawing.Size(192, 22);
+			this.Converter停止MenuItem.Size = new System.Drawing.Size(211, 22);
 			this.Converter停止MenuItem.Text = "停止";
 			this.Converter停止MenuItem.Click += new System.EventHandler(this.停止ToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem4
 			// 
 			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-			this.toolStripMenuItem4.Size = new System.Drawing.Size(189, 6);
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(208, 6);
 			// 
 			// エラーを解除するToolStripMenuItem
 			// 
 			this.エラーを解除するToolStripMenuItem.Name = "エラーを解除するToolStripMenuItem";
-			this.エラーを解除するToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+			this.エラーを解除するToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
 			this.エラーを解除するToolStripMenuItem.Text = "エラーを解除する";
 			this.エラーを解除するToolStripMenuItem.Click += new System.EventHandler(this.エラーを解除するToolStripMenuItem_Click);
 			// 
 			// エラーを解除して再開するToolStripMenuItem
 			// 
 			this.エラーを解除して再開するToolStripMenuItem.Name = "エラーを解除して再開するToolStripMenuItem";
-			this.エラーを解除して再開するToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+			this.エラーを解除して再開するToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
 			this.エラーを解除して再開するToolStripMenuItem.Text = "エラーを解除して再開する";
 			this.エラーを解除して再開するToolStripMenuItem.Click += new System.EventHandler(this.エラーを解除して再開するToolStripMenuItem_Click);
 			// 
@@ -367,6 +369,13 @@
 			this.North.TabIndex = 1;
 			this.North.Text = "準備しています...";
 			// 
+			// ステータスを解除して再開するToolStripMenuItem
+			// 
+			this.ステータスを解除して再開するToolStripMenuItem.Name = "ステータスを解除して再開するToolStripMenuItem";
+			this.ステータスを解除して再開するToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+			this.ステータスを解除して再開するToolStripMenuItem.Text = "ステータスを解除して再開する";
+			this.ステータスを解除して再開するToolStripMenuItem.Click += new System.EventHandler(this.ステータスを解除して再開するToolStripMenuItem_Click);
+			// 
 			// MainWin
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -436,6 +445,7 @@
 		private System.Windows.Forms.ToolStripMenuItem SelectSuccessfulRowMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 秒間フレーム数を設定するToolStripMenuItem;
 		private System.Windows.Forms.Label North;
+		private System.Windows.Forms.ToolStripMenuItem ステータスを解除して再開するToolStripMenuItem;
 	}
 }
 

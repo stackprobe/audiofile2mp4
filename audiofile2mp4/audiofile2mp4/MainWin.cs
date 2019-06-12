@@ -861,6 +861,16 @@ namespace Charlotte
 			this.RefreshUI();
 		}
 
+		private void ステータスを解除して再開するToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.MainSheet.ClearSelection();
+			Ground.I.ConverterActive = true;
+			Ground.I.SouthMessage = "ステータスを解除して、コンバーターを起動しました。";
+			this.PatrolRowIndex = 0;
+			this.ClearStatusAllRow();
+			this.RefreshUI();
+		}
+
 		private void ClearErrorAllRow()
 		{
 			for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
@@ -869,6 +879,18 @@ namespace Charlotte
 
 				if (info.Status == AudioInfo.Status_e.ERROR)
 					info.Status = AudioInfo.Status_e.READY;
+
+				this.MS_SetRow(rowidx, info);
+			}
+		}
+
+		private void ClearStatusAllRow()
+		{
+			for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
+			{
+				AudioInfo info = this.MS_GetRow(rowidx);
+
+				info.Status = AudioInfo.Status_e.READY;
 
 				this.MS_SetRow(rowidx, info);
 			}
@@ -905,6 +927,32 @@ namespace Charlotte
 			{
 				this.MainSheet.Rows[rowidx].Selected = match(this.MainSheet.Rows[rowidx]);
 			}
+		}
+
+		private DataGridViewRow[] GetSelectedRows()
+		{
+			List<DataGridViewRow> rows = new List<DataGridViewRow>();
+
+			for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
+			{
+				DataGridViewRow row = this.MainSheet.Rows[rowidx];
+
+				if (row.Selected)
+				{
+					rows.Add(row);
+				}
+			}
+			return rows.ToArray();
+		}
+
+		private DataGridViewRow GetSelectedRow()
+		{
+			DataGridViewRow[] rows = this.GetSelectedRows();
+
+			if (rows.Length == 0)
+				throw new Exception("行を選択して下さい。");
+
+			return rows[0];
 		}
 
 		private void リフレッシュToolStripMenuItem_Click(object sender, EventArgs e)
@@ -952,6 +1000,8 @@ namespace Charlotte
 
 			try
 			{
+				this.GetSelectedRow(); // 行を選択しているか確認
+
 				string file = SaveLoadDialogs.LoadFile(
 					"映像用の画像を選択して下さい。",
 					"",
@@ -979,14 +1029,24 @@ namespace Charlotte
 		{
 			this.BeforeDialog();
 
-			using (InputFPSDlg f = new InputFPSDlg())
+			try
 			{
-				f.ShowDialog();
-
-				if (f.OkPressed)
+				using (InputFPSDlg f = new InputFPSDlg())
 				{
-					this.MS_SetFPS(f.Ret_FPS);
+					f.Prm_FPS = this.MS_GetRow(this.GetSelectedRow().Index).FPS; // 初期値として＆行を選択しているか確認
+					f.ShowDialog();
+
+					if (f.OkPressed)
+					{
+						this.MS_SetFPS(f.Ret_FPS);
+					}
 				}
+			}
+			catch (Exception ex)
+			{
+				ProcMain.WriteLog(ex);
+
+				MessageBox.Show(ex.Message, "映像用の秒間フレーム数の設定に失敗しました", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 
 			this.AfterDialog();
