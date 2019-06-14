@@ -18,8 +18,11 @@ namespace Charlotte
 			ProcMain.CUIMain(new Program().Main2, APP_IDENT, APP_TITLE);
 
 #if DEBUG
-			Console.WriteLine("Press ENTER.");
-			Console.ReadLine();
+			if (ProcMain.CUIError)
+			{
+				Console.WriteLine("Press ENTER.");
+				Console.ReadLine();
+			}
 #endif
 		}
 
@@ -80,6 +83,11 @@ namespace Charlotte
 				if (ar.ArgIs("/LF"))
 				{
 					Ground.I.LogFile = CommonUtils.Decode(ar.NextArg());
+					continue;
+				}
+				if (ar.ArgIs("/AG"))
+				{
+					Ground.I.ApproveGuest = int.Parse(ar.NextArg()) != 0;
 					continue;
 				}
 				break;

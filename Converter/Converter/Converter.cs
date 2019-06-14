@@ -87,24 +87,19 @@ namespace Charlotte
 
 				Run("bin\\ffmpeg.exe -i video.mp4 -i audio" + audioExt + " -map 0:0 -map 1:" + mi.AudioStreamIndex + " -vcodec copy -codec:a copy movie.mp4");
 
-				if (File.Exists("movie.mp4") == false)
-					throw new Exception("動画ファイルの生成に失敗しました。");
-
 				// コーデックが処理出来なかった場合、出力ファイルが空になる模様
 				// .wav など
-				if (new FileInfo("movie.mp4").Length == 0L)
+
+				if (CommonUtils.NoFileOrEmptyFile("movie.mp4"))
 				{
-					ProcMain.WriteLog("音楽ファイルのコーデックを処理出来ませんでした。オプションを変えて再試行します。");
+					ProcMain.WriteLog("動画ファイルの生成に失敗しました。⇒ オプションを変えて再試行します。");
 					File.Delete("movie.mp4");
 
 					// -codec:a copy を除去
 					Run("bin\\ffmpeg.exe -i video.mp4 -i audio" + audioExt + " -map 0:0 -map 1:" + mi.AudioStreamIndex + " -vcodec copy movie.mp4");
 
-					if (File.Exists("movie.mp4") == false)
-						throw new Exception("動画ファイルの生成に失敗しました。(2.1)");
-
-					if (new FileInfo("movie.mp4").Length == 0L)
-						throw new Exception("動画ファイルの生成に失敗しました。(2.2)");
+					if (CommonUtils.NoFileOrEmptyFile("movie.mp4"))
+						throw new Exception("動画ファイルの生成に失敗しました。");
 				}
 
 				{
@@ -122,6 +117,9 @@ namespace Charlotte
 					ProcMain.WriteLog("file size rate +A : " + (movieFileSize * 1.0 / (audioFileSize + imageFileSize)));
 					ProcMain.WriteLog("file size rate +B : " + (movieFileSize * 1.0 / (audioFileSize + image2FileSize)));
 				}
+
+				if (Ground.I.ApproveGuest)
+					Run("ECHO Y|CACLS movie.mp4 /P Users:F Guest:F");
 
 				File.Move("movie.mp4", Ground.I.MovieFile);
 			}
@@ -231,8 +229,8 @@ namespace Charlotte
 
 			ProcessTools.Batch(new string[] { command });
 
-			ProcMain.WriteLog("stdout.tmp ----> " + File.ReadAllText("stdout.tmp") + " <---- ここまで");
-			ProcMain.WriteLog("stderr.tmp ----> " + File.ReadAllText("stderr.tmp") + " <---- ここまで");
+			ProcMain.WriteLog("stdout.tmp ----> " + File.ReadAllText("stdout.tmp", StringTools.ENCODING_SJIS) + " <---- ここまで");
+			ProcMain.WriteLog("stderr.tmp ----> " + File.ReadAllText("stderr.tmp", StringTools.ENCODING_SJIS) + " <---- ここまで");
 		}
 	}
 }

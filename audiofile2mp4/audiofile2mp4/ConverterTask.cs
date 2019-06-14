@@ -96,6 +96,8 @@ namespace Charlotte
 					CommonUtils.Encode(this.ErrorMessageFile),
 					"/LF",
 					CommonUtils.Encode(this.LogFile),
+					"/AG",
+					"" + (Ground.I.Config.ApproveGuest ? 1 : 0),
 				})
 				);
 		}

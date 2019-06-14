@@ -32,6 +32,7 @@ namespace Charlotte
 			this.MessageDisplayTimerCountMax = int.Parse(lines[c++]);
 			this.JpegQuality = int.Parse(lines[c++]);
 			this.LogFileSizeMax = int.Parse(lines[c++]);
+			this.ApproveGuest = lines[c++] == Consts.S_TRUE;
 
 			// ----
 
@@ -45,6 +46,7 @@ namespace Charlotte
 		public int MessageDisplayTimerCountMax = 50;
 		public int JpegQuality = 90;
 		public int LogFileSizeMax = 1000000;
+		public bool ApproveGuest = false;
 
 		// ----
 	}

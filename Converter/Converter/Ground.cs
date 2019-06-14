@@ -33,5 +33,6 @@ namespace Charlotte
 		public int JpegQuality = 90;
 		public string ErrorMessageFile = @"C:\temp\Converter_test_ErrorMessage.txt";
 		public string LogFile = @"C:\temp\Converter_test.log";
+		public bool ApproveGuest = false;
 	}
 }
