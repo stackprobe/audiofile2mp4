@@ -57,6 +57,7 @@ namespace Charlotte
 				this.AllowOverwrite = lines[c++] == Consts.S_TRUE;
 				this.同じ音楽ファイルを追加させない = lines[c++] == Consts.S_TRUE;
 				this.XPressAndStopConverter = lines[c++] == Consts.S_TRUE;
+				this.IgnoreBeginDot = lines[c++] == Consts.S_TRUE;
 
 				// ----
 
@@ -93,6 +94,7 @@ namespace Charlotte
 				lines.Add(this.AllowOverwrite ? Consts.S_TRUE : Consts.S_FALSE);
 				lines.Add(this.同じ音楽ファイルを追加させない ? Consts.S_TRUE : Consts.S_FALSE);
 				lines.Add(this.XPressAndStopConverter ? Consts.S_TRUE : Consts.S_FALSE);
+				lines.Add(this.IgnoreBeginDot ? Consts.S_TRUE : Consts.S_FALSE);
 
 				// ----
 
@@ -119,6 +121,7 @@ namespace Charlotte
 		public bool AllowOverwrite = false;
 		public bool 同じ音楽ファイルを追加させない = true;
 		public bool XPressAndStopConverter = false;
+		public bool IgnoreBeginDot = false;
 
 		// ----
 

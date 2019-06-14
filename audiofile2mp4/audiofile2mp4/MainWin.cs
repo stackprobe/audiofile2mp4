@@ -700,6 +700,11 @@ namespace Charlotte
 
 		private void AddFile(string file, string rootDir = null)
 		{
+			if (Ground.I.IgnoreBeginDot && Path.GetFileName(file).StartsWith("."))
+			{
+				ProcMain.WriteLog("半角ピリオドで始まるファイルは無視します。⇒ " + file);
+				return;
+			}
 			if (Ground.I.Config.AudioInfoMax <= this.MainSheet.RowCount + this.AddedInfos.Count)
 				throw new Exception("ファイルが多すぎます。");
 

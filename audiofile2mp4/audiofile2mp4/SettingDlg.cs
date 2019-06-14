@@ -39,6 +39,7 @@ namespace Charlotte
 			this.AllowOverwrite.Checked = Ground.I.AllowOverwrite;
 			this.同じ音楽ファイルを追加させない.Checked = Ground.I.同じ音楽ファイルを追加させない;
 			this.XPressAndStopConverter.Checked = Ground.I.XPressAndStopConverter;
+			this.IgnoreBeginDot.Checked = Ground.I.IgnoreBeginDot;
 		}
 
 		private void SaveSetting()
@@ -63,6 +64,7 @@ namespace Charlotte
 			Ground.I.AllowOverwrite = this.AllowOverwrite.Checked;
 			Ground.I.同じ音楽ファイルを追加させない = this.同じ音楽ファイルを追加させない.Checked;
 			Ground.I.XPressAndStopConverter = this.XPressAndStopConverter.Checked;
+			Ground.I.IgnoreBeginDot = this.IgnoreBeginDot.Checked;
 		}
 
 		private void BtnCancel_Click(object sender, EventArgs e)

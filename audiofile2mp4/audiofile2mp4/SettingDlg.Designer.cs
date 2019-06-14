@@ -42,6 +42,7 @@
 			this.同じ音楽ファイルを追加させない = new System.Windows.Forms.CheckBox();
 			this.DefaultFPS = new System.Windows.Forms.NumericUpDown();
 			this.XPressAndStopConverter = new System.Windows.Forms.CheckBox();
+			this.IgnoreBeginDot = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ErrorProv)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.DefaultFPS)).BeginInit();
@@ -50,10 +51,10 @@
 			// BtnOk
 			// 
 			this.BtnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.BtnOk.Location = new System.Drawing.Point(151, 314);
+			this.BtnOk.Location = new System.Drawing.Point(151, 344);
 			this.BtnOk.Name = "BtnOk";
 			this.BtnOk.Size = new System.Drawing.Size(100, 50);
-			this.BtnOk.TabIndex = 6;
+			this.BtnOk.TabIndex = 7;
 			this.BtnOk.Text = "OK";
 			this.BtnOk.UseVisualStyleBackColor = true;
 			this.BtnOk.Click += new System.EventHandler(this.BtnOk_Click);
@@ -61,10 +62,10 @@
 			// BtnCancel
 			// 
 			this.BtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.BtnCancel.Location = new System.Drawing.Point(257, 314);
+			this.BtnCancel.Location = new System.Drawing.Point(257, 344);
 			this.BtnCancel.Name = "BtnCancel";
 			this.BtnCancel.Size = new System.Drawing.Size(100, 50);
-			this.BtnCancel.TabIndex = 7;
+			this.BtnCancel.TabIndex = 8;
 			this.BtnCancel.Text = "キャンセル";
 			this.BtnCancel.UseVisualStyleBackColor = true;
 			this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
@@ -179,11 +180,22 @@
 			this.XPressAndStopConverter.Text = "[×]ボタン押下でコンバータを停止する";
 			this.XPressAndStopConverter.UseVisualStyleBackColor = true;
 			// 
+			// IgnoreBeginDot
+			// 
+			this.IgnoreBeginDot.AutoSize = true;
+			this.IgnoreBeginDot.Location = new System.Drawing.Point(18, 290);
+			this.IgnoreBeginDot.Name = "IgnoreBeginDot";
+			this.IgnoreBeginDot.Size = new System.Drawing.Size(275, 24);
+			this.IgnoreBeginDot.TabIndex = 6;
+			this.IgnoreBeginDot.Text = "半角ピリオドで始まるファイルを無視する";
+			this.IgnoreBeginDot.UseVisualStyleBackColor = true;
+			// 
 			// SettingDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(369, 376);
+			this.ClientSize = new System.Drawing.Size(369, 406);
+			this.Controls.Add(this.IgnoreBeginDot);
 			this.Controls.Add(this.XPressAndStopConverter);
 			this.Controls.Add(this.DefaultFPS);
 			this.Controls.Add(this.同じ音楽ファイルを追加させない);
@@ -227,5 +239,6 @@
 		private System.Windows.Forms.CheckBox 同じ音楽ファイルを追加させない;
 		private System.Windows.Forms.NumericUpDown DefaultFPS;
 		private System.Windows.Forms.CheckBox XPressAndStopConverter;
+		private System.Windows.Forms.CheckBox IgnoreBeginDot;
 	}
 }
