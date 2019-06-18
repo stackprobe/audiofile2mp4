@@ -687,9 +687,17 @@ namespace Charlotte
 			{
 				path = FileTools.MakeFullPath(path);
 
+				string dropRootDir = path;
+
+				if (CommonUtils.IsRootDir(dropRootDir) == false)
+				{
+					dropRootDir = Path.GetDirectoryName(dropRootDir);
+					dropRootDir = FileTools.MakeFullPath(dropRootDir);
+				}
+
 				foreach (string file in Directory.GetFiles(path, "*", SearchOption.AllDirectories))
 				{
-					this.AddFile(file, path);
+					this.AddFile(file, dropRootDir);
 				}
 			}
 			else
@@ -698,7 +706,7 @@ namespace Charlotte
 			}
 		}
 
-		private void AddFile(string file, string rootDir = null)
+		private void AddFile(string file, string dropRootDir = null)
 		{
 			if (Ground.I.IgnoreBeginDot && Path.GetFileName(file).StartsWith("."))
 			{
@@ -738,10 +746,10 @@ namespace Charlotte
 
 				string wFile;
 
-				if (rootDir == null)
+				if (dropRootDir == null)
 					wFile = Path.Combine(Ground.I.OutputDir, Path.GetFileName(file));
 				else
-					wFile = FileTools.ChangeRoot(file, rootDir, Ground.I.OutputDir);
+					wFile = FileTools.ChangeRoot(file, dropRootDir, Ground.I.OutputDir);
 
 				wFile = Path.Combine(Path.GetDirectoryName(wFile), Path.GetFileNameWithoutExtension(wFile)) + Consts.MOVIE_EXT;
 

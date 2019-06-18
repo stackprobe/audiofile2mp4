@@ -55,5 +55,14 @@ namespace Charlotte
 		{
 			return new Base64Unit().Encode(Encoding.UTF8.GetBytes(str));
 		}
+
+		public static bool IsRootDir(string dir)
+		{
+			string fmt = dir;
+
+			fmt = StringTools.ReplaceChars(fmt, StringTools.ALPHA + StringTools.alpha, 'A');
+
+			return fmt == "A:\\";
+		}
 	}
 }
