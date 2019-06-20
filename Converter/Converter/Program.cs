@@ -90,6 +90,31 @@ namespace Charlotte
 					Ground.I.ApproveGuest = int.Parse(ar.NextArg()) != 0;
 					continue;
 				}
+				if (ar.ArgIs("/DI"))
+				{
+					Ground.I.画像を二重に表示 = int.Parse(ar.NextArg()) != 0;
+					continue;
+				}
+				if (ar.ArgIs("/DI-W"))
+				{
+					Ground.I.画像を二重に表示_MonitorW = int.Parse(ar.NextArg());
+					continue;
+				}
+				if (ar.ArgIs("/DI-H"))
+				{
+					Ground.I.画像を二重に表示_MonitorH = int.Parse(ar.NextArg());
+					continue;
+				}
+				if (ar.ArgIs("/DI-B"))
+				{
+					Ground.I.画像を二重に表示_ぼかし = int.Parse(ar.NextArg());
+					continue;
+				}
+				if (ar.ArgIs("/DI-A"))
+				{
+					Ground.I.画像を二重に表示_明るさ = int.Parse(ar.NextArg());
+					continue;
+				}
 				break;
 			}
 			if (ar.HasArgs())

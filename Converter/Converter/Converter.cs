@@ -173,43 +173,130 @@ namespace Charlotte
 			if (h < 1 || IntTools.IMAX < h)
 				throw new Exception("画像ファイルの高さに問題があります。");
 
-			int ww = IntTools.Range(w, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
-			int hh;
-
+			if (Ground.I.画像を二重に表示)
 			{
-				long t = h;
-				t *= ww;
-				t /= w;
+				int mon_w = Ground.I.画像を二重に表示_MonitorW;
+				int mon_h = Ground.I.画像を二重に表示_MonitorH;
 
-				if (Consts.IMAGE_WH_MIN <= t && t <= Consts.IMAGE_WH_MAX)
+				// 高さと幅はそれぞれ偶数でなければならない。
+				mon_w &= ~1;
+				mon_h &= ~1;
+
+				int ww = mon_w;
+				int hh;
+
 				{
-					hh = (int)t;
+					long t = h;
+					t *= mon_w;
+					t /= w;
+
+					if (mon_h <= t)
+					{
+						hh = (int)t;
+					}
+					else
+					{
+						hh = mon_h;
+
+						t = w;
+						t *= mon_h;
+						t /= h;
+
+						ww = (int)t;
+					}
 				}
+
+				string aa;
+
+				if (Ground.I.画像を二重に表示_明るさ == 100)
+					aa = "";
 				else
+					aa = ":" + Ground.I.画像を二重に表示_明るさ.ToString("D2");
+
+				int ll = (ww - mon_w) / 2;
+				int tt = (hh - mon_h) / 2;
+
+				Run("ImgTools.exe /rf " + midPathBase + "1.bmp /wf " + midPathBase + "1w.png /e " + ww + " " + hh +
+					" /C " + ll + " " + tt + " " + mon_w + " " + mon_h +
+					" /BOKASHI 0 0 " + mon_w + " " + mon_h + " " + Ground.I.画像を二重に表示_ぼかし + " 1 " +
+					" /DOTFLTR A R" + aa + " G" + aa + " B" + aa
+					);
+
+				if (File.Exists(midPathBase + "1w.png") == false)
+					throw new Exception("画像処理エラー(1w)");
+
+				ww = mon_w;
+
 				{
-					hh = IntTools.Range(h, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
+					long t = h;
+					t *= mon_w;
+					t /= w;
 
-					t = w;
-					t *= hh;
-					t /= h;
-					t = LongTools.Range(t, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
+					if (t <= mon_h)
+					{
+						hh = (int)t;
+					}
+					else
+					{
+						hh = mon_h;
 
-					ww = (int)t;
+						t = w;
+						t *= mon_h;
+						t /= h;
+
+						ww = (int)t;
+					}
 				}
+
+				Run("ImgTools.exe /rf " + midPathBase + "1.bmp /wf " + midPathBase + "1f.png /e " + ww + " " + hh);
+
+				if (File.Exists(midPathBase + "1f.png") == false)
+					throw new Exception("画像処理エラー(1f)");
+
+				ll = (mon_w - ww) / 2;
+				tt = (mon_h - hh) / 2;
+
+				Run("ImgTools.exe /rf " + midPathBase + "1w.png /wf " + midPathBase + "2.png /2 " + midPathBase + "1f.png /PASTE " + ll + " " + tt);
 			}
+			else
+			{
+				int ww = IntTools.Range(w, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
+				int hh;
 
-			ProcMain.WriteLog("ww.1: " + ww);
-			ProcMain.WriteLog("hh.1: " + hh);
+				{
+					long t = h;
+					t *= ww;
+					t /= w;
 
-			// 高さと幅はそれぞれ偶数でなければならないっぽい。
-			ww &= ~1;
-			hh &= ~1;
+					if (Consts.IMAGE_WH_MIN <= t && t <= Consts.IMAGE_WH_MAX)
+					{
+						hh = (int)t;
+					}
+					else
+					{
+						hh = IntTools.Range(h, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
 
-			ProcMain.WriteLog("ww.2: " + ww);
-			ProcMain.WriteLog("hh.2: " + hh);
+						t = w;
+						t *= hh;
+						t /= h;
+						t = LongTools.Range(t, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
 
-			Run("ImgTools.exe /rf " + midPathBase + "1.bmp /wf " + midPathBase + "2.png /e " + ww + " " + hh);
+						ww = (int)t;
+					}
+				}
 
+				ProcMain.WriteLog("ww.1: " + ww);
+				ProcMain.WriteLog("hh.1: " + hh);
+
+				// 高さと幅はそれぞれ偶数でなければならない。
+				ww &= ~1;
+				hh &= ~1;
+
+				ProcMain.WriteLog("ww.2: " + ww);
+				ProcMain.WriteLog("hh.2: " + hh);
+
+				Run("ImgTools.exe /rf " + midPathBase + "1.bmp /wf " + midPathBase + "2.png /e " + ww + " " + hh);
+			}
 			if (File.Exists(midPathBase + "2.png") == false)
 				throw new Exception("画像処理エラー(ImgTools)");
 

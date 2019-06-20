@@ -24,5 +24,10 @@ namespace Charlotte
 
 		public static readonly Color LabelDefForeColor = new Label().ForeColor;
 		public static readonly Color LabelDefBackColor = new Label().BackColor;
+
+		public const int MonitorW_Min = 300;
+		public const int MonitorW_Max = 3000;
+		public const int MonitorH_Min = 300;
+		public const int MonitorH_Max = 3000;
 	}
 }

@@ -27,6 +27,7 @@ namespace Charlotte
 		private void SettingDlg_Shown(object sender, EventArgs e)
 		{
 			this.LoadSetting();
+			this.RefreshUI();
 		}
 
 		private void LoadSetting()
@@ -40,6 +41,11 @@ namespace Charlotte
 			this.同じ音楽ファイルを追加させない.Checked = Ground.I.同じ音楽ファイルを追加させない;
 			this.XPressAndStopConverter.Checked = Ground.I.XPressAndStopConverter;
 			this.IgnoreBeginDot.Checked = Ground.I.IgnoreBeginDot;
+			this.画像を二重に表示.Checked = Ground.I.画像を二重に表示;
+			this.画像を二重に表示_MonitorW.Value = Ground.I.画像を二重に表示_MonitorW;
+			this.画像を二重に表示_MonitorH.Value = Ground.I.画像を二重に表示_MonitorH;
+			this.画像を二重に表示_ぼかし.Value = Ground.I.画像を二重に表示_ぼかし;
+			this.画像を二重に表示_明るさ.Value = Ground.I.画像を二重に表示_明るさ;
 		}
 
 		private void SaveSetting()
@@ -65,6 +71,11 @@ namespace Charlotte
 			Ground.I.同じ音楽ファイルを追加させない = this.同じ音楽ファイルを追加させない.Checked;
 			Ground.I.XPressAndStopConverter = this.XPressAndStopConverter.Checked;
 			Ground.I.IgnoreBeginDot = this.IgnoreBeginDot.Checked;
+			Ground.I.画像を二重に表示 = this.画像を二重に表示.Checked;
+			Ground.I.画像を二重に表示_MonitorW = (int)this.画像を二重に表示_MonitorW.Value;
+			Ground.I.画像を二重に表示_MonitorH = (int)this.画像を二重に表示_MonitorH.Value;
+			Ground.I.画像を二重に表示_ぼかし = (int)this.画像を二重に表示_ぼかし.Value;
+			Ground.I.画像を二重に表示_明るさ = (int)this.画像を二重に表示_明るさ.Value;
 		}
 
 		private void BtnCancel_Click(object sender, EventArgs e)
@@ -85,6 +96,16 @@ namespace Charlotte
 
 				//MessageBox.Show(ex.Message, "保存に失敗しました", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
+		}
+
+		private void RefreshUI()
+		{
+			this.画像を二重に表示Grp.Enabled = this.画像を二重に表示.Checked;
+		}
+
+		private void 画像を二重に表示_CheckedChanged(object sender, EventArgs e)
+		{
+			this.RefreshUI();
 		}
 	}
 }

@@ -34,5 +34,10 @@ namespace Charlotte
 		public string ErrorMessageFile = @"C:\temp\Converter_test_ErrorMessage.txt";
 		public string LogFile = @"C:\temp\Converter_test.log";
 		public bool ApproveGuest = false;
+		public bool 画像を二重に表示 = true;
+		public int 画像を二重に表示_MonitorW = 1920;
+		public int 画像を二重に表示_MonitorH = 1080;
+		public int 画像を二重に表示_ぼかし = 10; // 0 ～ 30
+		public int 画像を二重に表示_明るさ = 50; // 0 ～ 100
 	}
 }

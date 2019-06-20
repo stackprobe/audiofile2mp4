@@ -28,6 +28,22 @@ namespace Charlotte
 		private Ground()
 		{
 			this.SaveFile = Path.Combine(ProcMain.SelfDir, Path.GetFileNameWithoutExtension(ProcMain.SelfFile)) + ".dat";
+
+			try
+			{
+				Screen screen = Screen.AllScreens[0];
+
+				this.画像を二重に表示_MonitorW = screen.Bounds.Width;
+				this.画像を二重に表示_MonitorH = screen.Bounds.Height;
+			}
+			catch
+			{
+				this.画像を二重に表示_MonitorW = Consts.MonitorW_Min;
+				this.画像を二重に表示_MonitorH = Consts.MonitorH_Min;
+			}
+
+			this.画像を二重に表示_MonitorW = IntTools.Range(this.画像を二重に表示_MonitorW, Consts.MonitorW_Min, Consts.MonitorW_Max);
+			this.画像を二重に表示_MonitorH = IntTools.Range(this.画像を二重に表示_MonitorH, Consts.MonitorH_Min, Consts.MonitorH_Max);
 		}
 
 		public void LoadFromFile()
@@ -58,6 +74,11 @@ namespace Charlotte
 				this.同じ音楽ファイルを追加させない = lines[c++] == Consts.S_TRUE;
 				this.XPressAndStopConverter = lines[c++] == Consts.S_TRUE;
 				this.IgnoreBeginDot = lines[c++] == Consts.S_TRUE;
+				this.画像を二重に表示 = lines[c++] == Consts.S_TRUE;
+				this.画像を二重に表示_MonitorW = int.Parse(lines[c++]);
+				this.画像を二重に表示_MonitorH = int.Parse(lines[c++]);
+				this.画像を二重に表示_ぼかし = int.Parse(lines[c++]);
+				this.画像を二重に表示_明るさ = int.Parse(lines[c++]);
 
 				// ----
 
@@ -95,6 +116,11 @@ namespace Charlotte
 				lines.Add(this.同じ音楽ファイルを追加させない ? Consts.S_TRUE : Consts.S_FALSE);
 				lines.Add(this.XPressAndStopConverter ? Consts.S_TRUE : Consts.S_FALSE);
 				lines.Add(this.IgnoreBeginDot ? Consts.S_TRUE : Consts.S_FALSE);
+				lines.Add(this.画像を二重に表示 ? Consts.S_TRUE : Consts.S_FALSE);
+				lines.Add("" + this.画像を二重に表示_MonitorW);
+				lines.Add("" + this.画像を二重に表示_MonitorH);
+				lines.Add("" + this.画像を二重に表示_ぼかし);
+				lines.Add("" + this.画像を二重に表示_明るさ);
 
 				// ----
 
@@ -122,6 +148,11 @@ namespace Charlotte
 		public bool 同じ音楽ファイルを追加させない = true;
 		public bool XPressAndStopConverter = false;
 		public bool IgnoreBeginDot = false;
+		public bool 画像を二重に表示 = false;
+		public int 画像を二重に表示_MonitorW; // Consts.MonitorW_Min ～ Consts.MonitorW_Max
+		public int 画像を二重に表示_MonitorH; // Consts.MonitorH_Min ～ Consts.MonitorH_Max
+		public int 画像を二重に表示_ぼかし = 30; // 0 ～ 100
+		public int 画像を二重に表示_明るさ = 50; // 0 ～ 100
 
 		// ----
 

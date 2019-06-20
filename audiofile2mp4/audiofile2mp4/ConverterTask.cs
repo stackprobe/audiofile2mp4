@@ -98,6 +98,16 @@ namespace Charlotte
 					CommonUtils.Encode(this.LogFile),
 					"/AG",
 					"" + (Ground.I.Config.ApproveGuest ? 1 : 0),
+					"/DI",
+					"" + (Ground.I.画像を二重に表示 ? 1 : 0),
+					"/DI-W",
+					"" + Ground.I.画像を二重に表示_MonitorW,
+					"/DI-H",
+					"" + Ground.I.画像を二重に表示_MonitorH,
+					"/DI-B",
+					"" + Ground.I.画像を二重に表示_ぼかし,
+					"/DI-A",
+					"" + Ground.I.画像を二重に表示_明るさ,
 				})
 				);
 		}
