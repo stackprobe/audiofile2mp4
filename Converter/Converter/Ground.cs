@@ -37,7 +37,7 @@ namespace Charlotte
 		public bool 画像を二重に表示 = true;
 		public int 画像を二重に表示_MonitorW = 1920;
 		public int 画像を二重に表示_MonitorH = 1080;
-		public int 画像を二重に表示_ぼかし = 10; // 0 ～ 30
+		public int 画像を二重に表示_ぼかし = 30; // 0 ～ 100
 		public int 画像を二重に表示_明るさ = 50; // 0 ～ 100
 	}
 }

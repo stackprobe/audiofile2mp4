@@ -153,6 +153,7 @@ namespace Charlotte
 				if (Ground.I.XPressAndStopConverter)
 				{
 					Ground.I.ConverterActive = false;
+					this.RefreshUI();
 
 					Ground.I.NorthStickRight = this.XPressed;
 					Ground.I.NorthMessage = "コンバータを停止しました。";
@@ -903,7 +904,8 @@ namespace Charlotte
 			{
 				AudioInfo info = this.MS_GetRow(rowidx);
 
-				info.Status = AudioInfo.Status_e.READY;
+				if (info.Status != AudioInfo.Status_e.PROCESSING)
+					info.Status = AudioInfo.Status_e.READY;
 
 				this.MS_SetRow(rowidx, info);
 			}
