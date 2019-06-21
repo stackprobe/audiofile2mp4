@@ -372,6 +372,7 @@ namespace Charlotte
 				{
 					Color foreColor = Consts.LabelDefForeColor;
 					Color backColor = Consts.LabelDefBackColor;
+					bool completedFlag = false;
 
 					if (Ground.I.ConverterActive)
 					{
@@ -379,12 +380,12 @@ namespace Charlotte
 
 						switch (this.MSMonitorStatus)
 						{
-							case MSMonitor.Status_e.完了:
-								backColor = Color.Cyan;
+							case MSMonitor.Status_e.READY:
 								break;
 
+							case MSMonitor.Status_e.完了:
 							case MSMonitor.Status_e.完了エラーあり:
-								backColor = Color.Orange;
+								completedFlag = true;
 								break;
 
 							case MSMonitor.Status_e.処理中:
@@ -407,11 +408,48 @@ namespace Charlotte
 								throw null; // never
 						}
 					}
+					else
+					{
+						switch (this.MSMonitorStatus)
+						{
+							case Charlotte.MSMonitor.Status_e.READY:
+								break;
+
+							case MSMonitor.Status_e.完了:
+								backColor = Color.Cyan;
+								break;
+
+							case MSMonitor.Status_e.完了エラーあり:
+								backColor = Color.Orange;
+								break;
+
+							case MSMonitor.Status_e.処理中:
+								foreColor = Color.White;
+								backColor = Color.Blue;
+								break;
+
+							case MSMonitor.Status_e.処理中エラーあり:
+								foreColor = Color.White;
+								backColor = Color.OrangeRed;
+								break;
+
+							default:
+								throw null; // never
+						}
+					}
 					if (this.SouthWest.ForeColor != foreColor)
 						this.SouthWest.ForeColor = foreColor;
 
 					if (this.SouthWest.BackColor != backColor)
 						this.SouthWest.BackColor = backColor;
+
+					if (completedFlag)
+					{
+						Ground.I.ConverterActive = false;
+						this.RefreshUI();
+
+						Ground.I.SouthMessage = "処理完了によりコンバータを停止しました。";
+					}
 				}
 			}
 			catch (Exception ex)

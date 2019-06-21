@@ -31,6 +31,7 @@ namespace Charlotte
 
 		public enum Status_e
 		{
+			READY,
 			完了,
 			完了エラーあり,
 			処理中,
@@ -39,8 +40,11 @@ namespace Charlotte
 
 		public Status_e GetStatus()
 		{
+			if (this.ProcessingCount + this.ErrorCount + this.SuccessfulCount == 0)
+				return Status_e.READY;
+
 			return (Status_e)
-				(this.ReadyCount + this.ProcessingCount == 0 ? 0 : 2) +
+				(this.ReadyCount + this.ProcessingCount == 0 ? 1 : 3) +
 				(this.ErrorCount == 0 ? 0 : 1);
 		}
 	}
