@@ -451,6 +451,17 @@ namespace Charlotte
 						Ground.I.SouthMessage = "処理完了によりコンバータを停止しました。";
 					}
 				}
+
+				if (this.MTCount % 20 == 0) // 頻度を下げる。
+				{
+					if (Ground.I.ConverterActive && this.MainSheet.RowCount == 0)
+					{
+						Ground.I.ConverterActive = false;
+						this.RefreshUI();
+
+						Ground.I.SouthMessage = "処理すべきデータが無いのでコンバータを停止しました。";
+					}
+				}
 			}
 			catch (Exception ex)
 			{

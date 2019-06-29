@@ -2,3 +2,5 @@
 
 	C:\app\Kit\BmpToCsv\BmpToCsv.exe
 	C:\app\Kit\ImgTools\ImgTools.exe
+
+	C:\Dev\CSharp\Chocolate\Chocolate\bin\Release\Chocolate.dll
