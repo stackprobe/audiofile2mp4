@@ -905,33 +905,35 @@ namespace Charlotte
 			this.RefreshUI();
 		}
 
-		private void エラーを解除するToolStripMenuItem_Click(object sender, EventArgs e)
+		private void 選択行のステータスを解除ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.MainSheet.ClearSelection();
-			Ground.I.ConverterActive = false;
-			Ground.I.SouthMessage = "エラーを解除しました。";
-			this.ClearErrorAllRow();
-			this.RefreshUI();
+			try
+			{
+				this.MS_CallSelectedRows(row =>
+				{
+					int rowidx = row.Index;
+					AudioInfo info = this.MS_GetRow(rowidx);
+
+					if (info.Status != AudioInfo.Status_e.PROCESSING)
+						info.Status = AudioInfo.Status_e.READY;
+
+					this.MS_SetRow(rowidx, info);
+				});
+			}
+			catch (Exception ex)
+			{
+				ProcMain.WriteLog(ex);
+			}
 		}
 
-		private void エラーを解除して再開するToolStripMenuItem_Click(object sender, EventArgs e)
+		private void エラーになった行のステータスを解除ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.MainSheet.ClearSelection();
-			Ground.I.ConverterActive = true;
-			Ground.I.SouthMessage = "エラーを解除して、コンバーターを起動しました。";
-			this.PatrolRowIndex = 0;
 			this.ClearErrorAllRow();
-			this.RefreshUI();
 		}
 
-		private void ステータスを解除して再開するToolStripMenuItem_Click(object sender, EventArgs e)
+		private void 全ての行のステータスを解除ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.MainSheet.ClearSelection();
-			Ground.I.ConverterActive = true;
-			Ground.I.SouthMessage = "ステータスを解除して、コンバーターを起動しました。";
-			this.PatrolRowIndex = 0;
 			this.ClearStatusAllRow();
-			this.RefreshUI();
 		}
 
 		private void ClearErrorAllRow()
