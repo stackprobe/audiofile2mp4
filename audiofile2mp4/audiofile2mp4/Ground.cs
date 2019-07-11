@@ -56,6 +56,9 @@ namespace Charlotte
 				string[] lines = File.ReadAllLines(this.SaveFile, Encoding.UTF8);
 				int c = 0;
 
+				if (int.Parse(lines[c++]) != lines.Length)
+					throw new Exception("Bad item number");
+
 				// ---- Items ----
 
 				this.FFmpegDir = lines[c++];
@@ -81,15 +84,12 @@ namespace Charlotte
 				this.画像を二重に表示_明るさ = int.Parse(lines[c++]);
 
 				// ----
-
-				if (lines[c] != "\\e") // Terminator
-					throw new Exception("Bad terminator");
 			}
 			catch (Exception e)
 			{
 				ProcMain.WriteLog(e);
 
-				MessageBox.Show(e.Message, "データファイル読み込みエラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				//MessageBox.Show(e.Message, "データファイル読み込みエラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -97,6 +97,8 @@ namespace Charlotte
 		{
 			{
 				List<string> lines = new List<string>();
+
+				lines.Add(null);
 
 				// ---- Items ----
 
@@ -124,7 +126,7 @@ namespace Charlotte
 
 				// ----
 
-				lines.Add("\\e"); // Terminator
+				lines[0] = "" + lines.Count;
 
 				File.WriteAllLines(this.SaveFile, lines, Encoding.UTF8);
 			}
