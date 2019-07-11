@@ -58,15 +58,15 @@
 			this.削除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.全てクリアToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+			this.選択行のステータスを解除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.エラーになった行のステータスを解除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.全ての行のステータスを解除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
 			this.リフレッシュToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
 			this.映像用の画像を設定するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.秒間フレーム数を設定するToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.North = new System.Windows.Forms.Label();
-			this.選択行のステータスを解除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.全ての行のステータスを解除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-			this.エラーになった行のステータスを解除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.NorthBar.SuspendLayout();
 			this.SouthBar.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.MainSheet)).BeginInit();
@@ -162,14 +162,14 @@
 			// Converter開始MenuItem
 			// 
 			this.Converter開始MenuItem.Name = "Converter開始MenuItem";
-			this.Converter開始MenuItem.Size = new System.Drawing.Size(152, 22);
+			this.Converter開始MenuItem.Size = new System.Drawing.Size(98, 22);
 			this.Converter開始MenuItem.Text = "開始";
 			this.Converter開始MenuItem.Click += new System.EventHandler(this.開始ToolStripMenuItem_Click);
 			// 
 			// Converter停止MenuItem
 			// 
 			this.Converter停止MenuItem.Name = "Converter停止MenuItem";
-			this.Converter停止MenuItem.Size = new System.Drawing.Size(152, 22);
+			this.Converter停止MenuItem.Size = new System.Drawing.Size(98, 22);
 			this.Converter停止MenuItem.Text = "停止";
 			this.Converter停止MenuItem.Click += new System.EventHandler(this.停止ToolStripMenuItem_Click);
 			// 
@@ -241,7 +241,7 @@
             this.映像用の画像を設定するToolStripMenuItem,
             this.秒間フレーム数を設定するToolStripMenuItem});
 			this.MainSheetMenu.Name = "MainSheetMenu";
-			this.MainSheetMenu.Size = new System.Drawing.Size(235, 292);
+			this.MainSheetMenu.Size = new System.Drawing.Size(235, 270);
 			// 
 			// 選択解除ToolStripMenuItem
 			// 
@@ -312,6 +312,32 @@
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
 			this.toolStripMenuItem3.Size = new System.Drawing.Size(231, 6);
 			// 
+			// 選択行のステータスを解除ToolStripMenuItem
+			// 
+			this.選択行のステータスを解除ToolStripMenuItem.Name = "選択行のステータスを解除ToolStripMenuItem";
+			this.選択行のステータスを解除ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+			this.選択行のステータスを解除ToolStripMenuItem.Text = "選択行のステータスを解除";
+			this.選択行のステータスを解除ToolStripMenuItem.Click += new System.EventHandler(this.選択行のステータスを解除ToolStripMenuItem_Click);
+			// 
+			// エラーになった行のステータスを解除ToolStripMenuItem
+			// 
+			this.エラーになった行のステータスを解除ToolStripMenuItem.Name = "エラーになった行のステータスを解除ToolStripMenuItem";
+			this.エラーになった行のステータスを解除ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+			this.エラーになった行のステータスを解除ToolStripMenuItem.Text = "エラーになった行のステータスを解除";
+			this.エラーになった行のステータスを解除ToolStripMenuItem.Click += new System.EventHandler(this.エラーになった行のステータスを解除ToolStripMenuItem_Click);
+			// 
+			// 全ての行のステータスを解除ToolStripMenuItem
+			// 
+			this.全ての行のステータスを解除ToolStripMenuItem.Name = "全ての行のステータスを解除ToolStripMenuItem";
+			this.全ての行のステータスを解除ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+			this.全ての行のステータスを解除ToolStripMenuItem.Text = "全ての行のステータスを解除";
+			this.全ての行のステータスを解除ToolStripMenuItem.Click += new System.EventHandler(this.全ての行のステータスを解除ToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem6
+			// 
+			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+			this.toolStripMenuItem6.Size = new System.Drawing.Size(231, 6);
+			// 
 			// リフレッシュToolStripMenuItem
 			// 
 			this.リフレッシュToolStripMenuItem.Name = "リフレッシュToolStripMenuItem";
@@ -349,32 +375,6 @@
 			this.North.Size = new System.Drawing.Size(115, 20);
 			this.North.TabIndex = 1;
 			this.North.Text = "準備しています...";
-			// 
-			// 選択行のステータスを解除ToolStripMenuItem
-			// 
-			this.選択行のステータスを解除ToolStripMenuItem.Name = "選択行のステータスを解除ToolStripMenuItem";
-			this.選択行のステータスを解除ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-			this.選択行のステータスを解除ToolStripMenuItem.Text = "選択行のステータスを解除";
-			this.選択行のステータスを解除ToolStripMenuItem.Click += new System.EventHandler(this.選択行のステータスを解除ToolStripMenuItem_Click);
-			// 
-			// 全ての行のステータスを解除ToolStripMenuItem
-			// 
-			this.全ての行のステータスを解除ToolStripMenuItem.Name = "全ての行のステータスを解除ToolStripMenuItem";
-			this.全ての行のステータスを解除ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-			this.全ての行のステータスを解除ToolStripMenuItem.Text = "全ての行のステータスを解除";
-			this.全ての行のステータスを解除ToolStripMenuItem.Click += new System.EventHandler(this.全ての行のステータスを解除ToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem6
-			// 
-			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-			this.toolStripMenuItem6.Size = new System.Drawing.Size(231, 6);
-			// 
-			// エラーになった行のステータスを解除ToolStripMenuItem
-			// 
-			this.エラーになった行のステータスを解除ToolStripMenuItem.Name = "エラーになった行のステータスを解除ToolStripMenuItem";
-			this.エラーになった行のステータスを解除ToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-			this.エラーになった行のステータスを解除ToolStripMenuItem.Text = "エラーになった行のステータスを解除";
-			this.エラーになった行のステータスを解除ToolStripMenuItem.Click += new System.EventHandler(this.エラーになった行のステータスを解除ToolStripMenuItem_Click);
 			// 
 			// MainWin
 			// 

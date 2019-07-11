@@ -19,7 +19,9 @@ namespace Charlotte
 				file = @"..\..\..\..\doc\audio_extensions.txt";
 
 			this.Extensions = File.ReadAllLines(file, Encoding.ASCII);
-			this.Extensions = this.Extensions.Select(ext => "." + ext).ToArray(); // "mp3" -> ".mp3"
+			this.Extensions = this.Extensions.Where(v => v != "").Select(v => "." + v).ToArray(); // "mp3" -> ".mp3"
+
+			ProcMain.WriteLog("音楽ファイルの拡張子 ⇒ " + string.Join("\n", this.Extensions));
 		}
 
 		public bool IsAudioFile(string path)

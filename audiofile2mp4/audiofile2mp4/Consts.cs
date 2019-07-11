@@ -29,5 +29,7 @@ namespace Charlotte
 		public const int MonitorW_Max = 3000;
 		public const int MonitorH_Min = 300;
 		public const int MonitorH_Max = 3000;
+
+		public const long LOG_FILE_SIZE_MAX = 1000000L;
 	}
 }

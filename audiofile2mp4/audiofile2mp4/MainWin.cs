@@ -59,7 +59,7 @@ namespace Charlotte
 					{
 						using (new MSection("{67bbcf7a-ebe2-42a9-aeb2-54ee4bb40c67}")) // 念の為ロック
 						{
-							if (File.Exists(logFile) && Ground.I.Config.LogFileSizeMax < new FileInfo(logFile).Length)
+							if (File.Exists(logFile) && Consts.LOG_FILE_SIZE_MAX < new FileInfo(logFile).Length)
 							{
 								File.Delete(logFile0);
 								File.Move(logFile, logFile0);
@@ -78,6 +78,9 @@ namespace Charlotte
 			ExtraTools.AntiWindowsDefenderSmartScreen();
 
 			Ground.I.LoadFromFile();
+
+			if (Ground.I.Config.SettingToLog)
+				ProcMain.WriteLog("Setting: " + JsonTools.Encode(DebugTools.ToListOrMap(Ground.I))); // デバッグ用
 
 			if (Ground.I.MainWin_Maximized)
 			{
@@ -202,7 +205,7 @@ namespace Charlotte
 		private int SouthMessageDisplayTimerCountDown = 0;
 		private MSMonitor MSMonitor = null;
 		private string MSMonitorOutput = "準備しています...";
-		private MSMonitor.Status_e MSMonitorStatus = MSMonitor.Status_e.処理中;
+		private MSMonitor.Status_e MSMonitorStatus = MSMonitor.Status_e.READY;
 		private int PatrolRowIndex = 0;
 
 		private void StartMSMonitor()
@@ -424,13 +427,11 @@ namespace Charlotte
 								break;
 
 							case MSMonitor.Status_e.処理中:
-								foreColor = Color.White;
-								backColor = Color.Blue;
+								foreColor = Color.FromArgb(0, 0, 32); // fixme そもそもこの状態って何？
 								break;
 
 							case MSMonitor.Status_e.処理中エラーあり:
-								foreColor = Color.White;
-								backColor = Color.OrangeRed;
+								foreColor = Color.FromArgb(32, 0, 0); // fixme そもそもこの状態って何？
 								break;
 
 							default:
@@ -1040,23 +1041,27 @@ namespace Charlotte
 		{
 			this.MainSheet.Visible = false;
 
-			for (int rowidx = this.MainSheet.RowCount - 1; 0 <= rowidx; rowidx--)
-			{
-				if (match(this.MainSheet.Rows[rowidx]))
-				{
-					AudioInfo info = this.MS_GetRow(rowidx);
+			List<int> matched_rowidx_list = new List<int>();
 
-					if (info.Status == AudioInfo.Status_e.PROCESSING)
-					{
-						Ground.I.SouthMessage = "処理中の行はクリア出来ません。";
-					}
-					else
-					{
-						this.MainSheet.Rows.RemoveAt(rowidx);
-					}
+			for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
+				if (match(this.MainSheet.Rows[rowidx]))
+					matched_rowidx_list.Add(rowidx);
+
+			matched_rowidx_list.Reverse(); // インデックスがずれるので後ろから
+
+			foreach (int rowidx in matched_rowidx_list)
+			{
+				AudioInfo info = this.MS_GetRow(rowidx);
+
+				if (info.Status == AudioInfo.Status_e.PROCESSING)
+				{
+					Ground.I.SouthMessage = "処理中の行はクリア出来ません。";
+				}
+				else
+				{
+					this.MainSheet.Rows.RemoveAt(rowidx);
 				}
 			}
-
 			this.MainSheet.Visible = true;
 		}
 

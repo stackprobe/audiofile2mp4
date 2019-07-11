@@ -11,7 +11,14 @@ namespace Charlotte
 	{
 		public Config()
 		{
-			this.LoadFromFile();
+			try
+			{
+				this.LoadFromFile();
+			}
+			catch (Exception e)
+			{
+				ProcMain.WriteLog(e);
+			}
 		}
 
 		private void LoadFromFile()
@@ -26,26 +33,26 @@ namespace Charlotte
 
 			lines = lines.Where(line => line != "" && line.Trim().StartsWith(";") == false).ToArray(); // 空行とコメント行を除去
 
+			if (int.Parse(lines[c++]) != lines.Length)
+				throw new Exception("Bad item number");
+
 			// ---- Items ----
 
+			this.SettingToLog = lines[c++] == Consts.S_TRUE;
 			this.AudioInfoMax = int.Parse(lines[c++]);
 			this.MessageDisplayTimerCountMax = int.Parse(lines[c++]);
 			this.JpegQuality = int.Parse(lines[c++]);
-			this.LogFileSizeMax = int.Parse(lines[c++]);
 			this.ApproveGuest = lines[c++] == Consts.S_TRUE;
 
 			// ----
-
-			if (lines[c] != "\\e") // Terminator
-				throw new Exception("Bad terminator");
 		}
 
 		// ---- Items ----
 
+		public bool SettingToLog = false;
 		public int AudioInfoMax = 30000;
 		public int MessageDisplayTimerCountMax = 50;
 		public int JpegQuality = 90;
-		public int LogFileSizeMax = 1000000;
 		public bool ApproveGuest = false;
 
 		// ----

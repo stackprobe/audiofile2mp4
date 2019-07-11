@@ -19,7 +19,9 @@ namespace Charlotte
 				file = @"..\..\..\..\doc\image_extensions.txt";
 
 			this.Extensions = File.ReadAllLines(file, Encoding.ASCII);
-			this.Extensions = this.Extensions.Select(ext => "." + ext).ToArray(); // "bmp" -> ".bmp"
+			this.Extensions = this.Extensions.Where(v => v != "").Select(v => "." + v).ToArray(); // "bmp" -> ".bmp"
+
+			ProcMain.WriteLog("画像ファイルの拡張子 ⇒ " + string.Join("\n", this.Extensions));
 		}
 
 		public bool IsImageFile(string path)
