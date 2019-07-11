@@ -171,7 +171,7 @@ namespace Charlotte
 			if (Ground.I.Converter.IsReady() == false)
 			{
 				Ground.I.NorthStickRight = this.XPressed;
-				Ground.I.NorthMessage = "アプリケーションを終了するにはコンバータが停止するまでお待ちください。";
+				Ground.I.NorthMessage = "アプリケーションを終了するには現在の処理が完了するまでお待ちください。";
 				return;
 			}
 
