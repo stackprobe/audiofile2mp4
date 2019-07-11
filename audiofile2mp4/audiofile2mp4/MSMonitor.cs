@@ -7,11 +7,21 @@ namespace Charlotte
 {
 	public class MSMonitor
 	{
-		private int FreezeCount = 10;
+		private int StartCountdown = 10;
 
-		public bool IsFreeze()
+		public bool IsStarted()
 		{
-			return 1 <= this.FreezeCount && this.FreezeCount-- != -1;
+			if (1 <= this.StartCountdown)
+			{
+				this.StartCountdown--;
+				return false;
+			}
+			if (this.StartCountdown == 0)
+			{
+				this.Again = false;
+				this.StartCountdown = -1;
+			}
+			return true;
 		}
 
 		public int RowIndex = 0;
@@ -47,5 +57,7 @@ namespace Charlotte
 				(this.ReadyCount + this.ProcessingCount == 0 ? 1 : 3) +
 				(this.ErrorCount == 0 ? 0 : 1);
 		}
+
+		public bool Again = false;
 	}
 }

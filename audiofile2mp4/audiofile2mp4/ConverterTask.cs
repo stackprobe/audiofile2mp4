@@ -165,7 +165,6 @@ namespace Charlotte
 			if (e == null)
 			{
 				this.Info.Status = AudioInfo.Status_e.SUCCESSFUL;
-				this.Info.ErrorMessage = "";
 			}
 			else
 			{

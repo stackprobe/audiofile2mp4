@@ -210,7 +210,10 @@ namespace Charlotte
 
 		private void StartMSMonitor()
 		{
-			this.MSMonitor = new MSMonitor();
+			if (this.MSMonitor == null)
+				this.MSMonitor = new MSMonitor();
+			else
+				this.MSMonitor.Again = true;
 		}
 
 		private void MainTimer_Tick(object sender, EventArgs e)
@@ -266,17 +269,22 @@ namespace Charlotte
 
 				// < North
 
-				if (this.MSMonitor != null && this.MSMonitor.IsFreeze())
+				if (this.MSMonitor != null && this.MSMonitor.IsStarted())
 				{
 					MSMonitor mon = this.MSMonitor;
 
-					for (int c = 0; c < 300; c++) // XXX ループ回数
+					for (int c = 0; c < 300; c++) // fixme ループ回数_適当
 					{
 						if (this.MainSheet.RowCount <= mon.RowIndex)
 						{
 							this.MSMonitorOutput = mon.GetOutput();
 							this.MSMonitorStatus = mon.GetStatus();
-							this.MSMonitor = null;
+
+							if (this.MSMonitor.Again)
+								this.MSMonitor = new MSMonitor();
+							else
+								this.MSMonitor = null;
+
 							break;
 						}
 
@@ -302,7 +310,8 @@ namespace Charlotte
 				if (this.MTCount % 5 == 0) // 頻度を下げる。
 				{
 					Ground.I.SouthWestMessage = string.Format(
-						"{0} / {1} 行 中 {2} 行 選択中 / {3}",
+						"{0}{1} / {2} 行 中 {3} 行 選択中 / {4}",
+						this.MSMonitor == null ? "" : this.MSMonitor.RowIndex + " ",
 						Ground.I.ConverterActive ? this.PatrolRowIndex + " [コンバータ実行中]" : "[コンバータ停止]",
 						this.MainSheet.RowCount,
 						this.MainSheet.SelectedRows.Count,
@@ -384,6 +393,11 @@ namespace Charlotte
 						switch (this.MSMonitorStatus)
 						{
 							case MSMonitor.Status_e.READY:
+								if (blink)
+								{
+									foreColor = Color.White;
+									backColor = Color.Green;
+								}
 								break;
 
 							case MSMonitor.Status_e.完了:
@@ -427,11 +441,11 @@ namespace Charlotte
 								break;
 
 							case MSMonitor.Status_e.処理中:
-								foreColor = Color.FromArgb(0, 0, 32); // fixme そもそもこの状態って何？
+								foreColor = Color.FromArgb(0, 0, 100);
 								break;
 
 							case MSMonitor.Status_e.処理中エラーあり:
-								foreColor = Color.FromArgb(32, 0, 0); // fixme そもそもこの状態って何？
+								foreColor = Color.FromArgb(100, 0, 0);
 								break;
 
 							default:
@@ -543,6 +557,14 @@ namespace Charlotte
 			column.SortMode = DataGridViewColumnSortMode.Programmatic;
 		}
 
+		private IEnumerable<AudioInfo> MS_GetAllRow()
+		{
+			for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
+			{
+				yield return this.MS_GetRow(rowidx);
+			}
+		}
+
 		private AudioInfo MS_GetRow(int rowidx)
 		{
 			DataGridViewRow row = this.MainSheet.Rows[rowidx];
@@ -563,7 +585,7 @@ namespace Charlotte
 			DataGridViewRow row = this.MainSheet.Rows[rowidx];
 
 			row.Cells[0].Value = AudioInfo.StatusStrings[(int)info.Status];
-			row.Cells[1].Value = info.ErrorMessage;
+			row.Cells[1].Value = info.Status == AudioInfo.Status_e.ERROR ? info.ErrorMessage : "";
 			row.Cells[2].Value = info.AudioFile;
 			row.Cells[3].Value = info.AudioFile == "" ? "" : Path.GetFileName(info.AudioFile);
 			row.Cells[4].Value = info.ImageFile;
@@ -679,7 +701,9 @@ namespace Charlotte
 		}
 
 		private List<AudioInfo> AddedInfos = null;
-		private string AddedImageFile = null;
+		private List<string> AddedImageFiles = null;
+		private bool AddedImageFileRejected = false;
+		private TreeSet<string> KnownAudioFiles = null;
 
 		private void MainSheet_DragDrop(object sender, DragEventArgs e)
 		{
@@ -694,20 +718,24 @@ namespace Charlotte
 					throw new Exception("ファイル又はフォルダをドロップして下さい。");
 
 				this.AddedInfos = new List<AudioInfo>(); // init
-				this.AddedImageFile = null; // init
+				this.AddedImageFiles = new List<string>(); // init
+				this.AddedImageFileRejected = false; // init
+				this.KnownAudioFiles = DictionaryTools.CreateSetIgnoreCase(); // init
+
+				this.MS_GetAllRow().Where(info => { this.KnownAudioFiles.Add(info.AudioFile); return false; }).FirstOrDefault(); // (T_T) ForEach...
 
 				foreach (string path in (string[])e.Data.GetData(DataFormats.FileDrop))
-				{
 					this.AddPath(path);
-				}
+
 				this.MainSheet.RowCount += this.AddedInfos.Count;
 
-				if (this.AddedInfos.Count == 0 && this.AddedImageFile != null)
+				if (this.AddedInfos.Count == 0 && 1 <= this.AddedImageFiles.Count && this.AddedImageFileRejected == false)
 				{
-					this.MS_SetImageFile(this.AddedImageFile);
+					this.MS_SetImageFiles(this.AddedImageFiles);
 				}
 				else
 				{
+					this.AddedInfos.Sort((a, b) => StringTools.CompIgnoreCase(a.AudioFile, b.AudioFile));
 					this.MainSheet.ClearSelection();
 
 					for (int index = 0; index < this.AddedInfos.Count; index++)
@@ -719,7 +747,9 @@ namespace Charlotte
 					}
 				}
 				this.AddedInfos = null; // clear
-				this.AddedImageFile = null; // clear
+				this.AddedImageFiles = null; // clear
+				this.AddedImageFileRejected = false; // clear
+				this.KnownAudioFiles = null; // clear
 			}
 			catch (Exception ex)
 			{
@@ -768,8 +798,15 @@ namespace Charlotte
 				throw new Exception("ファイルが多すぎます。");
 
 			if (Ground.I.ImageExtensions.IsImageFile(file))
-				this.AddedImageFile = file;
+			{
+				int addImageFileMax = Ground.I.Config.AudioInfoMax; // 代用
 
+				if (addImageFileMax <= this.AddedImageFiles.Count)
+					throw new Exception("画像ファイルが多すぎます。");
+
+				this.AddedImageFiles.Add(file);
+				return;
+			}
 			AudioInfo info;
 
 			try
@@ -784,11 +821,14 @@ namespace Charlotte
 					ProcMain.WriteLog("音楽ファイルではないので追加しません。⇒ " + file);
 					return;
 				}
+				this.AddedImageFileRejected = true;
+
 				if (Ground.I.同じ音楽ファイルを追加させない)
 				{
-					int rowidx = this.MS_GetRowIndex(row => StringTools.EqualsIgnoreCase(this.MS_GetRow(row.Index).AudioFile, file));
+					bool known = this.KnownAudioFiles.Add(file) == false;
+					//bool known = this.MS_GetRowIndex(row => StringTools.EqualsIgnoreCase(this.MS_GetRow(row.Index).AudioFile, file)) != -1; // old 遅い
 
-					if (rowidx != -1)
+					if (known)
 					{
 						ProcMain.WriteLog("音楽ファイルは重複しています。⇒ " + file);
 						return;
@@ -822,12 +862,7 @@ namespace Charlotte
 					AudioFile = file,
 				};
 			}
-#if true
 			this.AddedInfos.Add(info);
-#else // old -- 遅い。
-			this.MainSheet.RowCount++;
-			this.MS_SetRow(this.MainSheet.RowCount - 1, info);
-#endif
 		}
 
 		private void MainSheet_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -1039,8 +1074,6 @@ namespace Charlotte
 
 		private void RemoveRows(Predicate<DataGridViewRow> match)
 		{
-			this.MainSheet.Visible = false;
-
 			List<int> matched_rowidx_list = new List<int>();
 
 			for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)
@@ -1048,6 +1081,8 @@ namespace Charlotte
 					matched_rowidx_list.Add(rowidx);
 
 			matched_rowidx_list.Reverse(); // インデックスがずれるので後ろから
+
+			this.MainSheet.Visible = matched_rowidx_list.Count <= 100; // 上限適当
 
 			foreach (int rowidx in matched_rowidx_list)
 			{
@@ -1083,7 +1118,7 @@ namespace Charlotte
 
 				if (file != null)
 				{
-					this.MS_SetImageFile(file);
+					this.MS_SetImageFiles(new string[] { file });
 				}
 			}
 			catch (Exception ex)
@@ -1123,9 +1158,16 @@ namespace Charlotte
 			this.AfterDialog();
 		}
 
-		private void MS_SetImageFile(string file)
+		private void MS_SetImageFiles(IEnumerable<string> prmFiles)
 		{
-			file = FileTools.MakeFullPath(file);
+			string[] files = prmFiles.ToArray();
+
+			for (int index = 0; index < files.Length; index++)
+				files[index] = FileTools.MakeFullPath(files[index]);
+
+			Array.Sort(files, StringTools.CompIgnoreCase);
+
+			int cycIndex = 0;
 
 			this.MS_CallSelectedRows(row =>
 			{
@@ -1135,9 +1177,12 @@ namespace Charlotte
 				if (info.Status == AudioInfo.Status_e.PROCESSING)
 					throw new Exception("処理中の行は変更出来ません。");
 
-				info.ImageFile = file;
+				info.ImageFile = files[cycIndex];
 
 				this.MS_SetRow(rowidx, info);
+
+				cycIndex++;
+				cycIndex %= files.Length;
 			});
 		}
 
