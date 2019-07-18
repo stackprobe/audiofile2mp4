@@ -36,6 +36,8 @@ namespace Charlotte
 		private void InputFPSDlg_Shown(object sender, EventArgs e)
 		{
 			this.FPS.Value = this.Prm_FPS;
+
+			CommonUtils.PostShown(this);
 		}
 
 		private void BtnCancel_Click(object sender, EventArgs e)

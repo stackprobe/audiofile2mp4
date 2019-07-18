@@ -105,6 +105,8 @@ namespace Charlotte
 
 			this.RefreshUI();
 
+			CommonUtils.PostShown(this);
+
 			// ----
 
 			this.MTEnabled = true;

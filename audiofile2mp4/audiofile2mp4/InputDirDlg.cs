@@ -42,6 +42,8 @@ namespace Charlotte
 			this.SelectedDirLabel.Text = this.DirKindTitle + "：";
 			this.SelectedDir.Text = this.Dir;
 			this.SelectedDir.SelectAll();
+
+			CommonUtils.PostShown(this);
 		}
 
 		private void InputDirDlg_FormClosing(object sender, FormClosingEventArgs e)

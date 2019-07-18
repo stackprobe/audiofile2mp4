@@ -28,6 +28,8 @@ namespace Charlotte
 		{
 			this.LoadSetting();
 			this.RefreshUI();
+
+			CommonUtils.PostShown(this);
 		}
 
 		private void LoadSetting()
