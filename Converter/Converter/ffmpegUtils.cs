@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Charlotte
 {
-	public class ffmpegUtils
+	public static class ffmpegUtils
 	{
 		public static string GetBinDir(string ffmpegDir)
 		{

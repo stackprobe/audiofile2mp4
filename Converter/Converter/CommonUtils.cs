@@ -7,7 +7,7 @@ using Charlotte.Tools;
 
 namespace Charlotte
 {
-	public class CommonUtils
+	public static class CommonUtils
 	{
 		public static string Decode(string str)
 		{
