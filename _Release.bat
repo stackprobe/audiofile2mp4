@@ -13,4 +13,4 @@ ren out\Readme.txt ƒ}ƒjƒ…ƒAƒ‹.txt
 
 C:\Factory\SubTools\zip.exe /O out audiofile2mp4
 
-PAUSE
+IF NOT "%1" == "/-P" PAUSE

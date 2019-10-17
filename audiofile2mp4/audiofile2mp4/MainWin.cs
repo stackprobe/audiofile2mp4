@@ -151,50 +151,56 @@ namespace Charlotte
 
 		private void CloseWindow()
 		{
-			// ---- 9001
-
-			if (Ground.I.ConverterActive)
+			try
 			{
-				if (Ground.I.XPressAndStopConverter)
+				// ---- 9001
+
+				if (Ground.I.ConverterActive)
 				{
-					Ground.I.ConverterActive = false;
-					this.RefreshUI();
+					if (Ground.I.XPressAndStopConverter)
+					{
+						Ground.I.ConverterActive = false;
+						this.RefreshUI();
 
-					Ground.I.NorthStickRight = this.XPressed;
-					Ground.I.NorthMessage = "コンバータを停止しました。";
+						Ground.I.NorthStickRight = this.XPressed;
+						Ground.I.NorthMessage = "コンバータを停止しました。";
+					}
+					else
+					{
+						Ground.I.NorthStickRight = this.XPressed;
+						Ground.I.NorthMessage = "アプリケーションを終了するにはコンバータを停止して下さい。";
+					}
+					return;
 				}
-				else
+				if (Ground.I.Converter.IsReady() == false)
 				{
 					Ground.I.NorthStickRight = this.XPressed;
-					Ground.I.NorthMessage = "アプリケーションを終了するにはコンバータを停止して下さい。";
+					Ground.I.NorthMessage = "アプリケーションを終了するには現在の処理が完了するまでお待ちください。";
+					return;
 				}
-				return;
+
+				// ----
+
+				this.MTEnabled = false; // 終了確定
+
+				// ---- 9009
+
+				Ground.I.MainWin_Maximized = this.WindowState == FormWindowState.Maximized;
+
+				if (this.WindowState == FormWindowState.Normal)
+				{
+					Ground.I.MainWin_L = this.Left;
+					Ground.I.MainWin_T = this.Top;
+					Ground.I.MainWin_W = this.Width;
+					Ground.I.MainWin_H = this.Height;
+				}
+
+				// ----
 			}
-			if (Ground.I.Converter.IsReady() == false)
+			catch (Exception e)
 			{
-				Ground.I.NorthStickRight = this.XPressed;
-				Ground.I.NorthMessage = "アプリケーションを終了するには現在の処理が完了するまでお待ちください。";
-				return;
+				MessageBox.Show("" + e, "Error @ CloseWindow()", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-
-			// ----
-
-			this.MTEnabled = false;
-
-			// ---- 9009
-
-			Ground.I.MainWin_Maximized = this.WindowState == FormWindowState.Maximized;
-
-			if (this.WindowState == FormWindowState.Normal)
-			{
-				Ground.I.MainWin_L = this.Left;
-				Ground.I.MainWin_T = this.Top;
-				Ground.I.MainWin_W = this.Width;
-				Ground.I.MainWin_H = this.Height;
-			}
-
-			// ----
-
 			this.Close();
 		}
 
@@ -724,7 +730,7 @@ namespace Charlotte
 				this.AddedImageFileRejected = false; // init
 				this.KnownAudioFiles = DictionaryTools.CreateSetIgnoreCase(); // init
 
-				this.MS_GetAllRow().Where(info => { this.KnownAudioFiles.Add(info.AudioFile); return false; }).FirstOrDefault(); // (T_T) ForEach...
+				this.MS_GetAllRow().ForEach(info => this.KnownAudioFiles.Add(info.AudioFile));
 
 				foreach (string path in (string[])e.Data.GetData(DataFormats.FileDrop))
 					this.AddPath(path);
