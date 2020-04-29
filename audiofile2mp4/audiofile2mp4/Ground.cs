@@ -42,8 +42,8 @@ namespace Charlotte
 				this.画像を二重に表示_MonitorH = Consts.MonitorH_Min;
 			}
 
-			this.画像を二重に表示_MonitorW = IntTools.Range(this.画像を二重に表示_MonitorW, Consts.MonitorW_Min, Consts.MonitorW_Max);
-			this.画像を二重に表示_MonitorH = IntTools.Range(this.画像を二重に表示_MonitorH, Consts.MonitorH_Min, Consts.MonitorH_Max);
+			this.画像を二重に表示_MonitorW = IntTools.ToRange(this.画像を二重に表示_MonitorW, Consts.MonitorW_Min, Consts.MonitorW_Max);
+			this.画像を二重に表示_MonitorH = IntTools.ToRange(this.画像を二重に表示_MonitorH, Consts.MonitorH_Min, Consts.MonitorH_Max);
 		}
 
 		public void LoadFromFile()

@@ -1196,7 +1196,7 @@ namespace Charlotte
 
 		private void MS_SetFPS(int value)
 		{
-			value = IntTools.Range(value, Consts.FPS_MIN, Consts.FPS_MAX); // 2bs
+			value = IntTools.ToRange(value, Consts.FPS_MIN, Consts.FPS_MAX); // 2bs
 
 			this.MS_CallSelectedRows(row =>
 			{

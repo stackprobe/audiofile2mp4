@@ -51,7 +51,7 @@ namespace Charlotte
 
 			{
 				int value = (int)this.FPS.Value;
-				value = IntTools.Range(value, Consts.FPS_MIN, Consts.FPS_MAX);
+				value = IntTools.ToRange(value, Consts.FPS_MIN, Consts.FPS_MAX);
 				this.Ret_FPS = value;
 			}
 

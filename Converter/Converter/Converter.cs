@@ -260,7 +260,7 @@ namespace Charlotte
 			}
 			else
 			{
-				int ww = IntTools.Range(w, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
+				int ww = IntTools.ToRange(w, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
 				int hh;
 
 				{
@@ -274,12 +274,12 @@ namespace Charlotte
 					}
 					else
 					{
-						hh = IntTools.Range(h, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
+						hh = IntTools.ToRange(h, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
 
 						t = w;
 						t *= hh;
 						t /= h;
-						t = LongTools.Range(t, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
+						t = LongTools.ToRange(t, Consts.IMAGE_WH_MIN, Consts.IMAGE_WH_MAX);
 
 						ww = (int)t;
 					}
