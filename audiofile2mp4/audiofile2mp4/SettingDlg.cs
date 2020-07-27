@@ -48,6 +48,7 @@ namespace Charlotte
 			this.画像を二重に表示_MonitorH.Value = Ground.I.画像を二重に表示_MonitorH;
 			this.画像を二重に表示_ぼかし.Value = Ground.I.画像を二重に表示_ぼかし;
 			this.画像を二重に表示_明るさ.Value = Ground.I.画像を二重に表示_明るさ;
+			this.MasteringFlag.Checked = Ground.I.MasteringFlag;
 		}
 
 		private void SaveSetting()
@@ -78,6 +79,7 @@ namespace Charlotte
 			Ground.I.画像を二重に表示_MonitorH = (int)this.画像を二重に表示_MonitorH.Value;
 			Ground.I.画像を二重に表示_ぼかし = (int)this.画像を二重に表示_ぼかし.Value;
 			Ground.I.画像を二重に表示_明るさ = (int)this.画像を二重に表示_明るさ.Value;
+			Ground.I.MasteringFlag = this.MasteringFlag.Checked;
 		}
 
 		private void BtnCancel_Click(object sender, EventArgs e)

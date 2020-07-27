@@ -60,6 +60,8 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.画像を二重に表示_ぼかし = new System.Windows.Forms.NumericUpDown();
 			this.画像を二重に表示 = new System.Windows.Forms.CheckBox();
+			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.MasteringFlag = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ErrorProv)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.DefaultFPS)).BeginInit();
@@ -71,6 +73,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_MonitorW)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_明るさ)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_ぼかし)).BeginInit();
+			this.tabPage3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// BtnOk
@@ -222,6 +225,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Location = new System.Drawing.Point(12, 12);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
@@ -444,6 +448,26 @@
 			this.画像を二重に表示.UseVisualStyleBackColor = true;
 			this.画像を二重に表示.CheckedChanged += new System.EventHandler(this.画像を二重に表示_CheckedChanged);
 			// 
+			// tabPage3
+			// 
+			this.tabPage3.Controls.Add(this.MasteringFlag);
+			this.tabPage3.Location = new System.Drawing.Point(4, 29);
+			this.tabPage3.Name = "tabPage3";
+			this.tabPage3.Size = new System.Drawing.Size(402, 348);
+			this.tabPage3.TabIndex = 2;
+			this.tabPage3.Text = "その他";
+			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// MasteringFlag
+			// 
+			this.MasteringFlag.AutoSize = true;
+			this.MasteringFlag.Location = new System.Drawing.Point(6, 6);
+			this.MasteringFlag.Name = "MasteringFlag";
+			this.MasteringFlag.Size = new System.Drawing.Size(292, 24);
+			this.MasteringFlag.TabIndex = 0;
+			this.MasteringFlag.Text = "音量調整 - 音量の均一化を行う (テスト実装)";
+			this.MasteringFlag.UseVisualStyleBackColor = true;
+			// 
 			// SettingDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -479,6 +503,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_MonitorW)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_明るさ)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_ぼかし)).EndInit();
+			this.tabPage3.ResumeLayout(false);
+			this.tabPage3.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -515,5 +541,7 @@
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.NumericUpDown 画像を二重に表示_MonitorH;
 		private System.Windows.Forms.NumericUpDown 画像を二重に表示_MonitorW;
+		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.CheckBox MasteringFlag;
 	}
 }

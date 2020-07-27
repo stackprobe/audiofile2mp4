@@ -82,6 +82,8 @@ namespace Charlotte
 					CommonUtils.Encode(CommonUtils.GetImgToolsFile()),
 					"/BCF",
 					CommonUtils.Encode(CommonUtils.GetBmpToCsvFile()),
+					"/MST-F",
+					CommonUtils.Encode(CommonUtils.GetMasterFile()),
 					"/AF",
 					CommonUtils.Encode(this.Info.AudioFile),
 					"/IF",
@@ -108,6 +110,8 @@ namespace Charlotte
 					"" + Ground.I.画像を二重に表示_ぼかし,
 					"/DI-A",
 					"" + Ground.I.画像を二重に表示_明るさ,
+					"/M",
+					"" + (Ground.I.MasteringFlag ? 1 : 0),
 				})
 				);
 		}

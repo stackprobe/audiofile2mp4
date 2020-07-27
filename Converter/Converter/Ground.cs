@@ -24,10 +24,11 @@ namespace Charlotte
 		public string ffmpegDir = @"C:\app\ffmpeg-4.1.3-win64-shared";
 		public string ImgToolsFile = @"C:\app\Kit\ImgTools\ImgTools.exe";
 		public string BmpToCsvFile = @"C:\app\Kit\BmpToCsv\BmpToCsv.exe";
+		public string MasterFile = @"C:\Factory\Program\WavMaster\Master.exe";
 		public string AudioFile =
 			///////////////////////////////////////////////////////////////////////////////////////////////////// $_git:secret
 		public string ImageFile =
-			///////////////////////////////////////////////////////////////////////////// $_git:secret
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////// $_git:secret
 		public string MovieFile = @"C:\temp\Converter_test_out.mp4";
 		public int FramePerSecond = 3;
 		public int JpegQuality = 90;
@@ -39,5 +40,6 @@ namespace Charlotte
 		public int 画像を二重に表示_MonitorH = 1080;
 		public int 画像を二重に表示_ぼかし = 30; // 0 ～ 100
 		public int 画像を二重に表示_明るさ = 50; // 0 ～ 100
+		public bool MasteringFlag = true;
 	}
 }

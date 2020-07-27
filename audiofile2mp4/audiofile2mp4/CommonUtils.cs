@@ -52,6 +52,20 @@ namespace Charlotte
 			return file;
 		}
 
+		public static string GetMasterFile()
+		{
+			string file = "Master.exe";
+
+			if (File.Exists(file) == false)
+			{
+				file = @"C:\Factory\Program\WavMaster\Master.exe";
+
+				if (File.Exists(file) == false)
+					throw new Exception("no Master.exe");
+			}
+			return file;
+		}
+
 		public static string Encode(string str)
 		{
 			return new Base64Unit().Encode(Encoding.UTF8.GetBytes(str));

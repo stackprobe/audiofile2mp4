@@ -50,6 +50,11 @@ namespace Charlotte
 					Ground.I.BmpToCsvFile = CommonUtils.Decode(ar.NextArg());
 					continue;
 				}
+				if (ar.ArgIs("/MST-F"))
+				{
+					Ground.I.MasterFile = CommonUtils.Decode(ar.NextArg());
+					continue;
+				}
 				if (ar.ArgIs("/AF"))
 				{
 					Ground.I.AudioFile = CommonUtils.Decode(ar.NextArg());
@@ -113,6 +118,11 @@ namespace Charlotte
 				if (ar.ArgIs("/DI-A"))
 				{
 					Ground.I.画像を二重に表示_明るさ = int.Parse(ar.NextArg());
+					continue;
+				}
+				if (ar.ArgIs("/M"))
+				{
+					Ground.I.MasteringFlag = int.Parse(ar.NextArg()) != 0;
 					continue;
 				}
 				break;

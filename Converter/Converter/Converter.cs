@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 
 namespace Charlotte
 {
-	public class Converter
+	public partial class Converter
 	{
 		public void Main()
 		{
@@ -34,6 +34,7 @@ namespace Charlotte
 
 			File.Copy(Ground.I.ImgToolsFile, Path.Combine(Ground.I.WorkDir, "ImgTools.exe"));
 			File.Copy(Ground.I.BmpToCsvFile, Path.Combine(Ground.I.WorkDir, "BmpToCsv.exe"));
+			File.Copy(Ground.I.MasterFile, Path.Combine(Ground.I.WorkDir, "Master.exe"));
 			File.Copy(Ground.I.AudioFile, Path.Combine(Ground.I.WorkDir, "audio" + audioExt));
 			File.Copy(Ground.I.ImageFile, Path.Combine(Ground.I.WorkDir, "image" + imageExt));
 
@@ -85,6 +86,29 @@ namespace Charlotte
 				if (File.Exists("video.mp4") == false)
 					throw new Exception("映像ファイルの生成に失敗しました。");
 
+				if (Ground.I.MasteringFlag)
+				{
+					ProcMain.WriteLog("音量調整を開始します。");
+
+					if (this.Mastering(audioExt))
+					{
+						ProcMain.WriteLog("音量調整：成功");
+
+						// 音楽ファイル_切り替え
+						{
+							audioExt = "_m.wav";
+							mi.AudioStreamCount = 1;
+							mi.AudioStreamIndex = 0;
+						}
+					}
+					else
+						ProcMain.WriteLog("音量調整：不要(または失敗)");
+
+					ProcMain.WriteLog("音量調整を終了します。");
+				}
+				else
+					ProcMain.WriteLog("音量調整をスキップします。");
+
 				Run("bin\\ffmpeg.exe -i video.mp4 -i audio" + audioExt + " -map 0:0 -map 1:" + mi.AudioStreamIndex + " -vcodec copy -codec:a copy movie.mp4");
 
 				// コーデックが処理出来なかった場合、出力ファイルが空になる模様
@@ -96,7 +120,8 @@ namespace Charlotte
 					File.Delete("movie.mp4");
 
 					// -codec:a copy を除去
-					Run("bin\\ffmpeg.exe -i video.mp4 -i audio" + audioExt + " -map 0:0 -map 1:" + mi.AudioStreamIndex + " -vcodec copy movie.mp4");
+					// -ab 160k を追加
+					Run("bin\\ffmpeg.exe -i video.mp4 -i audio" + audioExt + " -map 0:0 -map 1:" + mi.AudioStreamIndex + " -vcodec copy -ab 160k movie.mp4");
 
 					if (CommonUtils.NoFileOrEmptyFile("movie.mp4"))
 						throw new Exception("動画ファイルの生成に失敗しました。");
