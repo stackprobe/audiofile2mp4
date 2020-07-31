@@ -62,6 +62,7 @@
 			this.画像を二重に表示 = new System.Windows.Forms.CheckBox();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.MasteringFlag = new System.Windows.Forms.CheckBox();
+			this.UseSameNameImageFile = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ErrorProv)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.DefaultFPS)).BeginInit();
@@ -450,6 +451,7 @@
 			// 
 			// tabPage3
 			// 
+			this.tabPage3.Controls.Add(this.UseSameNameImageFile);
 			this.tabPage3.Controls.Add(this.MasteringFlag);
 			this.tabPage3.Location = new System.Drawing.Point(4, 29);
 			this.tabPage3.Name = "tabPage3";
@@ -467,6 +469,16 @@
 			this.MasteringFlag.TabIndex = 0;
 			this.MasteringFlag.Text = "音量調整 - 音量の均一化を行う (テスト実装)";
 			this.MasteringFlag.UseVisualStyleBackColor = true;
+			// 
+			// UseSameNameImageFile
+			// 
+			this.UseSameNameImageFile.AutoSize = true;
+			this.UseSameNameImageFile.Location = new System.Drawing.Point(6, 36);
+			this.UseSameNameImageFile.Name = "UseSameNameImageFile";
+			this.UseSameNameImageFile.Size = new System.Drawing.Size(340, 24);
+			this.UseSameNameImageFile.TabIndex = 1;
+			this.UseSameNameImageFile.Text = "音楽ファイルと同名の画像ファイルを映像に使用する";
+			this.UseSameNameImageFile.UseVisualStyleBackColor = true;
 			// 
 			// SettingDlg
 			// 
@@ -543,5 +555,6 @@
 		private System.Windows.Forms.NumericUpDown 画像を二重に表示_MonitorW;
 		private System.Windows.Forms.TabPage tabPage3;
 		private System.Windows.Forms.CheckBox MasteringFlag;
+		private System.Windows.Forms.CheckBox UseSameNameImageFile;
 	}
 }

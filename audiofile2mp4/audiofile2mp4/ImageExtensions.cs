@@ -28,5 +28,10 @@ namespace Charlotte
 		{
 			return this.Extensions.Any(ext => StringTools.EndsWithIgnoreCase(path, ext));
 		}
+
+		public string[] GetExtensions()
+		{
+			return this.Extensions;
+		}
 	}
 }

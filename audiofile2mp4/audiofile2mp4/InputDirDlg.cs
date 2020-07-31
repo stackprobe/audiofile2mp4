@@ -19,6 +19,7 @@ namespace Charlotte
 		public bool Dirじゃなくて読み込みファイル = false;
 		public string File_InitialFile = Consts.IMAGE_INITIAL_FILE;
 		public string File_Filter = Consts.IMAGE_FILTER;
+		public string SubMessage = "";
 
 		// <--- prm
 
@@ -42,6 +43,7 @@ namespace Charlotte
 			this.SelectedDirLabel.Text = this.DirKindTitle + "：";
 			this.SelectedDir.Text = this.Dir;
 			this.SelectedDir.SelectAll();
+			this.SubMessageLabel.Text = this.SubMessage;
 
 			CommonUtils.PostShown(this);
 		}

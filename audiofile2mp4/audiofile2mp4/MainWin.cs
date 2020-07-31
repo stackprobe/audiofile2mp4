@@ -636,6 +636,7 @@ namespace Charlotte
 			{
 				f.DirKindTitle = "ffmpegのフォルダ";
 				f.Dir = Ground.I.FFmpegDir;
+				f.SubMessage = "例) C:\\app\\ffmpeg-4.1.3-win64-shared";
 
 				f.ShowDialog();
 
@@ -842,7 +843,15 @@ namespace Charlotte
 						return;
 					}
 				}
+				string imgFile = Ground.I.DefaultImageFile;
 
+				if (Ground.I.UseSameNameImageFile)
+				{
+					string sameNameImgFile = this.TryGetSameNameImageFile(file);
+
+					if (sameNameImgFile != null)
+						imgFile = sameNameImgFile;
+				}
 				string wFile;
 
 				if (dropRootDir == null)
@@ -855,7 +864,7 @@ namespace Charlotte
 				info = new AudioInfo()
 				{
 					AudioFile = file,
-					ImageFile = Ground.I.DefaultImageFile,
+					ImageFile = imgFile,
 					MovieFile = wFile,
 				};
 			}
@@ -871,6 +880,18 @@ namespace Charlotte
 				};
 			}
 			this.AddedInfos.Add(info);
+		}
+
+		private string TryGetSameNameImageFile(string file)
+		{
+			foreach (string ext in Ground.I.ImageExtensions.GetExtensions())
+			{
+				string imgFile = Path.Combine(Path.GetDirectoryName(file), Path.GetFileNameWithoutExtension(file)) + ext;
+
+				if (File.Exists(imgFile))
+					return imgFile;
+			}
+			return null;
 		}
 
 		private void MainSheet_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -963,6 +984,8 @@ namespace Charlotte
 
 					this.MS_SetRow(rowidx, info);
 				});
+
+				this.StartMSMonitor();
 			}
 			catch (Exception ex)
 			{
@@ -991,6 +1014,7 @@ namespace Charlotte
 
 				this.MS_SetRow(rowidx, info);
 			}
+			this.StartMSMonitor();
 		}
 
 		private void ClearStatusAllRow()
@@ -1004,6 +1028,7 @@ namespace Charlotte
 
 				this.MS_SetRow(rowidx, info);
 			}
+			this.StartMSMonitor();
 		}
 
 		private void 選択解除ToolStripMenuItem_Click(object sender, EventArgs e)

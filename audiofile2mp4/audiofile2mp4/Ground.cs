@@ -83,6 +83,7 @@ namespace Charlotte
 				this.画像を二重に表示_ぼかし = int.Parse(lines[c++]);
 				this.画像を二重に表示_明るさ = int.Parse(lines[c++]);
 				this.MasteringFlag = lines[c++] == Consts.S_TRUE;
+				this.UseSameNameImageFile = lines[c++] == Consts.S_TRUE;
 
 				// ----
 			}
@@ -125,6 +126,7 @@ namespace Charlotte
 				lines.Add("" + this.画像を二重に表示_ぼかし);
 				lines.Add("" + this.画像を二重に表示_明るさ);
 				lines.Add(this.MasteringFlag ? Consts.S_TRUE : Consts.S_FALSE);
+				lines.Add(this.UseSameNameImageFile ? Consts.S_TRUE : Consts.S_FALSE);
 
 				// ----
 
@@ -158,6 +160,7 @@ namespace Charlotte
 		public int 画像を二重に表示_ぼかし = 30; // 0 ～ 100
 		public int 画像を二重に表示_明るさ = 50; // 0 ～ 100
 		public bool MasteringFlag = false;
+		public bool UseSameNameImageFile = false;
 
 		// ----
 

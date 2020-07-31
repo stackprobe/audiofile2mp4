@@ -34,6 +34,7 @@
 			this.SelectedDirLabel = new System.Windows.Forms.Label();
 			this.BtnCancel = new System.Windows.Forms.Button();
 			this.BtnOk = new System.Windows.Forms.Button();
+			this.SubMessageLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// SelectedDir
@@ -70,7 +71,7 @@
 			// BtnCancel
 			// 
 			this.BtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.BtnCancel.Location = new System.Drawing.Point(372, 99);
+			this.BtnCancel.Location = new System.Drawing.Point(372, 109);
 			this.BtnCancel.Name = "BtnCancel";
 			this.BtnCancel.Size = new System.Drawing.Size(100, 50);
 			this.BtnCancel.TabIndex = 4;
@@ -81,7 +82,7 @@
 			// BtnOk
 			// 
 			this.BtnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.BtnOk.Location = new System.Drawing.Point(266, 99);
+			this.BtnOk.Location = new System.Drawing.Point(266, 109);
 			this.BtnOk.Name = "BtnOk";
 			this.BtnOk.Size = new System.Drawing.Size(100, 50);
 			this.BtnOk.TabIndex = 3;
@@ -89,11 +90,22 @@
 			this.BtnOk.UseVisualStyleBackColor = true;
 			this.BtnOk.Click += new System.EventHandler(this.BtnOk_Click);
 			// 
+			// SubMessageLabel
+			// 
+			this.SubMessageLabel.AutoSize = true;
+			this.SubMessageLabel.ForeColor = System.Drawing.Color.Teal;
+			this.SubMessageLabel.Location = new System.Drawing.Point(12, 80);
+			this.SubMessageLabel.Name = "SubMessageLabel";
+			this.SubMessageLabel.Size = new System.Drawing.Size(115, 20);
+			this.SubMessageLabel.TabIndex = 5;
+			this.SubMessageLabel.Text = "準備しています...";
+			// 
 			// InputDirDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(484, 161);
+			this.ClientSize = new System.Drawing.Size(484, 171);
+			this.Controls.Add(this.SubMessageLabel);
 			this.Controls.Add(this.BtnOk);
 			this.Controls.Add(this.BtnCancel);
 			this.Controls.Add(this.SelectedDirLabel);
@@ -125,5 +137,6 @@
 		private System.Windows.Forms.Label SelectedDirLabel;
 		private System.Windows.Forms.Button BtnCancel;
 		private System.Windows.Forms.Button BtnOk;
+		private System.Windows.Forms.Label SubMessageLabel;
 	}
 }
