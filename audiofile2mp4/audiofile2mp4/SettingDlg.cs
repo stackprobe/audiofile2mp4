@@ -55,6 +55,7 @@ namespace Charlotte
 		private void SaveSetting()
 		{
 			this.ErrorProv.Clear();
+			bool erred = false;
 
 			{
 				int value = (int)this.DefaultFPS.Value;
@@ -63,7 +64,7 @@ namespace Charlotte
 				{
 					this.ErrorProv.SetError(this.DefaultFPS, "out of range");
 					this.MainTab.SelectedTab = this.Tab_基本;
-					throw null;
+					erred = true;
 				}
 			}
 
@@ -76,13 +77,13 @@ namespace Charlotte
 					{
 						this.ErrorProv.SetError(this.画像を二重に表示_MonitorW, "out of range");
 						this.MainTab.SelectedTab = this.Tab_二重に表示;
-						throw null;
+						erred = true;
 					}
 					if (value % 2 != 0)
 					{
 						this.ErrorProv.SetError(this.画像を二重に表示_MonitorW, "画面の幅は偶数でなければなりません。");
 						this.MainTab.SelectedTab = this.Tab_二重に表示;
-						throw null;
+						erred = true;
 					}
 				}
 
@@ -93,16 +94,19 @@ namespace Charlotte
 					{
 						this.ErrorProv.SetError(this.画像を二重に表示_MonitorH, "out of range");
 						this.MainTab.SelectedTab = this.Tab_二重に表示;
-						throw null;
+						erred = true;
 					}
 					if (value % 2 != 0)
 					{
 						this.ErrorProv.SetError(this.画像を二重に表示_MonitorH, "画面の高さは偶数でなければなりません。");
 						this.MainTab.SelectedTab = this.Tab_二重に表示;
-						throw null;
+						erred = true;
 					}
 				}
 			}
+
+			if (erred)
+				throw new Exception("入力エラー");
 
 			// <--- check
 
