@@ -59,9 +59,9 @@ namespace Charlotte
 			{
 				int value = (int)this.DefaultFPS.Value;
 
-				if (value < Consts.FPS_MIN || Consts.FPS_MAX < value)
+				if (value < Consts.FPS_MIN || Consts.FPS_MAX < value) // 2bs
 				{
-					this.ErrorProv.SetError(this.DefaultFPS, Consts.FPS_MIN + " から " + Consts.FPS_MAX + " まで");
+					this.ErrorProv.SetError(this.DefaultFPS, "out of range");
 					this.MainTab.SelectedTab = this.Tab_基本;
 					throw null;
 				}
@@ -72,6 +72,12 @@ namespace Charlotte
 				{
 					int value = (int)this.画像を二重に表示_MonitorW.Value;
 
+					if (value < Consts.MonitorW_Min || Consts.MonitorW_Max < value) // 2bs
+					{
+						this.ErrorProv.SetError(this.画像を二重に表示_MonitorW, "out of range");
+						this.MainTab.SelectedTab = this.Tab_二重に表示;
+						throw null;
+					}
 					if (value % 2 != 0)
 					{
 						this.ErrorProv.SetError(this.画像を二重に表示_MonitorW, "画面の幅は偶数でなければなりません。");
@@ -83,6 +89,12 @@ namespace Charlotte
 				{
 					int value = (int)this.画像を二重に表示_MonitorH.Value;
 
+					if (value < Consts.MonitorH_Min || Consts.MonitorH_Max < value) // 2bs
+					{
+						this.ErrorProv.SetError(this.画像を二重に表示_MonitorH, "out of range");
+						this.MainTab.SelectedTab = this.Tab_二重に表示;
+						throw null;
+					}
 					if (value % 2 != 0)
 					{
 						this.ErrorProv.SetError(this.画像を二重に表示_MonitorH, "画面の高さは偶数でなければなりません。");
