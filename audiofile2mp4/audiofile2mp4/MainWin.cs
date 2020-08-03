@@ -281,7 +281,7 @@ namespace Charlotte
 				{
 					MSMonitor mon = this.MSMonitor;
 
-					for (int c = 0; c < 300; c++) // fixme ループ回数_適当
+					for (int c = 0; c < 300; c++) // todo ループ回数_適当
 					{
 						if (this.MainSheet.RowCount <= mon.RowIndex)
 						{
