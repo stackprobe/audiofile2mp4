@@ -43,9 +43,9 @@
 			this.DefaultFPS = new System.Windows.Forms.NumericUpDown();
 			this.XPressAndStopConverter = new System.Windows.Forms.CheckBox();
 			this.IgnoreBeginDot = new System.Windows.Forms.CheckBox();
-			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.MainTab = new System.Windows.Forms.TabControl();
+			this.Tab_基本 = new System.Windows.Forms.TabPage();
+			this.Tab_二重に表示 = new System.Windows.Forms.TabPage();
 			this.画像を二重に表示Grp = new System.Windows.Forms.GroupBox();
 			this.label9 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
@@ -60,21 +60,21 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.画像を二重に表示_ぼかし = new System.Windows.Forms.NumericUpDown();
 			this.画像を二重に表示 = new System.Windows.Forms.CheckBox();
-			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.MasteringFlag = new System.Windows.Forms.CheckBox();
+			this.Tab_その他 = new System.Windows.Forms.TabPage();
 			this.UseSameNameImageFile = new System.Windows.Forms.CheckBox();
+			this.MasteringFlag = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ErrorProv)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.DefaultFPS)).BeginInit();
-			this.tabControl1.SuspendLayout();
-			this.tabPage1.SuspendLayout();
-			this.tabPage2.SuspendLayout();
+			this.MainTab.SuspendLayout();
+			this.Tab_基本.SuspendLayout();
+			this.Tab_二重に表示.SuspendLayout();
 			this.画像を二重に表示Grp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_MonitorH)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_MonitorW)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_明るさ)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_ぼかし)).BeginInit();
-			this.tabPage3.SuspendLayout();
+			this.Tab_その他.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// BtnOk
@@ -219,48 +219,48 @@
 			this.IgnoreBeginDot.Text = "半角ピリオドで始まるファイルを無視する";
 			this.IgnoreBeginDot.UseVisualStyleBackColor = true;
 			// 
-			// tabControl1
+			// MainTab
 			// 
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.MainTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Controls.Add(this.tabPage3);
-			this.tabControl1.Location = new System.Drawing.Point(12, 12);
-			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(410, 381);
-			this.tabControl1.TabIndex = 0;
+			this.MainTab.Controls.Add(this.Tab_基本);
+			this.MainTab.Controls.Add(this.Tab_二重に表示);
+			this.MainTab.Controls.Add(this.Tab_その他);
+			this.MainTab.Location = new System.Drawing.Point(12, 12);
+			this.MainTab.Name = "MainTab";
+			this.MainTab.SelectedIndex = 0;
+			this.MainTab.Size = new System.Drawing.Size(410, 381);
+			this.MainTab.TabIndex = 0;
 			// 
-			// tabPage1
+			// Tab_基本
 			// 
-			this.tabPage1.Controls.Add(this.groupBox1);
-			this.tabPage1.Controls.Add(this.IgnoreBeginDot);
-			this.tabPage1.Controls.Add(this.label1);
-			this.tabPage1.Controls.Add(this.XPressAndStopConverter);
-			this.tabPage1.Controls.Add(this.AllowOverwrite);
-			this.tabPage1.Controls.Add(this.DefaultFPS);
-			this.tabPage1.Controls.Add(this.同じ音楽ファイルを追加させない);
-			this.tabPage1.Location = new System.Drawing.Point(4, 29);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(402, 348);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "基本";
-			this.tabPage1.UseVisualStyleBackColor = true;
+			this.Tab_基本.Controls.Add(this.groupBox1);
+			this.Tab_基本.Controls.Add(this.IgnoreBeginDot);
+			this.Tab_基本.Controls.Add(this.label1);
+			this.Tab_基本.Controls.Add(this.XPressAndStopConverter);
+			this.Tab_基本.Controls.Add(this.AllowOverwrite);
+			this.Tab_基本.Controls.Add(this.DefaultFPS);
+			this.Tab_基本.Controls.Add(this.同じ音楽ファイルを追加させない);
+			this.Tab_基本.Location = new System.Drawing.Point(4, 29);
+			this.Tab_基本.Name = "Tab_基本";
+			this.Tab_基本.Padding = new System.Windows.Forms.Padding(3);
+			this.Tab_基本.Size = new System.Drawing.Size(402, 348);
+			this.Tab_基本.TabIndex = 0;
+			this.Tab_基本.Text = "基本";
+			this.Tab_基本.UseVisualStyleBackColor = true;
 			// 
-			// tabPage2
+			// Tab_二重に表示
 			// 
-			this.tabPage2.Controls.Add(this.画像を二重に表示Grp);
-			this.tabPage2.Controls.Add(this.画像を二重に表示);
-			this.tabPage2.Location = new System.Drawing.Point(4, 29);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(402, 348);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "二重に表示";
-			this.tabPage2.UseVisualStyleBackColor = true;
+			this.Tab_二重に表示.Controls.Add(this.画像を二重に表示Grp);
+			this.Tab_二重に表示.Controls.Add(this.画像を二重に表示);
+			this.Tab_二重に表示.Location = new System.Drawing.Point(4, 29);
+			this.Tab_二重に表示.Name = "Tab_二重に表示";
+			this.Tab_二重に表示.Padding = new System.Windows.Forms.Padding(3);
+			this.Tab_二重に表示.Size = new System.Drawing.Size(402, 348);
+			this.Tab_二重に表示.TabIndex = 1;
+			this.Tab_二重に表示.Text = "二重に表示";
+			this.Tab_二重に表示.UseVisualStyleBackColor = true;
 			// 
 			// 画像を二重に表示Grp
 			// 
@@ -291,22 +291,22 @@
 			this.label9.AutoSize = true;
 			this.label9.Font = new System.Drawing.Font("メイリオ", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.label9.Location = new System.Drawing.Point(231, 77);
+			this.label9.Location = new System.Drawing.Point(245, 77);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(76, 17);
+			this.label9.Size = new System.Drawing.Size(112, 17);
 			this.label9.TabIndex = 5;
-			this.label9.Text = "300 ～ 3000";
+			this.label9.Text = "300 ～ 3000 (偶数)";
 			// 
 			// label8
 			// 
 			this.label8.AutoSize = true;
 			this.label8.Font = new System.Drawing.Font("メイリオ", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.label8.Location = new System.Drawing.Point(231, 44);
+			this.label8.Location = new System.Drawing.Point(245, 44);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(76, 17);
+			this.label8.Size = new System.Drawing.Size(112, 17);
 			this.label8.TabIndex = 2;
-			this.label8.Text = "300 ～ 3000";
+			this.label8.Text = "300 ～ 3000 (偶数)";
 			// 
 			// label7
 			// 
@@ -449,26 +449,16 @@
 			this.画像を二重に表示.UseVisualStyleBackColor = true;
 			this.画像を二重に表示.CheckedChanged += new System.EventHandler(this.画像を二重に表示_CheckedChanged);
 			// 
-			// tabPage3
+			// Tab_その他
 			// 
-			this.tabPage3.Controls.Add(this.UseSameNameImageFile);
-			this.tabPage3.Controls.Add(this.MasteringFlag);
-			this.tabPage3.Location = new System.Drawing.Point(4, 29);
-			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Size = new System.Drawing.Size(402, 348);
-			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "その他";
-			this.tabPage3.UseVisualStyleBackColor = true;
-			// 
-			// MasteringFlag
-			// 
-			this.MasteringFlag.AutoSize = true;
-			this.MasteringFlag.Location = new System.Drawing.Point(6, 6);
-			this.MasteringFlag.Name = "MasteringFlag";
-			this.MasteringFlag.Size = new System.Drawing.Size(292, 24);
-			this.MasteringFlag.TabIndex = 0;
-			this.MasteringFlag.Text = "音量調整 - 音量の均一化を行う (テスト実装)";
-			this.MasteringFlag.UseVisualStyleBackColor = true;
+			this.Tab_その他.Controls.Add(this.UseSameNameImageFile);
+			this.Tab_その他.Controls.Add(this.MasteringFlag);
+			this.Tab_その他.Location = new System.Drawing.Point(4, 29);
+			this.Tab_その他.Name = "Tab_その他";
+			this.Tab_その他.Size = new System.Drawing.Size(402, 348);
+			this.Tab_その他.TabIndex = 2;
+			this.Tab_その他.Text = "その他";
+			this.Tab_その他.UseVisualStyleBackColor = true;
 			// 
 			// UseSameNameImageFile
 			// 
@@ -480,12 +470,22 @@
 			this.UseSameNameImageFile.Text = "音楽ファイルと同名の画像ファイルを映像に使用する";
 			this.UseSameNameImageFile.UseVisualStyleBackColor = true;
 			// 
+			// MasteringFlag
+			// 
+			this.MasteringFlag.AutoSize = true;
+			this.MasteringFlag.Location = new System.Drawing.Point(6, 6);
+			this.MasteringFlag.Name = "MasteringFlag";
+			this.MasteringFlag.Size = new System.Drawing.Size(292, 24);
+			this.MasteringFlag.TabIndex = 0;
+			this.MasteringFlag.Text = "音量調整 - 音量の均一化を行う (テスト実装)";
+			this.MasteringFlag.UseVisualStyleBackColor = true;
+			// 
 			// SettingDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(434, 461);
-			this.Controls.Add(this.tabControl1);
+			this.Controls.Add(this.MainTab);
 			this.Controls.Add(this.BtnOk);
 			this.Controls.Add(this.BtnCancel);
 			this.Font = new System.Drawing.Font("メイリオ", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -504,19 +504,19 @@
 			this.groupBox1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ErrorProv)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.DefaultFPS)).EndInit();
-			this.tabControl1.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
-			this.tabPage2.ResumeLayout(false);
-			this.tabPage2.PerformLayout();
+			this.MainTab.ResumeLayout(false);
+			this.Tab_基本.ResumeLayout(false);
+			this.Tab_基本.PerformLayout();
+			this.Tab_二重に表示.ResumeLayout(false);
+			this.Tab_二重に表示.PerformLayout();
 			this.画像を二重に表示Grp.ResumeLayout(false);
 			this.画像を二重に表示Grp.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_MonitorH)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_MonitorW)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_明るさ)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.画像を二重に表示_ぼかし)).EndInit();
-			this.tabPage3.ResumeLayout(false);
-			this.tabPage3.PerformLayout();
+			this.Tab_その他.ResumeLayout(false);
+			this.Tab_その他.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -536,9 +536,9 @@
 		private System.Windows.Forms.NumericUpDown DefaultFPS;
 		private System.Windows.Forms.CheckBox XPressAndStopConverter;
 		private System.Windows.Forms.CheckBox IgnoreBeginDot;
-		private System.Windows.Forms.TabControl tabControl1;
-		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.TabControl MainTab;
+		private System.Windows.Forms.TabPage Tab_基本;
+		private System.Windows.Forms.TabPage Tab_二重に表示;
 		private System.Windows.Forms.GroupBox 画像を二重に表示Grp;
 		private System.Windows.Forms.CheckBox 画像を二重に表示;
 		private System.Windows.Forms.Label label5;
@@ -553,7 +553,7 @@
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.NumericUpDown 画像を二重に表示_MonitorH;
 		private System.Windows.Forms.NumericUpDown 画像を二重に表示_MonitorW;
-		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.TabPage Tab_その他;
 		private System.Windows.Forms.CheckBox MasteringFlag;
 		private System.Windows.Forms.CheckBox UseSameNameImageFile;
 	}
