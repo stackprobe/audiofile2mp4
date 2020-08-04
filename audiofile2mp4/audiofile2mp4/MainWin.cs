@@ -1098,11 +1098,13 @@ namespace Charlotte
 		private void 削除ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			this.RemoveRows(row => row.Selected);
+			this.StartMSMonitor();
 		}
 
 		private void 全てクリアToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			this.RemoveRows(row => true);
+			this.StartMSMonitor();
 		}
 
 		private void RemoveRows(Predicate<DataGridViewRow> match)
