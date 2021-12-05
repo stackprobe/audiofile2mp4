@@ -7,7 +7,7 @@ audio-file to mp4
 ビルド済み配布物
 ----------------
 
-http://stackprobe.dip.jp/audiofile2mp4
+http://stackprobe.ccsp.mydns.jp/audiofile2mp4
 
 
 マニュアル
